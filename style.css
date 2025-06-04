@@ -1,0 +1,69 @@
+input{
+    width: 75%;
+    margin: 7px 0;
+    padding: 8px 18px;
+    border-radius: 5px;
+}
+select{
+    width: 75%;
+    margin: 7px 0;
+    padding: 4px 5px;
+    border-radius: 5px;
+}
+button{
+    width: 75%;
+    background-color: bisque;
+    cursor: pointer;
+    margin: 7px 0;
+    border-radius: 5px;
+}
+#sign_up{
+    margin: 0 5px;
+}
+body{
+    padding: 0;
+    margin: 0;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header{
+    background-color: maroon;
+    width: 100%;
+    height: 100px;
+    margin: 0;
+    padding: 10px 0;
+}
+nav ul{
+    text-align: center;
+}
+nav ul li{
+    display: inline;
+    margin: 0 20px;
+}
+nav ul li a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+nav ul li a:hover{
+    color: gray;
+}
+footer{
+    background-color: maroon;
+    height: 75px;
+    text-align: center;
+}
+footer a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+footer p{
+    color: white;
+}
+footer a:hover{
+    color: gray;
+}
