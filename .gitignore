@@ -1,2 +1,9 @@
+# Ignoring Virtual Environment
 .venv/
+
+# Ignoring Logs
 logs/
+
+# Ignoring Cache File Recursively
+__pycache__/
+**/__pycache__/
