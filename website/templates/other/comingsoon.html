@@ -1,0 +1,51 @@
+<!--Template Reference-->
+{% extends 'template.html' %}
+
+<!--Document Title-->
+{% block title%}
+We'll be back soon!
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/other/comingsoon.css')}}">
+{% endblock %}
+
+<!--Body ID-->
+<!-- {% block bodyid %}
+{% endblock %} -->
+
+<!--Header-->
+{% block header%}
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+<div class="soon">
+    <div class="soon-body">
+        <div class="soon-head">
+            <h1>Certain features are limited. Check back soon</h1>
+            <p>Sign up for our mail service to receive the latest updates</p>
+        </div>
+        <div class="soon-form">
+            <form action="/newsletter" method="POST">
+                <div class="input-group">
+                    <input type="email" placeholder="Enter your email" name="email">
+                    <button type="submit">Sign up</button>
+                </div>
+            </form>
+        </div>
+        <div class="soon-foot">
+            <a href="/">Back to home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!--Footer-->
+{% block footer %}
+{% endblock %}
+
+<!--Independent JS-->
+<!-- {% block js %}
+{% endblock %} -->
