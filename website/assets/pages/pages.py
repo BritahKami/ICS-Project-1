@@ -9,3 +9,40 @@ def homepage():
     if (userID) and (userID != "None"):
             return render_template("home/home.html", userID=userID)
     return render_template('home/home.html')
+
+# Under construction pages
+@pages.route('/404')
+def comingsoon():
+    return render_template('other/comingsoon.html')
+
+@pages.route('/about')
+def about():
+    return render_template('other/comingsoon.html')
+
+@pages.route('/gigs')
+def gigs():
+    return render_template('other/comingsoon.html')
+
+@pages.route('/jobs')
+def jobs():
+    return render_template('other/comingsoon.html')
+
+@pages.route('/contact')
+def contact():
+    return render_template('other/comingsoon.html')
+
+@pages.route('/blog')
+def blog():
+    return render_template('other/comingsoon.html')
+
+@pages.route('/testimonials')
+def testimonials():
+    return render_template('other/comingsoon.html')
+
+@pages.route('/developers')
+def developers():
+    return render_template('other/comingsoon.html')
+
+@pages.route('/FAQs')
+def faqs():
+    return render_template('other/comingsoon.html')
