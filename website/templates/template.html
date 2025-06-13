@@ -94,59 +94,59 @@
     </div>
     {% endif %} {% endfor %} {% endif%} {% endwith %}
 
-      {% block header %}
-  <!--Header & Navbar-->
-  <header class="header">
-    <nav class="navbar">
-      <div class="nav-logo">
-        <p onclick="window.location.href='/'">CareerConnect</p>
-      </div>
-      <div class="nav-links">
+    {% block header %}
+    <!--Header & Navbar-->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-logo">
+          <p onclick="window.location.href='/'">CareerConnect</p>
+        </div>
+        <div class="nav-links">
+          <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/gigs">Gigs Center</a></li>
+            <li><a href="/jobs">Job Listings</a></li>
+          </ul>
+        </div>
+
+        {% if not userID %}
+        <div class="nav-actions">
+          <button onclick="window.location.href='/signin'">Sign in</button>
+          <button onclick="window.location.href='/signup'">Sign up</button>
+        </div>
+        {% else %}
+        <div class="nav-actions">
+          <button onclick="window.location.href='/dashboard'">
+            <i class='bx bx-user'></i> dash
+          </button>
+          <button onclick="window.location.href='/logout'">
+            <i class='bx bx-log-out'></i>
+          </button>
+        </div>
+        {% endif %}
+      </nav>
+
+      <!--CTA-->
+      <div class="cta">
+        <h1>Your one-stop job resource platform</h1>
         <ul>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/gigs">Gigs Center</a></li>
-          <li><a href="/jobs">Job Listings</a></li>
+          <li>
+            <i class='bx bx-cog' style="color: var(--text-pink);"></i><br>
+            <p>10+ Years Expertise</p>
+          </li>
+          <li>
+            <i class='bx bx-ruler' style="color: var(--text-blue);"></i> <br>
+            <p>1.5 Million Students Helped</p>
+          </li>
+          <li>
+            <i class='bx bx-store' style="color: var(--tertiery-color);"></i> <br>
+            <p>3000 Active Businesses</p>
+          </li>
         </ul>
       </div>
-
-      {% if not userID %}
-      <div class="nav-actions">
-        <button onclick="window.location.href='/signin'">Sign in</button>
-        <button onclick="window.location.href='/signup'">Sign up</button>
-      </div>
-      {% else %}
-      <div class="nav-actions">
-        <button onclick="window.location.href='/dashboard'">
-          <i class='bx bx-user'></i> dash
-        </button>
-        <button onclick="window.location.href='/logout'">
-          <i class='bx bx-log-out'></i>
-        </button>
-      </div>
-      {% endif %}
-    </nav>
-
-    <!--CTA-->
-    <div class="cta">
-      <h1>Your one-stop job resource platform</h1>
-      <ul>
-        <li>
-          <i class='bx bx-cog' style="color: var(--text-pink);"></i><br>
-          <p>10+ Years Expertise</p>
-        </li>
-        <li>
-          <i class='bx bx-ruler' style="color: var(--text-blue);"></i> <br>
-          <p>1.5 Million Students Helped</p>
-        </li>
-        <li>
-          <i class='bx bx-store' style="color: var(--tertiery-color);"></i> <br>
-          <p>3000 Active Businesses</p>
-        </li>
-      </ul>
-    </div>
-  </header>
-  {% endblock %}
+    </header>
+    {% endblock %}
 
     <!--Page Body-->
     {% block body %} {% endblock %}
@@ -193,7 +193,7 @@
           <h3>Resources</h3>
           <ul>
             <li><a href="/blog">Blog</a></li>
-            <li><a href="/studies">Testimonials</a></li>
+            <li><a href="/testimonials">Testimonials</a></li>
             <li><a href="/developers">Developers</a></li>
             <li><a href="/FAQs">FAQs</a></li>
           </ul>
