@@ -1,6 +1,13 @@
-from website import create_app
+from utils import errhandler
 
-app = create_app()
+try:
 
-if __name__ == '__main__':
-    app.run(debug=True)
+    from website import create_app
+
+    app = create_app()
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+
+except Exception as e:
+    errhandler(e, 'server/main')
