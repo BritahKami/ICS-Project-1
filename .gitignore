@@ -7,3 +7,11 @@ logs/
 # Ignoring Cache File Recursively
 __pycache__/
 **/__pycache__/
+
+# Configs & Secrets
+website/config/env.py
+website/database/connector.py
+website/database/icsdb.sql
+
+# Store Assets
+website/store/**
