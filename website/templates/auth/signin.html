@@ -1,0 +1,45 @@
+<!--Template Reference-->
+{% extends 'template.html'%}
+
+<!--Document Title-->
+{% block title %}
+Sign In
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/auth/auth.css')}}">
+{% endblock %}
+
+<!--Body ID-->
+{% block bodyid %}
+signin
+{% endblock %}
+
+<!--Header-->
+{% block header%}
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+<div class="auth division">
+    <div class="auth-header">
+        <h2>Welcome Back</h2>
+    </div>
+    <form class="auth-form" action="/signin" method="POST">
+
+        <!--Username or Email-->
+        <label for="email">Email</label>
+        <input type="text" placeholder="e.g example@mail.com" name="email" required>
+
+        <!--Password-->
+        <label for="password">Password</label>
+        <input type="password" placeholder="********" name="password" required>
+
+        <div class="form-content">
+            <button type="submit">Submit</button>
+            <span>Already a member? <a href="/signup">Sign In</a></span>
+        </div>
+    </form>
+</div>
+{% endblock %}
