@@ -1,0 +1,43 @@
+<!--Template Reference-->
+{% extends 'template.html'%}
+
+<!--Document Title-->
+{% block title %}
+Verify your authentication
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/auth/auth.css')}}">
+{% endblock %}
+
+<!--Body ID-->
+{% block bodyid %}
+verifier
+{% endblock %}
+
+<!--Header-->
+{% block header%}
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+<div class="auth division">
+    <div class="auth-header">
+        <h2>Verify your Account</h2>
+        <p>Check your email <b>'{{ email }}'</b> for a verification link</p>
+    </div>
+    <form class="auth-form" action="/verifier" method="POST">
+
+        <!--Verification Code-->
+        <label for="code">Verification Code</label>
+        <input type="text" placeholder="e.g 123456" name="code" required>
+
+        <div class="form-content">
+            <!--Submit-->
+            <button type="submit">Submit</button>
+            <span>Already a member?<a href="/signup"> Sign In</a></span>
+        </div>
+    </form>
+</div>
+{% endblock %}
