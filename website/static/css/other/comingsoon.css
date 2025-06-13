@@ -1,0 +1,79 @@
+.soon {
+    background-image: url('../../images/other/other1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    padding: 20px;
+}
+
+.soon-body {
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    text-align: center;
+}
+
+.soon-head h1 {
+    font-weight: bold;
+}
+
+.soon-head p {
+    margin-top: 50px;
+}
+
+.soon-form {
+    width: fit-content;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.input-group input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 300px;
+    background-color: wheat;
+}
+
+.input-group input:focus,
+.input-group input:hover {
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.soon-form button {
+    max-width: fit-content;
+    padding: 10px 20px;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.soon-foot {
+    padding: 20px;
+}
+
+.soon-foot a {
+    color: wheat;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.soon-foot a:hover {
+    border: 1px double wheat;
+}
