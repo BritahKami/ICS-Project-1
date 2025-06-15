@@ -46,3 +46,11 @@ def developers():
 @pages.route('/FAQs')
 def faqs():
     return render_template('other/comingsoon.html')
+
+@pages.route('/reviews')
+def reviews():
+    return render_template('reviews/reviews.html')
+
+@pages.route('/add_reviews')
+def add_reviews():
+    return render_template('reviews/addreviews.html')
