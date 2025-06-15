@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Review</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/reviews/reviews.css')}}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Homepage</a></li>
+                <li><a href="/signin">Login</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+                <li><a href="/reviews">Review</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="review_container">
+        <form class="review_form">
+            <label for="fname">First Name</label> <br>
+            <input type="text" id="fname" name="fname" required><br>
+
+            <label for="lname">Last Name</label><br>
+            <input type="text" id="lname" name="fname" required><br>
+
+            <label for="comment">Add Review</label><br>
+            <textarea id="comment" name="comment" rows="5" cols="40" placeholder="Write your comment here" required></textarea><br>
+
+
+            <button id="rbutton">Submit</button>
+
+        </form>
+    </div>
+
+     <footer>
+        <a href="mukamibridget7@gmail.com">school.work.transition@gmail.com</a><br>
+           <p>&copy; copyright reserved</p>
+    </footer>
+</body>
+</html>
