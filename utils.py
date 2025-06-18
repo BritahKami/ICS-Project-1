@@ -3,12 +3,20 @@ import traceback
 from datetime import datetime
 
 
+"""
+********** Terminal Message Formatter **********
+"""
 # Terminal Messaging Formatting
-def message(text):
-
+def message(text, **kwargs):
     #Error Types
     if text == 'err':
-        message = f"\n***\n[CRITICAL ERROR]...Try again later\n***\n"
+        source = kwargs.get('source', None)
+        time = kwargs.get('time', None)
+        message = f"\n***\n[CRITICAL ERROR]...Try again later\nCheck '{source}'\nTime of Occurence: {time}\n***\n"
+    elif text == 'sys':
+        source = kwargs.get('source', None)
+        time = kwargs.get('time', None)
+        message = f"\n***\n[SYSTEM INFO]...{source} information logged\nTime of Logging: {time}\n***\n"
     elif text == 'x':
         message = f"\n***\n[SYSTEM IS CLOSING]...Goodbye\n***\n"
     else:
@@ -16,11 +24,17 @@ def message(text):
 
     print(message)
 
+"""
+********** Timestamp **********
+"""
 # Logging Timestamp
 def timestp():
     now = datetime.now()
     return now.strftime("%d-%m-%Y %H:%M:%S")
 
+"""
+********** Error Extractor **********
+"""
 # Error Details Extractor
 def error(e):
 
@@ -50,6 +64,9 @@ def error(e):
     # Return Error Details
     return error_details
 
+"""
+********** Error Handler **********
+"""
 # Error Handler
 def errhandler(e, logger):
 
@@ -64,8 +81,12 @@ def errhandler(e, logger):
         f.write(f'***\n--------------------------------------------------\nTIME OF OCCURENCE:---\n{time_str}\n\nERROR DETAILS:---\n{error_details}\n---\n--------------------------------------------------\n\n')
 
     # Output
-    message('err')
+    source = logger
+    message('err', source=source.upper(), time=time_str)
 
+"""
+********** System Logger **********
+"""
 # Logging System Messages
 def syshandler(msg, logger):
 
@@ -75,3 +96,39 @@ def syshandler(msg, logger):
     # Logging Message
     with open(f'logs/system/{logger}.txt', 'a') as f:
         f.write(f'***\n--------------------------------------------------\nTIME OF ENTRY:---\n{time_str}\n\nMESSAGE:---\n{msg}\n---\n--------------------------------------------------\n\n')
+
+    # Output
+    source = logger
+    message('sys', source=source.upper(), time=time_str)
+
+"""
+********** Mailer Service **********
+"""
+from flask_mail import Mail, Message
+from config import env
+
+mail = Mail()
+# Mailer Function
+def mailer(recipients, subject, body, sender = None):
+
+    # Populating Sender
+    if sender is None:
+        sender = env.MAIL_SENDER
+
+    # Mail Message
+    msg = Message(
+        subject=subject,
+        sender=sender,
+        recipients=[recipients],
+        body=body
+    )
+
+    #Attempting Mail Send
+    try:
+        mail.send(msg)
+        syshandler("Mail Processed", 'server/mailer')
+        return True
+    except Exception as e:
+        # Logging Error
+        errhandler(e, 'server/mailer')
+        return False
