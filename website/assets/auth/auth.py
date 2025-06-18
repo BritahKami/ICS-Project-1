@@ -177,10 +177,6 @@ def signin():
             This code will expire in 5 minutes.
             """
 
-            # Printing Verification Code on Terminal
-            # txt = f'Verification code for email: {email} is:\n{verification}\nYour code expires in 5 minutes'
-            # message(txt)
-
             # Checking if Mail is Sent
             mailSent = mailer(email, "Verification Code", emailBody)
 
