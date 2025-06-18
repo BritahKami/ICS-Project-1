@@ -9,7 +9,7 @@ __pycache__/
 **/__pycache__/
 
 # Configs & Secrets
-website/config/env.py
+config/env.py
 website/database/icsdb.sql
 
 # Store Assets
