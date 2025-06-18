@@ -1,11 +1,18 @@
+# Modules
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
-from ...database.connector import dbconnector
-from utils import errhandler, message
 from werkzeug.security import generate_password_hash, check_password_hash
+
+# Database Connection
+from website.database.connector import dbconnector
+
+# Utility Functions
+from utils import errhandler, message, mailer
+
 import base64
 import random
 import time
 
+# Auth Blueprint
 auth = Blueprint('auth', __name__)
 
 #Database Connection
@@ -149,17 +156,9 @@ def signin():
                 # Redirecting
                 return redirect(request.url)
 
-            # Populating Session
-            session['userID'] = user['userID']
-            session['fname'] = user['fname']
-            session['lname'] = user['lname']
-            session['uname'] = user['uname']
-            session['email'] = user['email']
-            session['role'] = user['role']
-
             # Generating Verification Code
             verification = str(random.randint(100000, 999999))
-            email = session['email']
+            email = user['email']
             expiry = time.time() + 300
 
             # Populating Temp Dictionary
@@ -167,15 +166,50 @@ def signin():
             temp['code'] = verification
             temp['expiry'] = expiry
 
+            emailBody = f"""
+            Hello {user['fname']} {user['lname']},
+
+            Thank you for signing in to our platform.
+
+            Your verification code is:
+            {verification}
+
+            This code will expire in 5 minutes.
+            """
+
             # Printing Verification Code on Terminal
-            txt = f'Verification code for email: {email} is:\n{verification}\nYour code expires in 5 minutes'
-            message(txt)
+            # txt = f'Verification code for email: {email} is:\n{verification}\nYour code expires in 5 minutes'
+            # message(txt)
 
-            #Success Message
-            flash('A verification code has been sent to your terminal', category='success')
+            # Checking if Mail is Sent
+            mailSent = mailer(email, "Verification Code", emailBody)
 
-            #Redirecting
-            return redirect(url_for('auth.verifier'))
+            if mailSent:
+                #Success Message
+                flash('A verification code has been sent to your email', category='success')
+
+                # Populating Session
+                session['userID'] = user['userID']
+                session['fname'] = user['fname']
+                session['lname'] = user['lname']
+                session['uname'] = user['uname']
+                session['email'] = user['email']
+                session['role'] = user['role']
+
+                #Redirecting
+                return redirect(url_for('auth.verifier'))
+            else:
+                #Error Message
+                flash('An error occurred processing your verification code')
+
+                # Clearing Sessions
+                session.clear()
+
+                # Clearing Temp Data
+                temp.clear()
+
+                #Redirecting
+                return redirect(url_for('pages.homepage'))
 
         except Exception as e:
             # Error Logging
@@ -184,8 +218,14 @@ def signin():
             # Error Message
             flash("An unexpected error occured. Please try again later", category='error')
 
+            # Clearing Sessions
+            session.clear()
+
+            # Clearing Temp Data
+            temp.clear()
+
             # Redirecting
-            return redirect(url_for('views.homepage'))
+            return redirect(url_for('pages.homepage'))
 
         #Closing Cursor
         finally:
