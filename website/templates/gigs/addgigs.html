@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Review</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/gigs/gigs.css')}}">
+</head>
+<body>
+    <div class="addgigs_container">
+        <form class="addgigs_form">
+            <label for="image">Upload Image:</label><br>
+            <input type="file" id="image" name="image" accept="image/*" required><br>
+
+            <label for="fname">First Name</label> <br>
+            <input type="text" id="fname" name="fname" required><br>
+
+            <label for="lname">Last Name</label><br>
+            <input type="text" id="lname" name="fname" required><br>
+
+            <label for="freelance">Freelance</label><br>
+            <textarea id="freelance" name="freelance" rows="1" cols="40" placeholder="What service will you offer?" required></textarea><br>
+
+            <label for="price">Price</label><br>
+            <input  type="text" id="price" name="price" placeholder="eg Kshs: 1000" step="1" min="0" required><br>
+
+            <button id="gbutton">Submit</button><br>
+
+        </form>
+    </div>
+
+     <footer>
+        <a href="mukamibridget7@gmail.com">school.work.transition@gmail.com</a><br>
+           <p>&copy; copyright reserved</p>
+    </footer>
+</body>
+</html>
