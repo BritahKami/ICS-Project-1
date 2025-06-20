@@ -21,7 +21,11 @@ def about():
 
 @pages.route('/gigs')
 def gigs():
-    return render_template('other/comingsoon.html')
+    return render_template('gigs/gigs.html')
+
+@pages.route('/addgigs')
+def addgigs():
+    return render_template('gigs/addgigs.html')
 
 @pages.route('/jobs')
 def jobs():
