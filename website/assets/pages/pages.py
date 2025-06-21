@@ -17,7 +17,7 @@ def comingsoon():
 
 @pages.route('/about')
 def about():
-    return render_template('other/comingsoon.html')
+    return render_template('about/about.html')
 
 @pages.route('/gigs')
 def gigs():
