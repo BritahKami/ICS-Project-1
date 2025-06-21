@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/about/about.css')}}">
+    <title>About</title>
+</head>
+<body>
+    <header>
+        <nav>
+           <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/gigs">Gigs Center</a></li>
+            <li><a href="/jobs">Job Listings</a></li>
+            <li><a href="/reviews">Reviews</a></li>
+          </ul>
+        </nav>
+    </header>
+
+    <div id="about_container">
+     <div id="about_title"><h1>About Us</h1></div>
+      <div><h2>CareerConnect</h2> </div>
+     <div id="about_description">
+        <p>CareerConnect is a leading job resource provider,<br>
+             dedicated to helping students achieve smooth <br>school-to-work transition
+              and businesses to make the <br>most of their hiring phases.
+            In addition, the platform also<br> helps students earn a
+        living from gigs and earn skills <br>by engaging in collaborative projects.</p>
+        <img src="{{url_for('static', filename='images/about/about.jpg')}}" alt="About Us image">
+     </div>
+     <div><h3>Contact us</h3></div>
+     <div id="about_form">
+          <form>
+                <label for="fname">First Name</label> <br>
+            <input type="text" id="fname" name="fname" required><br>
+
+            <label for="lname">Last Name</label><br>
+            <input type="text" id="lname" name="fname" required><br>
+
+            <label for="address">Email Address</label><br>
+            <input type="email" id="address" name="address" required><br>
+
+            <label for="message">Your Message</label><br>
+            <textarea id="message" name="message" rows="5" cols="40" placeholder="Write your message here" required></textarea><br>
+
+             <button id="abutton">Submit</button>
+          </form>
+     </div>
+    </div>
+     <footer>
+        <a href="mukamibridget7@gmail.com">school.work.transition@gmail.com</a><br>
+           <p>&copy; copyright reserved</p>
+    </footer>
+</body>
+</html>
