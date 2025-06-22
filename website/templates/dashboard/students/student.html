@@ -1,0 +1,375 @@
+<!--Template Reference-->
+{% extends 'dashboard.html' %}
+
+<!--Document Title-->
+{% block title%}
+Dashboard | Student
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboards/student.css') }}">
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+
+<!--For Student with Access-->
+<section id="for-user">
+    <div class="dash-content">
+        <!--Sidebar-->
+        <div class="dash-sidebar">
+            <!--Analytics-->
+            <div class="dash-sidebar-content analytics reusable">
+                <h2>Analytics</h2>
+                <ul>
+                    <!--Profile Views-->
+                    <li>
+                        <p><i class='bx bx-glasses'></i></p>
+                        <p>400</p>
+                        <p>Profile views since you joined</p>
+                    </li>
+
+                    <!--Gigs-->
+                    <li>
+                        <p><i class='bx bx-briefcase'></i></p>
+                        <p>5</p>
+                        <p>Registered active gigs with us</p>
+                    </li>
+
+                    <!--Scouting-->
+                    <li>
+                        <p><i class='bx bx-crosshair'></i></p>
+                        <p>3</p>
+                        <p>Organizations are scouting you</p>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Documents-->
+            <div class="dash-sidebar-content documents reusable">
+                <h2>Documents</h2>
+                <ul>
+                    <!--Resume-->
+                    <li onclick="printDocument(documentID)">
+                        <p><i class='bx bx-file'></i><span> Resume</span></p>
+                        <p><i class='bx bx-trash'></i></p>
+                    </li>
+
+                    <!--Adding Documents-->
+                    <li onclick="addDocument()">
+                        <p><i class='bx bx-plus'></i><span> Add Document</span></p>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Skills-->
+            <div class="dash-sidebar-content skills reusable">
+                <h2>Skills</h2>
+                <ul>
+                    <!--Skill-->
+                    <li>
+                        <p><i class='bx bx-hard-hat'></i> <span>Python</span></p>
+                        <p><i class='bx bx-trash'></i></p>
+                    </li>
+
+                    <!--Add Skill-->
+                    <li onclick="addSkill()">
+                        <p><span> Add Skill</span></p>
+                        <p><i class='bx bx-plus'></i></p>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Education-->
+            <div class="dash-sidebar-content documents reusable">
+                <h2>Education</h2>
+                <ul>
+                    <!--Learning-->
+                    <li>
+                        <p><i class='bx bx-education'></i><span> Strathmore University</span></p>
+                        <p><i class='bx bx-trash'></i></p>
+                    </li>
+
+                    <!--Adding Documents-->
+                    <li onclick="addInstitution()">
+                        <p><i class='bx bx-plus'></i><span> Add Institution</span></p>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Certifications-->
+            <div class="dash-sidebar-content documents reusable">
+                <h2>Certifications</h2>
+                <ul>
+                    <!--Certificate-->
+                    <li>
+                        <p><i class='bx bx-education'></i><span> Data Analysis</span></p>
+                        <p><i class='bx bx-trash'></i></p>
+                    </li>
+
+                    <!--Adding Documents-->
+                    <li onclick="addCertificate()">
+                        <p><i class='bx bx-plus'></i><span> Add Certificate</span></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--Body-->
+        <div class="dash-body">
+
+            <div class="dash-body-items">
+                <!--Gigs-->
+                <div class="dash-body-content gigs">
+                    <!--Gigs-->
+                    <h2>My Gigs</h2>
+
+                    <!--Cards-->
+                    <div class="dash-content-body-cards">
+                        <!--Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>Project Documentation</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, voluptate dolorum dolorem nam nemo maxime. Dolor aspernatur dignissimos error</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span>KES <b>100</b>/hr</span>
+                                    <span class="apply-button">Edit</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Add Gig Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>Add a Gig</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Gigs are a great way to showcase what you are good at as a service. Fellow students and businesses can request this short-contract service, making you a quick buck</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span></span>
+                                    <span class="option">Create a new gig</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Job Recommendations-->
+                <div class="dash-body-content jobs">
+                    <!--Jobs-->
+                    <h2>Job Listings You May Like</h2>
+
+                    <!--Cards-->
+                    <div class="dash-content-body-cards">
+                        <!--Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>.NET Developer</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, voluptate dolorum dolorem nam nemo maxime. Dolor aspernatur dignissimos error</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span>Safaricom LLC</span>
+                                    <span class="apply-button">View</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>.NET Developer</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, voluptate dolorum dolorem nam nemo maxime. Dolor aspernatur dignissimos error</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span>Safaricom LLC</span>
+                                    <span class="apply-button">View</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>.NET Developer</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, voluptate dolorum dolorem nam nemo maxime. Dolor aspernatur dignissimos error</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span>Safaricom LLC</span>
+                                    <span class="apply-button">View</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>.NET Developer</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, voluptate dolorum dolorem nam nemo maxime. Dolor aspernatur dignissimos error</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span>Safaricom LLC</span>
+                                    <span class="apply-button">View</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>.NET Developer</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, voluptate dolorum dolorem nam nemo maxime. Dolor aspernatur dignissimos error</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span>Safaricom LLC</span>
+                                    <span class="apply-button">View</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>.NET Developer</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, voluptate dolorum dolorem nam nemo maxime. Dolor aspernatur dignissimos error</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span>Safaricom LLC</span>
+                                    <span class="apply-button">View</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!--For Other Viewers-->
+<!-- <section id="for-others">
+    <div class="dash-content">
+
+        <div class="dash-sidebar" hidden></div>
+
+
+        <div class="dash-body" hidden>
+
+        </div>
+    </div>
+</section> -->
+{% endblock %}
