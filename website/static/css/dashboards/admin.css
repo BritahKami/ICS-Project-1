@@ -1,0 +1,17 @@
+/* Repeat Classes*/
+header {
+    background-color: unset;
+    background-image: url('../../images/dashboards/student/header3.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Dashboard Content */
+/* .dash-content {} */
+
+/* Dashboard Sidebar */
+/* .dash-sidebar {} */
+
+/* Dashboard Body */
+/* .dash-body {} */
