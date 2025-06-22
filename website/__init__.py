@@ -2,6 +2,7 @@ from flask import Flask
 
 from utils import errhandler, mail as MAIL
 from config import env
+from datetime import datetime
 
 def create_app():
     global app
@@ -13,13 +14,14 @@ def create_app():
     app.config['SECRET_KEY'] = env.SECRET_KEY
 
     # Importing Blueprints
-    from .assets.pages.pages import pages
-    from .assets.auth.auth import auth
+    from website.assets.pages.pages import pages
+    from website.assets.auth.auth import auth
+    from website.assets.pages.dashboards import dash
 
     # Registering Blueprints
     app.register_blueprint(pages, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-    # app.register_blueprint(mailer, url_prefix='/')
+    app.register_blueprint(dash, url_prefix='/')
 
     """
     Flask Mail
@@ -43,6 +45,35 @@ def create_app():
 
     # Binding Extensions
     MAIL.init_app(app)
+
+    # Context Processors
+    @app.context_processor
+    def inject_current_date():
+        weekday = datetime.now().strftime("%A")
+        day = datetime.now().strftime("%d")
+        month = datetime.now().strftime("%B")
+        year = datetime.now().year
+        today = f'{weekday} - {month} {day}, {year}'
+        return {"today": today}
+
+    @app.context_processor
+    def inject_current_year():
+        return {"current_year": datetime.now().year}
+
+    @app.context_processor
+    def inject_current_message():
+        current_hour = datetime.now().hour
+
+        if 5 <= current_hour < 12:
+            message = "morning"
+        elif 12 <= current_hour < 17:
+            message = "afternoon"
+        elif 17 <= current_hour < 22:
+            message = "evening"
+        else:
+            message = "night"
+
+        return {"current_message": message}
 
     # Returning App Instance
     return app
