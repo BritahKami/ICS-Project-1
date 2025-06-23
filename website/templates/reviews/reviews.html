@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/reviews/reviews.css')}}">
-    <title>Reviews</title>
-</head>
-<body>
-    <header>
-        <nav>
-           <ul>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/gigs">Gigs Center</a></li>
-            <li><a href="/jobs">Job Listings</a></li>
-            <li><a href="/reviews">Reviews</a></li>
-          </ul>
-        </nav>
-    </header>
+{% extends 'template.html' %}
+
+{% block title %}
+CareerConnect | Review
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/reviews/reviews.css')}}">
+{% endblock %} 
+
+{% block body %}
 
     <section >
     <div class="testimonials">
@@ -85,9 +76,4 @@
     </div>
 </section>
 
-    <footer>
-        <a href="mukamibridget7@gmail.com">school.work.transition@gmail.com</a><br>
-           <p>&copy; copyright reserved</p>
-    </footer>
-</body>
-</html>
+{% endblock %}
