@@ -1,12 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Review</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/reviews/reviews.css')}}">
-</head>
-<body>
+{% extends 'template.html' %}
+
+{% block title %}
+CareerConnect | AddReview
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/reviews/reviews.css')}}">
+{% endblock %} 
+
+{% block body %}
     <div class="review_container">
         <form class="review_form">
             <label for="fname">First Name</label> <br>
@@ -24,9 +26,4 @@
         </form>
     </div>
 
-     <footer>
-        <a href="mukamibridget7@gmail.com">school.work.transition@gmail.com</a><br>
-           <p>&copy; copyright reserved</p>
-    </footer>
-</body>
-</html>
+{% endblock %}
