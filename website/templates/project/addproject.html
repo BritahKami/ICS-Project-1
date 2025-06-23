@@ -1,0 +1,30 @@
+{% extends 'template.html' %}
+
+{% block title %}
+CareerConnect | AddProject
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/project/project.css')}}">
+{% endblock %} 
+
+{% block body %}
+
+    <div class="addproject_container">
+        <form class="addproject_form">
+            <label for="image">Upload Image:</label><br>
+            <input type="file" id="image" name="image" accept="image/*" required><br>
+
+            <label for="title">Project Title</label> <br>
+            <input type="text" id="title" name="title" required><br>
+
+            <label for="description">Description</label><br>
+            <textarea id="description" name="description" rows="1" cols="40" placeholder="Decribe your project" required></textarea><br>
+
+
+            <button id="pbutton">Submit</button><br>
+
+        </form>
+    </div>
+
+{% endblock %}
