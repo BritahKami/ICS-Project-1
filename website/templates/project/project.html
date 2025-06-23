@@ -11,71 +11,140 @@ CareerConnect | Project
 {% block body %}
 
     <div class="project_container">
-        <div class="project1">
-            <div id="project_description">
-                <h2>Website development</h2>
-                <p>This project involves development of a hospital management <br> 
-                    website. The languages to be used are HTML,CSS, React and,<br> 
-                   NodeJs. Any IDE eg, VScode can be used. MySQL Workbench<br> 
-                   will be used as the database. Collaboration will be <br>
-                virtual on GitHub. </p><br>
-                <button>Apply</button>
-            </div>
-            <div id="project_image">
-                <img src="{{url_for('static', filename='images/project/newwebsite1.jpg')}}" alt="First project image">
-            </div>
-        </div>
+         <div class="project1">
+           <div class="project_image">
+              <img src="{{url_for('static', filename='images/project/newwebsite1.jpg')}}" alt="First project image">
+             </div>
+             <div class="project_details">
+           <div class="project_title">
+             <h3>Website Development</h3>
+         </div>
 
-        <div class="project1">
-            <div id="project_image">
-                <img src="{{url_for('static', filename='images/project/project2.jpg')}}" alt="First project image">
-            </div>
-            <div id="project_description">
-                <h2>Animation creation</h2>
-                <p>This project involves creation of a school-based animation.<br> 
-                     Alice3 will be the application used for creation. The characters<br> 
-                   involved will be students, teachers, principal, nurse,<br> 
-                    socialworkers. The aim of making the animation<br>
-                   is to use it to educate children on discipline and responsibility. </p><br>
-                <button>Apply</button>
-            </div>
-        </div>
+        <div class="project_description">
+     <p>This project involves development of a hospital management 
+                    website. The languages to be used are HTML,CSS, React and, 
+                   NodeJs. Any IDE eg, VScode can be used. MySQL Workbench
+                   will be used as the database. Collaboration will be 
+                virtual on GitHub. </p>
+         </div>
 
-        <div class="project1">
-            <div id="project_description">
-                <h2>Debate Contest</h2>
-               <p>This project involves planning and coordinating a debate <br> 
-                    contest. Daily meetings will be happening from 1800hr to<br> 
-                   1700hr in Microsoft Auditorium. During the meetings, the <br> 
-                   debate motion will be selected. A certificate of participation<br>
-                will be presented at the end of the debate.</p><br>
-                <button>Apply</button>
-            </div>
-            <div id="project_image">
-                <img src="{{url_for('static', filename='images/project/project3.jpg')}}" alt="Third project image">
-            </div>
-        </div>
-
-        <div class="project1">
-             <div id="project_image">
-                <img src="{{url_for('static', filename='images/project/project4.jpg')}}" alt="Third project image">
-            </div>
-            <div id="project_description">
-                <h2>Arduino Project</h2>
-               <p>This project involves building an Automatic plant watering <br> 
-                     system. Basically, a sensor will be used to detect when <br> 
-                   the soil is dry and the Arduino will send signals that will<br> 
-                   activate the water pump, irrigating the plants and when the <br>
-                   soil is moisturised the pump is switched off. An LED will also<br>
-                   be used to indicate when the pump is switched on/off.The project<br>
-                   will be virtually implemented on Tinkercard, then physically <br>
-                   implemented using the physical components.</p><br>
-                <button>Apply</button>
-            </div>
-        </div>
-
-         <div id="addproject_b">
-        <button><a href="addproject">Add Project</a></button> </div>
+       <div class="project_button">
+      <button>Apply</button>
+       </div>
+      </div>
     </div>
+  <div class="project1">
+    <div class="project_image">
+   <img src="{{url_for('static', filename='images/project/project2.jpg')}}" alt="Second project image">
+      </div>
+      <div class="project_details">
+      <div class="project_title">
+       <h3>Animation Creation</h3>
+          </div>
+
+      <div class="project_description">
+    <p>This project involves creation of a school-based animation. 
+                     Alice3 will be the application used for creation. The characters
+                   involved will be students, teachers, principal, nurse, 
+                    socialworkers. The aim of making the animation
+                   is to use it to educate children. </p>
+  </div>
+
+      <div class="project_button">
+       <button>Apply</button>
+     </div>
+      </div>
+      </div>
+
+     <div class="project1">
+     <div class="project_image">
+    <img src="{{url_for('static', filename='images/project/project3.jpg')}}" alt="Project image 3">
+     </div>
+     <div class="project_details">
+      <div class="project_title">
+       <h3>Debate Contest</h3>
+          </div>
+
+      <div class="project_description">
+    <p>This project involves planning and coordinating a debate 
+                    contest. Daily meetings will be happening from 1800hr to 
+                   1700hr in Microsoft Auditorium. During the meetings, the  
+                   debate motion will be selected. A certificate of participation
+                will be presented at the end of the debate.</p>
+      </div>
+
+      <div class="project_button">
+        <button>Apply</button>
+      </div>
+      </div>
+     </div>
+
+    <div class="project1">
+    <div class="project_image">
+      <img src="{{url_for('static', filename='images/project/project4.jpg')}}" alt="Fourth project image">
+    </div>
+    <div class="project_details">
+       <div class="project_title">
+       <h3>Arduino Project</h3>
+    </div>
+
+      <div class="project_description">
+    <p>This project involves building an Automatic plant watering 
+                     system. Basically, a sensor will be used to detect when 
+                   the soil is dry and the Arduino will send signals that will 
+                   activate the water pump, irrigating the plants and when the
+                   soil is moisturised the pump is switched off.</p>
+     </div>
+
+      <div class="project_button">
+   <button>Apply</button>
+     </div>
+    </div>
+        </div>
+
+     <div class="project1">
+       <div class="project_image">
+         <img src="{{url_for('static', filename='images/project/project5.jpg')}}" alt="Fifth project image">
+        </div>
+         <div class="project_details">
+          <div class="project_title">
+           <h3>Writing Magazine</h3>
+              </div>
+
+         <div class="project_description">
+      <p>This project involves writing a school magazine. Basically, writing stories of some students
+        and their journey through campus. The aim is to inspire other students, using the stories of their 
+        collegues. The magazine will be published and sold to other students.  
+                    </p>
+         </div>
+
+        <div class="project_button">
+         <button>Apply</button>
+        </div>
+        </div>
+        </div>
+
+         <div class="project1">
+          <div class="project_image">
+          <img src="{{url_for('static', filename='images/project/project6.jpg')}}" alt="Sixth Project Image">
+            </div>
+         <div class="project_details">
+          <div class="project_title">
+         <h3>Running Workshop</h3>
+         </div>
+
+         <div class="project_description">
+       <p>This project involves planning and delievering a workshop session to people. The topic
+        of discussion for the workshop, will be discussed during regular meetings which will be held
+      virtually every twice a week. Work will be distributed evenly among the team members.  </p>
+        </div>
+
+         <div class="project_button">
+       <button>Apply</button>
+        </div>
+         </div>
+         </div>
+    </div>
+
 
 {% endblock %}
