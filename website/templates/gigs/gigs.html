@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/gigs/gigs.css')}}">
-    <title>Gigs</title>
-</head>
-<body>
+{% extends 'template.html' %}
 
-    <header>
-        <nav>
-            <ul>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/gigs">Gigs Center</a></li>
-            <li><a href="/jobs">Job Listings</a></li>
-            <li><a href="/reviews">Reviews</a></li>
-          </ul>
-        </nav>
-    </header>
+{% block title %}
+CareerConnect | Gigs
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/gigs/gigs.css')}}">
+{% endblock %} 
+
+{% block body %}
 
    <div id="gigs_container">
     <div id="add_gigs"> <button><a href="addgigs">Add Gigs</a></button> </div>
@@ -27,6 +17,7 @@
              <div id="gig_image">  
             <img src="{{url_for('static', filename='images/gigs/logoMaker.jpeg')}}" alt="First gig">
               </div> 
+              <div class="gig_details">
             <div id="gig_owner">
                 <img src="{{url_for('static', filename='images/gigs/pic1.jpeg')}}" alt="profile picture 1">
                 <p>Samantha Wanjiru</p>
@@ -39,11 +30,13 @@
                 <button>Apply</button>
             </div>
             </div>
+            </div>
 
             <div id="first_gig">
              <div id="gig_image">  
             <img src="{{url_for('static', filename='images/gigs/gig2.jpeg')}}" alt="First gig">
               </div> 
+              <div class="gig_details">
             <div id="gig_owner">
                 <img src="{{url_for('static', filename='images/gigs/pic2.jpeg')}}" alt="profile picture 1">
                 <p>Dennis Mutua</p>
@@ -56,11 +49,13 @@
                 <button>Apply</button>
             </div>
             </div>
+            </div>
 
             <div id="first_gig">
              <div id="gig_image">  
             <img src="{{url_for('static', filename='images/gigs/gig3.jpeg')}}" alt="First gig">
               </div> 
+              <div class="gig_details">
             <div id="gig_owner">
                 <img src="{{url_for('static', filename='images/gigs/pic3.jpeg')}}" alt="profile picture 1">
                 <p>Ann Wambui</p>
@@ -73,13 +68,13 @@
                 <button>Apply</button>
             </div>
             </div>
-        </div>
+            </div>
 
-        <div id="gigs_row">
             <div id="first_gig">
              <div id="gig_image">  
             <img src="{{url_for('static', filename='images/gigs/gig4.jpeg')}}" alt="First gig">
               </div> 
+              <div class="gig_details">
             <div id="gig_owner">
                 <img src="{{url_for('static', filename='images/gigs/pic4.jpeg')}}" alt="profile picture 1">
                 <p>Lynn Wangui</p>
@@ -92,11 +87,13 @@
                 <button>Apply</button>
             </div>
             </div>
+            </div>
 
             <div id="first_gig">
              <div id="gig_image">  
             <img src="{{url_for('static', filename='images/gigs/gig5.jpeg')}}" alt="First gig">
               </div> 
+              <div class="gig_details">
             <div id="gig_owner">
                 <img src="{{url_for('static', filename='images/gigs/pic5.jpeg')}}" alt="profile picture 1">
                 <p>Kevin Kamau</p>
@@ -109,11 +106,13 @@
                 <button>Apply</button>
             </div>
             </div>
+            </div>
 
             <div id="first_gig">
              <div id="gig_image">  
             <img src="{{url_for('static', filename='images/gigs/gig6.jpeg')}}" alt="First gig">
               </div> 
+              <div class="gig_details">
             <div id="gig_owner">
                 <img src="{{url_for('static', filename='images/gigs/pic6.jpeg')}}" alt="profile picture 1">
                 <p>Joseph Wachira</p>
@@ -126,15 +125,8 @@
                 <button>Apply</button>
             </div>
             </div>
+            </div>
         </div>
 
     </div>
-
-
-    <footer>
-        <a href="mukamibridget7@gmail.com">school.work.transition@gmail.com</a><br>
-           <p>&copy; copyright reserved</p>
-    </footer>
-    
-</body>
-</html>
+{% endblock %}
