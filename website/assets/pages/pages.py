@@ -58,3 +58,12 @@ def reviews():
 @pages.route('/add_reviews')
 def add_reviews():
     return render_template('reviews/addreviews.html')
+
+@pages.route('/project')
+def project():
+    return render_template('project/project.html')
+
+@pages.route('/addproject')
+def addproject():
+    return render_template('project/addproject.html')
+
