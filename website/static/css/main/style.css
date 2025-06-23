@@ -61,7 +61,6 @@ header {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 10px;
 }
 
 .navbar {
@@ -70,7 +69,7 @@ header {
     align-items: center;
     margin: 0;
     padding: 10px;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
 }
 
