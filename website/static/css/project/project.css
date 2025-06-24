@@ -91,3 +91,38 @@ textarea{
     resize:none;
     height: 150px;
 }
+/* styling search bar */
+.search{
+    width:100%;
+    max-width: 300px;
+    /* display: flex; */
+    align-items: center;
+    border-radius: 50px;
+    padding: 3px 5px;
+    background-color: gray;
+    margin-left: auto;
+    margin-right: 20px;
+}
+.search-bar{
+    color: gray;
+}
+.search-bar input{
+    /* Will take up the whole width */
+    flex: 1;
+    border: 0;
+    font-size: medium;
+    margin-left: 10px;
+    outline: none;
+    background-color: gray;
+     overflow: hidden;
+}
+::placeholder{
+    color: black;
+}
+.search-bar button{
+    /* border: 0; */
+    border-radius: 45px;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: gray;
+}
