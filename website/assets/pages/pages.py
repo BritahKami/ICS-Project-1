@@ -29,7 +29,7 @@ def addgigs():
 
 @pages.route('/jobs')
 def jobs():
-    return render_template('other/comingsoon.html')
+    return render_template('jobs/jobs.html')
 
 @pages.route('/contact')
 def contact():
