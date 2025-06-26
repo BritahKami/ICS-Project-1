@@ -1,0 +1,154 @@
+{% extends 'template.html' %}
+
+{% block title %}
+CareerConnect | Jobs
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/jobs/jobs.css')}}">
+{% endblock %} 
+
+{% block body %}
+
+  <div class="search">
+                <form action="" class="search-bar">
+                    <input type="text" placeholder="search jobs">
+                    <button type="submit"> <i class="fas fa-search"></i>  </button>
+                </form>
+            </div>
+    <div class="job_container">
+         <div class="job1">
+           <div class="job_image">
+              <img src="{{url_for('static', filename='images/jobs/job1.jpg')}}" alt="First project image">
+             </div>
+             <div class="job_details">
+           <div class="job_title">
+             <h3>Data Analyst</h3>
+         </div>
+
+        <div class="job_description">
+     <p>KCB Bank has a vacancy for a data analyst. We are located in Nairobi, CBD. The role assigned 
+        will be to collect and organize large datasets. For one to apply they must have a degree in Computer Science
+      or Statistics. Interns will be taught on how to carry out the work.  </p>
+         </div>
+
+       <div class="job_button">
+      <button>Apply</button>
+       </div>
+      </div>
+    </div>
+  <div class="job1">
+    <div class="job_image">
+   <img src="{{url_for('static', filename='images/jobs/job2.jpg')}}" alt="Second job image">
+      </div>
+      <div class="job_details">
+      <div class="job_title">
+       <h3>Pharmacist</h3>
+          </div>
+
+      <div class="job_description">
+    <p>Nairobi Hospital is offering an internship opportunity to students pursuing Pharmacy. For one to apply
+       they must be pursuing a degree in Pharmacy, be self-driven, and willing to learn. The internship will
+       ran for 4 months.   
+    </p>
+  </div>
+
+      <div class="job_button">
+       <button>Apply</button>
+     </div>
+      </div>
+      </div>
+
+     <div class="job1">
+     <div class="job_image">
+    <img src="{{url_for('static', filename='images/jobs/job3.jpg')}}" alt="Job image 3">
+     </div>
+     <div class="job_details">
+      <div class="job_title">
+       <h3>Auditor</h3>
+          </div>
+
+      <div class="job_description">
+    <p>BDO has a vacancy for an auditor. We are located in Westlands. For one to apply they must have
+      a degree in Commerce/Finance, must be outgoing and self-driven. Certification such as ACCA, CPA will be 
+      an added advantage. 
+    </p>
+      </div>
+
+      <div class="job_button">
+        <button>Apply</button>
+      </div>
+      </div>
+     </div>
+
+    <div class="job1">
+    <div class="job_image">
+      <img src="{{url_for('static', filename='images/jobs/job4.jpg')}}" alt="Fourth job image">
+    </div>
+    <div class="job_details">
+       <div class="job_title">
+       <h3>Journalist</h3>
+    </div>
+
+      <div class="job_description">
+    <p> 
+      TV47 has an internship opportunity for a beginner journalist. We are located in Muthaiga.
+      The internship program will ran for 6 months. Application is open to anyone pursuing Mass Communication
+      or Public Relations. The applicant should be outgoing and willing to learn.
+    </p>
+     </div>
+
+      <div class="job_button">
+   <button>Apply</button>
+     </div>
+    </div>
+        </div>
+
+     <div class="job1">
+       <div class="job_image">
+         <img src="{{url_for('static', filename='images/jobs/job5.jpg')}}" alt="Fifth job image">
+        </div>
+         <div class="job_details">
+          <div class="job_title">
+           <h3>Lecturer</h3>
+              </div>
+
+         <div class="job_description">
+      <p>Daystar University has a vacancy for a Communication Skills lecturer. We are located in Athi River.
+        For one to apply they must have a PHD in English and Literature and atleast 1 year of experience.  
+                    </p>
+         </div>
+
+        <div class="job_button">
+         <button>Apply</button>
+        </div>
+        </div>
+        </div>
+
+         <div class="job1">
+          <div class="job_image">
+          <img src="{{url_for('static', filename='images/jobs/job6.jpg')}}" alt="Sixth Job Image">
+            </div>
+         <div class="job_details">
+          <div class="job_title">
+         <h3>Pastry Chef</h3>
+         </div>
+
+         <div class="job_description">
+       <p>Hilton Hotel has a job vacancy for a pastry chef. We are located along Ngong road in Nairobi.
+          The duties assigned will be preparing deserts, all sorts of desserts. For one to apply they must have a 
+          degree in hospitality, no years of experience are needed.
+        </p>
+        </div>
+
+         <div class="job_button">
+       <button>Apply</button>
+        </div>
+         </div>
+         </div>
+    </div>
+
+<!-- JS Link -->
+<script src="{{ url_for('static', filename='js/search/search.js') }}"></script>
+
+{% endblock %}
