@@ -169,6 +169,45 @@ header {
     text-overflow: ellipsis;
     max-height: 3em;
 }
+/* addgigs stylings */
+input {
+    width: 65%;
+    margin: 7px 0;
+    padding: 8px 18px;
+    border-radius: 5px;
+}
+
+#gbutton {
+    background-color: bisque;
+    cursor: pointer;
+    margin: 7px 0;
+    border-radius: 5px;
+    width: 15%;
+}
+
+.addgigs_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addgigs_form {
+    background-color: #c6c3c3;
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    width: 500px;
+}
+
+textarea {
+    width: 65%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    resize:none;
+    min-height: 70px;
+}
 
 
 /* Dashboard Body */
