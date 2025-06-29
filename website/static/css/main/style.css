@@ -478,20 +478,20 @@ header {
 
 /* Testimonials */
 .testimonial-content {
-    display: grid;
-    grid-template-columns: repeat(25%);
-    grid-auto-flow: column;
+    display: flex;
     gap: 20px;
     overflow-x: auto;
-    overscroll-behavior-inline: contain;
     scroll-behavior: smooth;
-    overflow-x: auto;
-    transition: all 0.5s ease;
     padding: 20px;
+    align-items: center;
+    overscroll-behavior-inline: contain;
+    justify-content: flex-start;
 }
 
 .testimonial-content .testimonial-card {
-    width: 300px;
+    flex: 0 0 auto;
+    max-width: 300px;
+    min-width: 300px;
     min-height: 200px;
     margin: auto;
     text-align: center;
@@ -516,7 +516,7 @@ header {
     padding: 10px;
     height: 50px;
     overflow: hidden;
-    color: var(--primary-color);
+    color: black;
 }
 
 .testimonial-content .testimonial-card .testimonial-card-text {
@@ -530,6 +530,7 @@ header {
     margin-block: auto;
     padding-block: 30px;
     height: 100%;
+    font-weight: bold;
 }
 
 .testimonial-content .testimonial-card .testimonial-card-rating {

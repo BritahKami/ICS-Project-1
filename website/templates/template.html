@@ -159,12 +159,12 @@
         <div class="section-header">
             <h2>What others say about us</h2>
         </div>
-        {% if reviewsData %}
-        {% for item in reviewsData %}
         <div class="testimonial-content">
-            <div class="testimonial-card">
+          {% if reviewsData %}
+          {% for item in reviewsData %}
+            <div class="testimonial-card reusable">
                 <div class="testimonial-card-name">
-                    <h2>{{item.fname}} {{item.lname}}</h2>
+                    <h4>{{item.fname}} {{item.lname}}</h4>
                 </div>
                 <div class="testimonial-card-text">
                     <p>{{item.comment}}</p>
@@ -173,13 +173,11 @@
                     <p>{{item.rating}}</p>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-        {% else %}
-        <div class="testimonial-content">
+            {% endfor %}
+            {% else %}
             <div class="testimonial-card reusable">
                 <div class="testimonial-card-name">
-                    <h2>Oops</h2>
+                    <h4>Oops</h4>
                 </div>
                 <div class="testimonial-card-text">
                     <p>There are no testimonials yet</p>
@@ -188,13 +186,13 @@
                     <p>There are no ratings yet</p>
                 </div>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
     </section>
     {% endblock %}
 
     <!--Frequently Asked Questions-->
-    {% block faq %}
+    {% block faqs %}
     <section class="faq container">
         <div class="section-header">
             <h2>Frequently Asked Questions</h2>

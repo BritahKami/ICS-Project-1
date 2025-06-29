@@ -95,16 +95,12 @@ def create_app():
             reviews=cursor.fetchall()
 
             # Dictionary to Store Retrieved Info
-            reviewsData={}
+            reviewsData=[]
             if reviews and reviews != None:
-                reviewsData.update({
-                    'fname' : reviews.fname,
-                    'lname' : reviews.lname,
-                    'comment' : reviews.comment,
-                    'rating' : reviews.rating
-                })
+                for review in reviews:
+                    reviewsData.append(review)
 
-            return reviewsData
+            return {'reviewsData' : reviewsData}
 
         # Handling Exceptions
         except Exception as e:
