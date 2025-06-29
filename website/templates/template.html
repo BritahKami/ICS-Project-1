@@ -153,6 +153,122 @@
     <!--Page Body-->
     {% block body %} {% endblock %}
 
+    <!--Testimonials-->
+    {% block reviews %}
+    <section class="testimonial container">
+        <div class="section-header">
+            <h2>What others say about us</h2>
+        </div>
+        {% if reviewsData %}
+        {% for item in reviewsData %}
+        <div class="testimonial-content">
+            <div class="testimonial-card">
+                <div class="testimonial-card-name">
+                    <h2>{{item.fname}} {{item.lname}}</h2>
+                </div>
+                <div class="testimonial-card-text">
+                    <p>{{item.comment}}</p>
+                </div>
+                <div class="testimonial-card-rating">
+                    <p>{{item.rating}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="testimonial-content">
+            <div class="testimonial-card reusable">
+                <div class="testimonial-card-name">
+                    <h2>Oops</h2>
+                </div>
+                <div class="testimonial-card-text">
+                    <p>There are no testimonials yet</p>
+                </div>
+                <div class="testimonial-card-rating">
+                    <p>There are no ratings yet</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+    {% endblock %}
+
+    <!--Frequently Asked Questions-->
+    {% block faq %}
+    <section class="faq container">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-content">
+            <div class="faq-content-question">
+                <h2>Leave a question here</h2>
+                <p>Feel free to engage with ask by asking any question you may have about our organization and our services, and we'll do always do our best to make sure you get an answer</p>
+                <div class="faq-content-question-form">
+                    <form action="/assets/php/question.php" method="POST">
+                        <textarea name="question" maxlength="200"></textarea>
+                        <input class="btn-2" style="font-weight: 600;" type="submit" name="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+            <div class="faq-content-card">
+                <!--FAQ Card-->
+                <div class="faq-card">
+                    <div class="faq-card-q">
+                        <h2>What services do you offer?</h2>
+                        <i onclick="showCardAns(event)" class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="faq-card-a">
+                        <p>
+                            Our platform offers a wide range of services from short-contract jobs through gigs, internships and jobs through our business affiliations as well as student project collaboration opportunities
+                        </p>
+                    </div>
+                </div>
+
+                <!--FAQ Card-->
+                <div class="faq-card">
+                    <div class="faq-card-q">
+                        <h2>How does everything work?</h2>
+                        <i onclick="showCardAns(event)" class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="faq-card-a">
+                        <p>
+                            For students, once enrolled, you can complete your dashboard and then you'll be able to add gigs from your dashboard or apply for vacancies through the listings pages.<br>
+                            For business profiles, you can add new jobs directly from your dashboard, where you'll also be able to pool shortlisted student profiles and manage your applicants
+                        </p>
+                    </div>
+                </div>
+
+                <!--FAQ Card-->
+                <div class="faq-card">
+                    <div class="faq-card-q">
+                        <h2>How are we guaranteed of quality work?</h2>
+                        <i onclick="showCardAns(event)" class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="faq-card-a">
+                        <p>
+                            We have a team of experienced professionals who are dedicated to providing you with the best quality work. We encourage you to take the step to work with us in ensuring seamless job search and recruitment
+                        </p>
+                    </div>
+                </div>
+
+                <!--FAQ Card-->
+                <div class="faq-card">
+                    <div class="faq-card-q">
+                        <h2>How are payments done?</h2>
+                        <i onclick="showCardAns(event)" class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="faq-card-a">
+                        <p>
+                            Payments are only functional for students with gigs as they are a monetized feature. On completion and approval of a gig, your money will always be disbursed straight to your registered account
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+
     <!--Footer-->
     {% block footer %}
     <footer class="footer">
