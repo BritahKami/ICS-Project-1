@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, flash
 
 from utils import errhandler, mail as MAIL
 from config import env
@@ -74,6 +74,50 @@ def create_app():
             message = "night"
 
         return {"current_message": message}
+
+    @app.context_processor
+    def inject_reviews():
+        # Importing Database Connector File
+        from website.database.connector import dbconnector
+
+        # Initializing Database Connector
+        conn=dbconnector()
+
+        # Querying DB for User Reviews
+        try:
+            # Initializing Cursor
+            cursor=conn.cursor(dictionary=True)
+
+            # Querying for Reviews
+            cursor.execute("SELECT * FROM reviews")
+
+            # Storing Result
+            reviews=cursor.fetchall()
+
+            # Dictionary to Store Retrieved Info
+            reviewsData={}
+            if reviews and reviews != None:
+                reviewsData.update({
+                    'fname' : reviews.fname,
+                    'lname' : reviews.lname,
+                    'comment' : reviews.comment,
+                    'rating' : reviews.rating
+                })
+
+            return reviewsData
+
+        # Handling Exceptions
+        except Exception as e:
+            # Logging Error
+            errhandler(e, 'server/init')
+
+            # Returning Message
+            flash('An error occurred fetching user reviews', category='Error')
+
+        #Closing Cursor
+        finally:
+            if 'cursor' in locals() and cursor is not None:
+                cursor.close()
 
     # Returning App Instance
     return app
