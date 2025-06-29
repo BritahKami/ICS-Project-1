@@ -1,117 +1,162 @@
-body{
-    padding: 0;
-    margin: 0;
+/* Header & Navbar */
+header {
+    background-image: url(../../images/about/about-hero.png);
+    height: 70vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
 }
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-/* styling header */
-header{
-    background-color: maroon;
-    width: 100%;
-    height: 100px;
-    margin: 0;
-    padding: 10px 0;
-}
-nav ul{
-    text-align: center;
-}
-nav ul li{
-    display: inline;
-    margin: 0 20px;
-}
-nav ul li a{
-    text-decoration: none;
+
+/* Call to Action */
+.cta {
+    /* border: 1px solid white; */
+    width: fit-content;
     color: white;
-    font-weight: bold;
 }
-nav ul li a:hover{
-    color: gray;
-}
-/* styling about us section */
-#about_container{
-    justify-content:space-evenly;
-    margin-bottom: 40px;
-    gap: 2rem;
-    padding: 2rem;
-}
-#about_description{
-    display: flex;
-    justify-content:space-evenly;
-    /* flex-wrap: wrap; */
-    margin-bottom: 30px;
-    gap: 1rem;
-    padding: 1rem;
-    /* align-items: flex-start; */
-}
- img {
-    width: 300px;
-    height: 250px;
-    display: block;
-    margin-top: 1rem;
-}
-#about_title{
-    text-align: center;
-}
-h2{
-    margin-left: 100px;
-}
-#about_description p{
-    margin-right: 120px;
-}
-/* contact us form stylings */
-input{
-    width: 75%;
-    margin: 7px 0;
-    padding: 8px 18px;
-    border-radius: 5px;
-}
-#abutton{
-    background-color: bisque;
-    cursor: pointer;
-    margin: 7px 0;
-    border-radius: 5px;
-    width: 15%;
-}
-#about_form{
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-h3{
-    margin-left: 55px;
-}
-#about_form form{
-    padding: 30px;
+
+.cta .btn-2 {
+    background-color: var(--secondary-color);
+    border: none;
+    color: var(--white);
+    font-weight: 600;
+    padding: 7px 10px;
     border-radius: 10px;
-    width: 600px;
-    height: 550px;
 }
-textarea{
-    width: 75%;
+
+.cta .btn-2:hover {
+    background-color: var(--white);
+    color: black;
+}
+
+.hero-major .hero-card .hero-content {
+    max-width: 30%;
+    margin: 10px;
+    color: black;
     padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    font-size: 16px;
-    resize: none;
-    height: 150px;
+    margin-top: 150px;
 }
-/* Styling footer */
-footer{
-    background-color: maroon;
-    height: 75px;
+
+.hero-major .hero-card .hero-content h2 {
+    color: black;
+}
+
+.hero-major .hero-card .hero-content p {
+    color: black;
+}
+
+/* Introduction */
+.intro .intro-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.intro .intro-content .intro-content-text {
+    width: 50%;
+    padding: 10px;
+    margin-block: auto;
+}
+
+.intro .intro-content .intro-content-text h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.intro .intro-content .intro-content-text p {
+    margin-bottom: 30px;
+}
+
+.intro .intro-content .intro-content-text p mark {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 2px;
+}
+
+.intro .intro-content .intro-content-text button {
+    width: 80px;
+    display: inline;
+    padding: 7px 10px;
+    background-color: black;
+    color: white;
+    border: none;
+}
+
+.intro .intro-content .intro-content-text .btn-2 {
+    background-color: var(--secondary-color);
+    border: none;
+    color: var(--white);
+}
+
+.intro .intro-content .intro-content-text button:hover {
+    background-color: black;
+    color: var(--white);
+}
+
+.intro .intro-content .intro-content-text .btn-2:hover {
+    color: white;
+}
+
+.intro .intro-content .intro-content-image {
+    width: 50%;
+    padding: 10px;
+}
+
+.intro .intro-content .intro-content-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Story */
+.story .story-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.story .story-content .story-content-timeline {
+    width: 100%;
+    padding: 10px;
+}
+
+.story .story-content .story-content-timeline ul {
+    list-style-type: none;
+    padding: 10px;
+}
+
+.story .story-content .story-content-timeline ul li {
+    margin-bottom: 20px;
+    border-left: 1px solid var(--secondary-color);
+    padding: 10px;
+}
+
+.story .story-content .story-content-timeline ul li b {
+    color: var(--secondary-color);
+}
+
+/* Cornerstones */
+.cornerstone .cornerstone-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cornerstone .cornerstone-content .cornerstone-card {
+    max-width: 300px;
+    margin: 20px auto;
     text-align: center;
+    color: var(--secondary-color);
 }
-footer a{
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
+
+.cornerstone .cornerstone-content .cornerstone-card i {
+    font-size: 40px;
 }
-footer p{
-    color: white;
-}
-footer a:hover{
-    color: gray;
+
+/* Media Queries*/
+@media (width < 750px) {
+    .intro .intro-content .intro-content-text {
+        width: 100%;
+    }
+
+    .intro .intro-content .intro-content-image {
+        width: 100%;
+    }
 }

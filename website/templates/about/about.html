@@ -1,57 +1,256 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/about/about.css')}}">
-    <title>About</title>
-</head>
-<body>
-    <header>
-        <nav>
-           <ul>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/gigs">Gigs Center</a></li>
-            <li><a href="/jobs">Job Listings</a></li>
-            <li><a href="/reviews">Reviews</a></li>
-          </ul>
-        </nav>
-    </header>
+<!--Template Reference-->
+{% extends 'template.html' %}
 
-    <div id="about_container">
-     <div id="about_title"><h1>About Us</h1></div>
-      <div><h2>CareerConnect</h2> </div>
-     <div id="about_description">
-        <p>CareerConnect is a leading job resource provider,<br>
-             dedicated to helping students achieve smooth <br>school-to-work transition
-              and businesses to make the <br>most of their hiring phases.
-            In addition, the platform also<br> helps students earn a
-        living from gigs and earn skills <br>by engaging in collaborative projects.</p>
-        <img src="{{url_for('static', filename='images/about/about.jpg')}}" alt="About Us image">
-     </div>
-     <div><h3>Contact us</h3></div>
-     <div id="about_form">
-          <form>
-                <label for="fname">First Name</label> <br>
-            <input type="text" id="fname" name="fname" required><br>
+<!--Document Title-->
+{% block title%}
+CareerConnect | About Us
+{% endblock %}
 
-            <label for="lname">Last Name</label><br>
-            <input type="text" id="lname" name="fname" required><br>
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/about/about.css')}}">
+{% endblock %}
 
-            <label for="address">Email Address</label><br>
-            <input type="email" id="address" name="address" required><br>
-
-            <label for="message">Your Message</label><br>
-            <textarea id="message" name="message" rows="5" cols="40" placeholder="Write your message here" required></textarea><br>
-
-             <button id="abutton">Submit</button>
-          </form>
-     </div>
+<!--Header-->
+{% block header %}
+<!--Header & Navbar-->
+<header class="header">
+    <nav class="navbar">
+    <div class="nav-logo">
+        <p onclick="window.location.href='/'">CareerConnect</p>
     </div>
-     <footer>
-        <a href="mukamibridget7@gmail.com">school.work.transition@gmail.com</a><br>
-           <p>&copy; copyright reserved</p>
-    </footer>
-</body>
-</html>
+    <div class="nav-links">
+        <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/gigs">Gigs Center</a></li>
+        <li><a href="/jobs">Job Listings</a></li>
+        <li><a href="/project">Collabs</a></li>
+        <li><a href="/reviews">Reviews</a></li>
+        </ul>
+    </div>
+
+    {% if not userID %}
+    <div class="nav-actions">
+        <button onclick="window.location.href='/signin'">Sign in</button>
+        <button onclick="window.location.href='/signup'">Sign up</button>
+    </div>
+    {% else %}
+    <div class="nav-actions">
+        <button onclick="window.location.href='/dashboard'">
+        <i class='bx bx-user'></i> dash
+        </button>
+        <button onclick="window.location.href='/logout'">
+        <i class='bx bx-log-out'></i>
+        </button>
+    </div>
+    {% endif %}
+    </nav>
+
+    <!--CTA-->
+    <div class="cta">
+    <h2>We Are CareerConnect</h2>
+    <p>
+        Discover our story, mission, and values that drive us to deliver exceptional services
+    </p>
+    <button class="btn-2">Join us</button>
+    </div>
+</header>
+{% endblock %}
+
+<!--Body ID-->
+{% block bodyid %}
+{% endblock %}
+
+{% block body%}
+<main class="main">
+
+    <!--Introduction-->
+    <section class="intro container">
+
+        <!--Introduction Content-->
+        <div class="intro-content">
+            <div class="intro-content-text">
+                <h2>CareerConnect?</h2>
+                <p>
+                At CareerConnect, we specialize in providing <b>jobs, internships</b> and <b>collaboration opportunities</b> to students, tailored to meet their diverse courses. With our inclusion of reputable businesses, our mission is to deliver services that <mark>inspires, transforms, and empowers</mark>
+                </p>
+                <button class="btn-2">Explore</button>
+                <button class="btn-2">Join Us</button>
+            </div>
+            <div class="intro-content-image">
+                <img src="{{url_for('static', filename='images/about/about-1.png')}}" alt="About Us">
+            </div>
+        </div>
+    </section>
+
+    <!--Story-->
+    <section class="story container">
+        <div class="section-header">
+            <h2>Our Founding Story</h2>
+        </div>
+
+        <!--Story Content-->
+        <div class="story-content">
+            <!--Story timeline-->
+            <div class="story-content-timeline">
+                <ul>
+                    <li><b>2018</b> <br><span>The journey began with a simple vision: to help students make the most of their knowledge and skills in their respective industries. The company launched with a small but dedicated team, offering skills marketing service through gigs</span></li>
+
+                    <li><b>2019</b> <br><span>As demand grew, the platform expanded to include student-focused project collaborations features. A user-friendly website was introduced, making it easier for all students to collaborate and interact with their peers.</span></li>
+
+                    <li><b>2020</b> <br><span>Despite global challenges, the company thrived by adapting to remote work trends. Many businesses adopted similar operation styles, and this led to our first onboarding of businesses onto the platform</span></li>
+
+                    <li><b>2021</b> <br><span>Freelancer recruitment skyrocketed, and specialized student roles adaptive to different careers became a core service. A dedicated customer support team was established to improve client experience.</span></li>
+
+                    <li><b>Present day</b> <br><span>Now a leading job service provider, the company continues to innovate with advanced AI tools, personalized content solutions, and a vast network of professional students. With thousands of satisfied clients, the future looks promising!</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!--Cornerstone-->
+    <section class="cornerstone container">
+        <div class="section-header">
+            <h2>The CareerConnect Cornerstones</h2>
+        </div>
+
+        <!--Cornerstone Content-->
+        <div class="cornerstone-content">
+            <div class="cornerstone-card cornerstone-content-mission">
+                <i class='bx bx-cross'></i>
+                <h2>Our mission</h2>
+                <p>
+                    To provide exceptional job services that inspire, transform, and empower our clients. We strive to deliver premium opportunities that meets the highest standards of quality and professionalism.
+                </p>
+            </div>
+            <div class="cornerstone-card cornerstone-content-vision">
+                <i class='bx bx-bullseye'></i>
+                <h2>Our vision</h2>
+                <p>
+                    To be the leading student job service provider, known for our dear commitment to excellence, innovation, and customer satisfaction on a local and worldwide scale.
+                </p>
+            </div>
+            <div class="cornerstone-card cornerstone-content-values">
+                <i class='bx bx-shield-quarter'></i>
+                <h2>Our values</h2>
+                <p>
+                    Integrity, professionalism, creativity, and collaboration are the core values that guide our work at CareerConnect. We believe in honesty, transparency, and ethical conduct in all our interactions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!--Testimonials-->
+    <section class="testimonial container">
+        <div class="section-header">
+            <h2>What others say about us</h2>
+        </div>
+        {% if reviewsData %}
+        {% for item in reviewsData %}
+        <div class="testimonial-content">
+            <div class="testimonial-card">
+                <div class="testimonial-card-name">
+                    <h2>{{item.fname}} {{item.lname}}</h2>
+                </div>
+                <div class="testimonial-card-text">
+                    <p>{{item.comment}}</p>
+                </div>
+                <div class="testimonial-card-rating">
+                    <p>{{item.rating}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="testimonial-content">
+            <div class="testimonial-card reusable">
+                <div class="testimonial-card-name">
+                    <h2>Oops</h2>
+                </div>
+                <div class="testimonial-card-text">
+                    <p>There are no testimonials yet</p>
+                </div>
+                <div class="testimonial-card-rating">
+                    <p>There are no ratings yet</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+
+    <!--Frequently Asked Questions-->
+    <section class="faq container">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-content">
+            <div class="faq-content-question">
+                <h2>Leave a question here</h2>
+                <p>Feel free to engage with ask by asking any question you may have about our organization and our services, and we'll do always do our best to make sure you get an answer</p>
+                <div class="faq-content-question-form">
+                    <form action="/assets/php/question.php" method="POST">
+                        <textarea name="question" maxlength="200"></textarea>
+                        <input class="btn-2" style="font-weight: 600;" type="submit" name="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+
+            <div class="faq-content-card">
+                <!--FAQ Card-->
+                <div class="faq-card">
+                    <div class="faq-card-q">
+                        <h2>What services do you offer?</h2>
+                        <i onclick="showCardAns(event)" class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="faq-card-a">
+                        <p>
+                            Our platform offers a wide range of services from short-contract jobs through gigs, internships and jobs through our business affiliations as well as student project collaboration opportunities
+                        </p>
+                    </div>
+                </div>
+
+                <!--FAQ Card-->
+                <div class="faq-card">
+                    <div class="faq-card-q">
+                        <h2>How does everything work?</h2>
+                        <i onclick="showCardAns(event)" class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="faq-card-a">
+                        <p>
+                            For students, once enrolled, you can complete your dashboard and then you'll be able to add gigs from your dashboard or apply for vacancies through the listings pages.<br>
+                            For business profiles, you can add new jobs directly from your dashboard, where you'll also be able to pool shortlisted student profiles and manage your applicants
+                        </p>
+                    </div>
+                </div>
+
+                <!--FAQ Card-->
+                <div class="faq-card">
+                    <div class="faq-card-q">
+                        <h2>How are we guaranteed of quality work?</h2>
+                        <i onclick="showCardAns(event)" class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="faq-card-a">
+                        <p>
+                            We have a team of experienced professionals who are dedicated to providing you with the best quality work. We encourage you to take the step to work with us in ensuring seamless job search and recruitment
+                        </p>
+                    </div>
+                </div>
+
+                <!--FAQ Card-->
+                <div class="faq-card">
+                    <div class="faq-card-q">
+                        <h2>How are payments done?</h2>
+                        <i onclick="showCardAns(event)" class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="faq-card-a">
+                        <p>
+                            Payments are only functional for students with gigs as they are a monetized feature. On completion and approval of a gig, your money will always be disbursed straight to your registered account
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
