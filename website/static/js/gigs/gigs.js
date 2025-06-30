@@ -1,11 +1,15 @@
-const addgigsbutton = document.querySelector('.option');
-const gigsContainer= document.querySelector('.addgigs_container');
+const add_gig_btn= document.getElementById('add_gig_btn');
+const addgigs_container= document.querySelector('.addgigs_container');
+const close_gig_btn= document.getElementById('close_gig_btn');
 
-addgigsbutton.addEventListener('click', function(){
-    if(gigsContainer.style.display==='none'|| gigsContainer.style.display===''){
-        gigsContainer.style.display='block';
-    }
-    else{
-        gigsContainer.style.display= 'none';
-    }
+add_gig_btn.addEventListener('click', () =>{
+
+    addgigs_container.classList.add('show');
+
+});
+
+close_gig_btn.addEventListener('click', () =>{
+
+    addgigs_container.classList.remove('show');
+
 });
