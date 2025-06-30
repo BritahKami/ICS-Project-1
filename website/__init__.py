@@ -17,11 +17,13 @@ def create_app():
     from website.assets.pages.pages import pages
     from website.assets.auth.auth import auth
     from website.assets.pages.dashboards import dash
+    from website.assets.processes.processes import process
 
     # Registering Blueprints
     app.register_blueprint(pages, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(dash, url_prefix='/')
+    app.register_blueprint(process, url_prefix='/')
 
     """
     Flask Mail
