@@ -1,0 +1,138 @@
+<!--Template Reference-->
+{% extends 'template.html' %}
+
+<!--Document Title-->
+<!-- {% block title%}
+{% endblock %} -->
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/contact/contact.css')}}">
+{% endblock %}
+
+
+<!--Header & Navbar-->
+{% block header %}
+<header class="header">
+    <nav class="navbar">
+    <div class="nav-logo">
+        <p onclick="window.location.href='/'">CareerConnect</p>
+    </div>
+    <div class="nav-links">
+        <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/gigs">Gigs Center</a></li>
+        <li><a href="/jobs">Job Listings</a></li>
+        <li><a href="/project">Collabs</a></li>
+        <li><a href="/reviews">Reviews</a></li>
+        </ul>
+    </div>
+
+    {% if not userID %}
+    <div class="nav-actions">
+        <button onclick="window.location.href='/signin'">Sign in</button>
+        <button onclick="window.location.href='/signup'">Sign up</button>
+    </div>
+    {% else %}
+    <div class="nav-actions">
+        <button onclick="window.location.href='/dashboard'">
+        <i class='bx bx-user'></i> dash
+        </button>
+        <button onclick="window.location.href='/logout'">
+        <i class='bx bx-log-out'></i>
+        </button>
+    </div>
+    {% endif %}
+    </nav>
+
+    <!--CTA-->
+    <div class="cta">
+    <!--Text-->
+    <section class="text container">
+        <div class="text-content">
+            <!--WhatsApp-->
+            <script src="https://static.elfsight.com/platform/platform.js" async></script>
+            <div class="elfsight-app-3ee5d069-6520-4819-a895-ce30da363e26" data-elfsight-app-lazy></div>
+        </div>
+
+        <div class="text-panel"></div>
+    </section>
+    </div>
+</header>
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+
+<!--Adding a Testimonial-->
+<section class="addTest container">
+    <div class="addTest-content">
+        <div class="addTest-form">
+            <form action="/contact" method="POST">
+                <div class="form-name">
+                    <div class="form-name-fname">
+                        <label for="name">First name</label>
+                        <input type="text" id="fname" name="fname" placeholder="Enter your first name">
+                    </div>
+                    <div class="form-name-lname">
+                        <label for="name">Last name</label>
+                        <input type="text" id="lname" name="lname" placeholder="Enter your last name">
+                    </div>
+                </div>
+                <div class="form-text">
+                    <label for="testimonial">Comments</label>
+                    <textarea id="testimonial" name="comment" placeholder="Tell us what you think about our services"></textarea>
+                </div>
+                <div class="form-rating">
+                    <label for="rating">Rating (0-100)</label>
+                    <input type="number" id="rating" name="rating" min="0" max="100" maxlength="3" placeholder="Enter your rating">
+                </div>
+                <div class="form-button">
+                    <button type="submit" class="btn-2">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="testimonial-content">
+          {% if reviewsData %}
+          {% for item in reviewsData %}
+            <div class="testimonial-card reusable">
+                <div class="testimonial-card-name">
+                    <h4>{{item.name}} {{item.lname}}</h4>
+                </div>
+                <div class="testimonial-card-text">
+                    <p>{{item.comment}}</p>
+                </div>
+                <div class="testimonial-card-rating">
+                    {% autoescape false %}
+                    <p>{{item.stars}}</p>
+                    {% endautoescape %}
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="testimonial-card reusable">
+                <div class="testimonial-card-name">
+                    <h4>Oops</h4>
+                </div>
+                <div class="testimonial-card-text">
+                    <p>There are no testimonials yet</p>
+                </div>
+                <div class="testimonial-card-rating">
+                    <p>There are no ratings yet</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+<!--Reviews-->
+{% block reviews %}
+{% endblock %}
+
+<!--FAQs-->
+{% block faqs %}
+{% endblock %}
