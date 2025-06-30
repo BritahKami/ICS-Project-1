@@ -77,6 +77,32 @@ def create_app():
 
     @app.context_processor
     def inject_reviews():
+        # Rendering stars based on rating
+        def starsprocess(rating):
+            stars = ''
+
+            if rating < 15:
+                stars = '<i class="ri-star-half-line"></i>'
+            elif rating < 25:
+                stars = '<i class="ri-star-fill"></i>'
+            elif rating < 35:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-half-line"></i>'
+            elif rating < 45:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
+            elif rating < 55:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-line"></i>'
+            elif rating < 65:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
+            elif rating < 75:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-line"></i>'
+            elif rating < 85:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
+            elif rating < 95:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-line"></i>'
+            else:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
+            return stars
+
         # Importing Database Connector File
         from website.database.connector import dbconnector
 
@@ -98,6 +124,7 @@ def create_app():
             reviewsData=[]
             if reviews and reviews != None:
                 for review in reviews:
+                    review['stars'] = starsprocess(review['rating'])
                     reviewsData.append(review)
 
             return {'reviewsData' : reviewsData}

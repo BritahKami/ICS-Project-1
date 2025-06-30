@@ -170,7 +170,9 @@
                     <p>{{item.comment}}</p>
                 </div>
                 <div class="testimonial-card-rating">
-                    <p>{{item.rating}}</p>
+                    {% autoescape false %}
+                    <p>{{item.stars}}</p>
+                    {% endautoescape %}
                 </div>
             </div>
             {% endfor %}
