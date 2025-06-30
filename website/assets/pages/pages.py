@@ -44,7 +44,7 @@ def contact():
         rating = request.form.get('rating')
 
         # Validating Entries
-        if not (fname or lname or comment or rating):
+        if not (fname and lname and comment and rating):
             # Error Message
             flash('Kindly fill in all fields', category='error')
 
