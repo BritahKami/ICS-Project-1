@@ -1,6 +1,9 @@
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, request, redirect, url_for, flash
+from website.database.connector import dbconnector
+from utils import errhandler
 
 pages = Blueprint('pages', __name__)
+conn = dbconnector()
 
 # Homepaage
 @pages.route('/')
@@ -31,9 +34,55 @@ def addgigs():
 def jobs():
     return render_template('jobs/jobs.html')
 
-@pages.route('/contact')
+# Contact Page
+@pages.route('/contact', methods=['GET', 'POST'])
 def contact():
-    return render_template('other/comingsoon.html')
+    if request.method == 'POST':
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        comment = request.form.get('comment')
+        rating = request.form.get('rating')
+
+        # Validating Entries
+        if not (fname or lname or comment or rating):
+            # Error Message
+            flash('Kindly fill in all fields', category='error')
+
+            # Redirecting
+            return redirect(request.url)
+
+        # Populating Database
+        try:
+            # Initializing Cursor
+            cursor = conn.cursor(dictionary=True)
+
+            # Executing Query
+            cursor.execute("INSERT INTO reviews (fname, lname, comment, rating) VALUES (%s, %s, %s, %s)", (fname, lname, comment, rating))
+
+            # Committing to Database
+            conn.commit()
+
+            # Success Message
+            flash('Your reviews have been added successfully', category="success")
+
+            # Redirecting
+            return redirect(url_for('pages.homepage'))
+
+        # Handling Exceptions
+        except Exception as e:
+            # Logging Error
+            errhandler(e, 'pages/contact')
+
+            # Error Message
+            flash('An error occurred processing your review. Try again later', category='error')
+
+        # Closing Cursor
+        finally:
+            if 'cursor' in locals() and cursor is not None:
+                cursor.close()
+
+
+    return render_template('contact/contact.html')
 
 @pages.route('/blog')
 def blog():
