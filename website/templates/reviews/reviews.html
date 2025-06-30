@@ -1,7 +1,7 @@
 {% extends 'template.html' %}
 
 {% block title %}
-CareerConnect | Reviews
+CareerConnect | Review
 {% endblock %}
 
 {% block css %}
@@ -70,18 +70,19 @@ CareerConnect | Reviews
 
             </div>
 
+            {% for review in reviews %}
+            <div class="column">
+                <div class="testimonial">
+                    <img src="{{ url_for('static', filename='images/reviews/Organization1.jpg') }}" alt="Image profile">
+                    <div class="name">{{ review.fname }} {{ review.lname }}</div>
+                    <p id="sentence">{{ review.comment }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
       </div>
 
     </div>
 </section>
 
-{% endblock %}
-
-<!--Reviews-->
-{% block reviews %}
-{% endblock %}
-
-<!--FAQs-->
-{% block faqs %}
 {% endblock %}

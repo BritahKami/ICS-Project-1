@@ -26,11 +26,12 @@ header {
 .row{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
+
 }
 .column{
-    flex: 33.33%;
-     max-width: 33.33%;
+    flex: 0 0 30%;
+     max-width: 30%;
      box-sizing: border-box;
      padding: 15px;
 }
@@ -38,6 +39,8 @@ header {
     background: #c6c3c3;
     padding: 30px;
     border-radius: 20px;
+    text-align: center;
+    height: 100%;
 }
 .testimonial img{
     width: 100px;
