@@ -22,9 +22,28 @@ def comingsoon():
 def about():
     return render_template('about/about.html')
 
-@pages.route('/gigs')
+@pages.route('/gigs', methods=['GET'])
 def gigs():
-    return render_template('gigs/gigs.html')
+    try:
+        cursor= conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM gigs")
+        gigs=cursor.fetchall()
+
+        if not gigs or gigs==None:
+            flash("No gigs to show", category="error")
+
+            return render_template('gigs/gigs.html')
+        return render_template('gigs/gigs.html', gigs=gigs)
+    
+    except Exception as e:
+        errhandler(e, 'pages/gigs')
+        flash('An error has occurred.', category="error")
+        return redirect(url_for('pages.homepage'))
+    
+    finally:
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
+
 
 @pages.route('/addgigs')
 def addgigs():
@@ -100,13 +119,75 @@ def developers():
 def faqs():
     return render_template('other/comingsoon.html')
 
-@pages.route('/reviews')
-def reviews():
-    return render_template('reviews/reviews.html')
-
-@pages.route('/add_reviews')
+@pages.route('/add_reviews', methods=['GET', 'POST'])
 def add_reviews():
+    if request.method == 'POST':
+    
+        user = session.get('userID')
+        # profile validation
+        if not user or user==None:
+            flash('Please create an account first', category='error')
+
+            return redirect(url_for('auth.signup'))
+        try: 
+        #capturing entires
+            fname = request.form.get('fname')
+            lname = request.form.get('lname')
+            comment = request.form.get('comment')
+
+            if not (fname and lname and comment):
+                flash('Kindly fill in all fields', category='error')
+
+                return redirect(request.url)
+           
+        # inserting into database
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("INSERT INTO reviews(userID,fname, lname, comment) VALUES (%s, %s, %s, %s)", (user,fname, lname, comment))
+            conn.commit()
+
+            flash("Thank you for your review", category='success')
+
+            return redirect(url_for('pages.reviews'))
+            
+        # Log the error
+        except Exception as e:
+            errhandler(e, 'pages/addreviews')
+            flash("An error has occured", category='error')
+            return redirect(url_for('pages.homepage'))
+        
+        # Close cursor
+        finally:
+            if 'cursor' in locals() and cursor is not None:
+                cursor.close()
+
     return render_template('reviews/addreviews.html')
+
+
+@pages.route('/reviews', methods=['GET'])
+def reviews():
+    try:
+        # retrieving from database
+        cursor= conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM reviews")
+        reviews=cursor.fetchall()
+
+        #check if there are reviews in the database
+        if not reviews or reviews==None:
+            flash("No reviews to show", category='error')
+            
+            return render_template('reviews/reviews.html')
+        return render_template('reviews/reviews.html', reviews=reviews)
+    
+    except Exception as e:
+        errhandler(e, 'pages/reviews')
+        flash("An error has occured", category='error')
+
+        return redirect(url_for('pages.homepage'))
+    
+    finally:
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
+
 
 @pages.route('/project')
 def project():
