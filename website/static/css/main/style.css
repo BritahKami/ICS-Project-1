@@ -524,6 +524,15 @@ header {
     height: 100px;
     padding: 10px;
     overflow: hidden;
+    overflow-y: auto;
+    scroll-snap-type: mandatory;
+    scroll-behavior: smooth;
+}
+
+.testimonial-content .testimonial-card .testimonial-card-text::-webkit-scrollbar {
+    width: 2px;
+    background-color: transparent;
+    color: var(--white);
 }
 
 .testimonial-content .testimonial-card .testimonial-card-text p {
