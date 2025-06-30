@@ -47,7 +47,7 @@ def logout():
             flash("An unexpected error occured. Please try again later", category='error')
 
             # Redirecting
-            return redirect(url_for('views.homepage'))
+            return redirect(url_for('pages.homepage'))
 
         finally:
             #Redirecting
@@ -292,14 +292,174 @@ def signup():
 
             # Error Message
             flash("An unexpected error occured. Please try again later", category='error')
-            return redirect(url_for('views.homepage'))
+
+            # Redirecting
+            return redirect(url_for('pages.homepage'))
 
         # Closing Cursor
         finally:
             if 'cursor' in locals() and cursor is not None:
                 cursor.close()
 
-    return render_template('auth/signup.html')
+    # Capturing Country Codes
+    try:
+        # Initializing Cursor
+        cursor = conn.cursor(dictionary=True)
+
+        # Querying Database
+        cursor.execute("SELECT * FROM countries")
+        countries = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM industries")
+        industries = cursor.fetchall()
+
+        # List Objects for Retrieved Data
+        countriesData = []
+        industriesData = []
+
+        # Verifying Retrieved Data
+        if ((not (countries)) or (countries == None)) or ((not (industries)) or (industries == None)):
+            # Error Message
+            flash("An error occured retrieving the list of countries and industries")
+
+        # Appending Countries to List
+        for country in countries:
+            countriesData.append(country)
+
+        # Appending Industries to List
+        for industry in industries:
+            industriesData.append(industry)
+
+    except Exception as e:
+        # Logging Error
+        errhandler(e, 'auth/signup')
+
+        # Error Message
+        flash("An unexpected error occurred. Please try again later", category='error')
+
+        # Redirecting
+        return redirect(request.url)
+
+    finally:
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
+
+    # Rendering Template
+    return render_template(
+        'auth/signup.html',
+        countries = countriesData,
+        industries = industriesData
+    )
+
+# Businesses Signup Logic
+@auth.route('/signup/business', methods=['POST'])
+def signupBusiness():
+    # Validating Request Method
+    if request.method == 'POST':
+        # Clearing Sessions
+        session.clear()
+
+        # Capturing Form Entries
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        uname = request.form.get('uname')
+        gender = request.form.get('gender')
+
+        bname = request.form.get('bname')
+        email = request.form.get('email')
+
+        origin = request.form.get('origin')
+        city = request.form.get('city')
+        phone = request.form.get('phone')
+
+        industry = request.form.get('industry')
+
+        password = request.form.get('password')
+        confpass = request.form.get('confpass')
+        role = request.form.get('role')
+
+        # Profile Picture
+        # profilepic = picHandler()
+
+        # Validating Entries
+        if not (fname and lname and uname and gender and bname and email and origin and city and phone and password and confpass and role):
+            # Error Message
+            flash("Please fill in all fields")
+
+            # Redirecting
+            return redirect(request.url)
+
+        try:
+            # Query Cursor
+            cursor = conn.cursor(dictionary=True)
+
+            # Checking If The User Already Exists
+            cursor.execute("SELECT * FROM users WHERE uname = %s", (uname,))
+            user = cursor.fetchone()
+
+            if user and user != None:
+                # Error Message
+                flash("An active similar user profile already exists", category='error')
+
+                # Redirecting
+                return redirect(url_for('auth.signin'))
+
+            # Checking If The Business Already Exists
+            cursor.execute("SELECT * FROM businesses WHERE email = %s", (email,))
+            business = cursor.fetchone()
+
+            if business and business != None:
+                # Error Message
+                flash("An active similar business profile already exists", category='error')
+
+                # Redirecting
+                return redirect(url_for('auth.signin'))
+
+            # Validating Passwords Match
+            if (password != confpass):
+                flash("Passwords do not match", category='error')
+                return redirect(request.url)
+
+            # Hashing Password
+            hash = generate_password_hash(password)
+
+            # Inserting User Into Database
+            cursor.execute("INSERT INTO users (fname, lname, uname, email, gender, password, role) VALUES (%s, %s, %s, %s, %s, %s, %s)", (fname, lname, uname, email, gender, hash, role))
+
+            # Getting Last Inserted userID
+            user = cursor.lastrowid
+
+            # Inserting Business into Database
+            cursor.execute("INSERT INTO businesses (bname, email, country, city, phone, industry, userID) VALUES (%s, %s, %s, %s, %s, %s, %s)", (bname, email, origin, city, phone, industry, user))
+
+            # Committing Transactions
+            conn.commit()
+
+            #Success Message
+            flash("Business account created successfully", category='success')
+
+            #Redirecting
+            return redirect(url_for('auth.signin'))
+
+        except Exception as e:
+            # Transaction Rollback
+            conn.rollback()
+
+            # Logging Error
+            logger = 'auth/signup-business'
+            errhandler(e, logger)
+
+            # Error Message
+            flash("An unexpected error occured. Please try again later", category='error')
+            return redirect(url_for('pages.homepage'))
+
+        # Closing Cursor
+        finally:
+            if 'cursor' in locals() and cursor is not None:
+                cursor.close()
+
+    else:
+        flash("Invalid access method", category='error')
 
 # Portal logic
 @auth.route('/controller')
