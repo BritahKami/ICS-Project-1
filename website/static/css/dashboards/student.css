@@ -230,6 +230,50 @@ textarea {
     min-height: 70px;
 }
 
+/* addproject stylings */
+#pbutton {
+    background-color: bisque;
+    cursor: pointer;
+    margin: 7px 0;
+    border-radius: 5px;
+    width: 15%;
+}
+#close_project_btn {
+    background-color: bisque;
+    cursor: pointer;
+    margin: 7px 0;
+    border-radius: 5px;
+    width: 15%;
+}
+
+.addproject_container {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   opacity: 0;
+   pointer-events: none;
+   transition: opacity 0.3s ease;
+   background-color: rgba(0, 0, 0, 0.4); 
+    z-index: 9999;
+}
+.addproject_container.show{
+   opacity: 1;
+   pointer-events: auto; 
+}
+.addproject_form {
+    background-color: #c6c3c3;
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    width: 500px;
+    max-width: 100%;
+}
+
 
 /* Dashboard Body */
 /* .dash-body {} */

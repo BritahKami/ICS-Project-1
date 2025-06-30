@@ -138,18 +138,19 @@ Dashboard | Student
                             <div class="card-content">
                                 <!--Card Title-->
                                 <div class="card-content-title">
-                                    <h3>Project Documentation</h3>
+                                    <h3>Add a Project</h3>
                                 </div>
 
                                 <!--Card Description-->
                                 <div class="card-content-description">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, voluptate dolorum dolorem nam nemo maxime. Dolor aspernatur dignissimos error</p>
+                                    <p>Projects are a powerful way to apply your skills and bring ideas to life. They allow you to collaborate, solve real-world problems, and build a portfolio that can impress future employers or clients.</p>
                                 </div>
 
                                 <!--Card Rates & Actions-->
                                 <div class="card-content-options">
-                                    <span>KES <b>100</b>/hr</span>
-                                    <span class="apply-button">Edit</span>
+                                    <!-- <span>KES <b>100</b>/hr</span> -->
+                                     <span></span>
+                                    <button class="apply-button" id="add_project_btn" >Add </button>
                                 </div>
                             </div>
                         </div>
@@ -188,12 +189,6 @@ Dashboard | Student
                             <label for="image">Upload Image:</label><br>
                             <input type="file" id="image" name="image" accept="image/*" required><br>
 
-                            <label for="fname">First Name</label> <br>
-                            <input type="text" id="fname" name="fname" required><br>
-
-                            <label for="lname">Last Name</label><br>
-                            <input type="text" id="lname" name="lname" required><br>
-
                             <label for="title">Title</label> <br>
                             <input type="text" id="title" name="title" required><br>
 
@@ -208,6 +203,22 @@ Dashboard | Student
                         </form>
                     </div>
                     
+                    <div class="addproject_container" id="addproject_container" >
+                        <form class="addproject_form"  method="POST"  enctype="multipart/form-data">
+                            <label for="image">Upload Image:</label><br>
+                            <input type="file" id="image" name="image" accept="image/*" required><br>
+
+                            <label for="title">Title</label> <br>
+                            <input type="text" id="title" name="title" required><br>
+
+                            <label for="description">Project</label><br>
+                            <textarea id="description" name="description" rows="1" cols="40" placeholder="What project will you add?" required></textarea><br>
+
+                            <button id="pbutton">Submit</button>
+                            <button id="close_project_btn" >Close </button>
+                        </form>
+                    </div>
+            
                 </div>
 
                 <!--Job Recommendations-->
