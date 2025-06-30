@@ -125,15 +125,33 @@ CareerConnect | Gigs
             </div>
             </div>
             </div>
+
+            {% for gig in gigs %}
+            <div id="first_gig">
+            <div id="gig_image">  
+            <img src="{{ url_for('static', filename='uploads/' ~ gig.image) }}" alt="Gig image">
+            </div> 
+
+            <div class="gig_details">
+            <div id="gig_owner">
+            <img src="{{ url_for('static', filename='uploads/' ~ gig.profile_pic) }}"> alt="Profile picture">
+
+            <p>{{ gig.fname }} {{ gig.lname }}</p>
+            </div>
+
+             <div id="gig_message">
+             <p>{{ gig.description }}</p>
+            </div>
+
+            <div id="gig_price">
+            <p>From {{ gig.price }}</p>
+            <button>Apply</button>
+            </div>
+            </div>
+            </div>
+           {% endfor %}
+
         </div>
 
     </div>
-{% endblock %}
-
-<!--Reviews-->
-{% block reviews %}
-{% endblock %}
-
-<!--FAQs-->
-{% block faqs %}
 {% endblock %}
