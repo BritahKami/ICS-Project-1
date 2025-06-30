@@ -1,8 +1,23 @@
 .auth {
     margin: 10px auto;
     padding: 10px;
-    min-height: 800px;
     position: relative;
+}
+
+#studentForm {
+    min-height: 100vh;
+}
+
+#businessForm {
+    min-height: 130vh;
+}
+
+#signin {
+    height: 100vh;
+}
+
+#verify {
+    height: 100vh;
 }
 
 .auth-header {
@@ -29,8 +44,7 @@
     padding: 10px;
     border: none;
     border-radius: 5px;
-    max-width: 600px;
-    min-width: 400px;
+    width: 400px;
     background-color: wheat;
     margin-bottom: 10px;
 }

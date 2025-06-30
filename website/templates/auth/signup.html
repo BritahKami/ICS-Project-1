@@ -3,7 +3,7 @@
 
 <!--Document Title-->
 {% block title %}
-Sign Up
+CareerConnect | Sign Up
 {% endblock %}
 
 <!--Independent CSS-->
@@ -22,10 +22,13 @@ signup
 
 <!--Page Body-->
 {% block body %}
-<div class="auth division">
+<!--Students-->
+<div id="studentForm" class="auth division">
     <div class="auth-header">
         <h2>Join us Today</h2>
     </div>
+
+    <!--Student Form-->
     <form class="auth-form" action="/signup" method="POST">
         <!--First Name-->
         <label for="fname">First Name</label>
@@ -66,7 +69,97 @@ signup
             <!--Submit-->
             <button type="submit">Submit</button>
             <span>Already a member? <a href="/signin">Sign In</a></span>
-            <span onclick="contextchange()">Register as a business</span>
+            <span onclick="contextchange('businessForm')">Register a business</span>
+        </div>
+    </form>
+</div>
+
+<!--Businesses-->
+<div id="businessForm" class="auth division">
+    <div class="auth-header">
+        <h2>Become our Partner Today</h2>
+    </div>
+
+    <!--Business Form-->
+    <form class="auth-form" action="/signup/business" method="POST">
+        <!--First Name-->
+        <label for="fname">First Name</label>
+        <input type="text" placeholder="e.g John" name="fname" required>
+
+        <!--Last Name-->
+        <label for="lname">Last Name</label>
+        <input type="text" placeholder="e.g Doe" name="lname" required>
+
+        <!--Username-->
+        <label for="uname">Username</label>
+        <input type="text" placeholder="e.g johndoe" name="uname" required>
+
+        <!--Gender-->
+        <label for="gender">Gender</label>
+        <select name="gender">
+            <option value="">N/A</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <!--Business Name-->
+        <label for="bname">Business name</label>
+        <input type="text" placeholder="e.g IndustryOne" name="bname" required>
+
+        <!--Email-->
+        <label for="email">Business Email Address</label>
+        <input type="email" placeholder="e.g example@business.com" name="email" required>
+
+        <!--Industry-->
+        <label for="industry">Industry</label>
+        <select name="industry" required>
+            <option value="">~ Select Industry</option>
+            {% if industries %}
+            {% for industry in industries %}
+            <option value="{{industry.id}}">{{industry.name}}</option>
+            {% endfor%}
+            {% else %}
+            <option>No industries to show</option>
+            {% endif %}
+        </select>
+
+        <!--Country of Origin-->
+        <label for="origin">Country of Origin</label>
+        <select name="origin" required>
+            <option value="">~ Select Country</option>
+            {% if countries %}
+            {% for country in countries %}
+            <option value="{{country.id}}">{{country.nicename}}</option>
+            {% endfor%}
+            {% else %}
+            <option>No countries to show</option>
+            {% endif %}
+        </select>
+
+        <!--City-->
+        <label for="city">City</label>
+        <input type="text" placeholder="e.g Nairobi" name="city" required>
+
+        <!--Business Phone-->
+        <label for="phone">Business Phone Number</label>
+        <input type="number" placeholder="e.g 70700700" maxlength="9" name="phone" required>
+
+        <!--Password-->
+        <label for="password">Create Password</label>
+        <input type="password" placeholder="********" name="password" required>
+
+        <!--Confirm Password-->
+        <label for="confpass">Confirm Password</label>
+        <input type="password" placeholder="********" name="confpass" required>
+
+        <!--Role-->
+        <input type="hidden" name="role" value="business">
+
+        <div class="form-content">
+            <!--Submit-->
+            <button type="submit">Submit</button>
+            <span>Already a member? <a href="/signin">Sign In</a></span>
+            <span onclick="contextchange('studentForm')">Register as a student</span>
         </div>
     </form>
 </div>
@@ -78,4 +171,13 @@ signup
 
 <!--FAQs-->
 {% block faqs %}
+{% endblock %}
+
+<!--Footer-->
+{% block footer %}
+{% endblock %}
+
+<!--Independent JS-->
+{% block js %}
+<script src="{{url_for('static', filename='js/auth/signup.js')}}"></script>
 {% endblock %}

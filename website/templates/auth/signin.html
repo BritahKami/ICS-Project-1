@@ -3,7 +3,7 @@
 
 <!--Document Title-->
 {% block title %}
-Sign In
+CareerConnect | Sign In
 {% endblock %}
 
 <!--Independent CSS-->
@@ -22,7 +22,7 @@ signin
 
 <!--Page Body-->
 {% block body %}
-<div class="auth division">
+<div id="signin" class="auth division">
     <div class="auth-header">
         <h2>Welcome Back</h2>
     </div>
@@ -38,7 +38,7 @@ signin
 
         <div class="form-content">
             <button type="submit">Submit</button>
-            <span>Already a member? <a href="/signup">Sign In</a></span>
+            <span>New here? <a href="/signup">Sign Up</a></span>
         </div>
     </form>
 </div>
@@ -50,4 +50,8 @@ signin
 
 <!--FAQs-->
 {% block faqs %}
+{% endblock %}
+
+<!--Footer-->
+{% block footer %}
 {% endblock %}
