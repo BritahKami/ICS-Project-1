@@ -416,13 +416,13 @@ header {
     justify-content: space-between;
 }
 
-.card-content-options span {
+.card-content-options button {
     padding: 5px 0px;
     border-radius: 20px;
     cursor: pointer;
 }
 
-.card-content-options span:nth-child(2) {
+.card-content-options button:nth-child(2) {
     color: var(--secondary-color);
     font-weight: bold;
     background-color: var(--text-alice);

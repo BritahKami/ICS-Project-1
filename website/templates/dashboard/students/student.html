@@ -176,32 +176,36 @@ Dashboard | Student
                                 <!--Card Rates & Actions-->
                                 <div class="card-content-options">
                                     <span></span>
-                                    <span class="option">Create a new gig</span>
+                                    <button class="option" id="add_gig_btn" >Add gig</button>
                                 </div>
                             </div>
+
                         </div>
 
-    <div class="addgigs_container" style="display: none;">
-        <form class="addgigs_form">
-            <label for="image">Upload Image:</label><br>
-            <input type="file" id="image" name="image" accept="image/*" required><br>
+                    </div>                    
+                    <div class="addgigs_container" id="addgigs_container" >
+                        <form class="addgigs_form"  method="POST"  enctype="multipart/form-data">
+                            <label for="image">Upload Image:</label><br>
+                            <input type="file" id="image" name="image" accept="image/*" required><br>
 
-            <label for="fname">First Name</label> <br>
-            <input type="text" id="fname" name="fname" required><br>
+                            <label for="fname">First Name</label> <br>
+                            <input type="text" id="fname" name="fname" required><br>
 
-            <label for="lname">Last Name</label><br>
-            <input type="text" id="lname" name="lname" required><br>
+                            <label for="lname">Last Name</label><br>
+                            <input type="text" id="lname" name="lname" required><br>
 
-            <label for="freelance">Freelance</label><br>
-            <textarea id="freelance" name="freelance" rows="1" cols="40" placeholder="What service will you offer?" required></textarea><br>
+                            <label for="title">Title</label> <br>
+                            <input type="text" id="title" name="title" required><br>
 
-            <label for="price">Price</label><br>
-            <input  type="text" id="price" name="price" placeholder="eg Kshs: 1000" step="1" min="0" required><br>
+                            <label for="description">Freelance</label><br>
+                            <textarea id="description" name="description" rows="1" cols="40" placeholder="What service will you offer?" required></textarea><br>
 
-            <button id="gbutton">Submit</button><br>
+                            <label for="price">Price</label><br>
+                            <input  type="text" id="price" name="price" placeholder="eg Kshs: 1000" step="1" min="0" required><br>
 
-        </form>
-    </div>
+                            <button id="gbutton">Submit</button>
+                            <button id="close_gig_btn" >Close </button>
+                        </form>
                     </div>
                     
                 </div>
