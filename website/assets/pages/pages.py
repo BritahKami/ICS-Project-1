@@ -1,11 +1,42 @@
-from flask import Blueprint, render_template, session, request, redirect, url_for, flash
+from flask import Blueprint, render_template, session, request, redirect, url_for, flash,current_app
 from website.database.connector import dbconnector
 from utils import errhandler
+import os 
+from werkzeug.utils import secure_filename
+
 
 pages = Blueprint('pages', __name__)
 conn = dbconnector()
 
-# Homepaage
+# ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
+# def allowed_file(filename):
+#     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@pages.route('/project', methods=['GET'])
+def project():
+    try:
+        cursor= conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM projects")
+        projects=cursor.fetchall()
+
+        if not projects or projects==None:
+            flash("No projects to show", category="error")
+
+            return render_template('project/project.html')
+        return render_template('project/project.html', projects=projects)
+    
+    except Exception as e:
+        errhandler(e, 'pages/projects')
+        flash('An error has occurred.', category="error")
+        return redirect(url_for('pages.homepage'))
+    
+    finally:
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
+
+# Homepaage 
 @pages.route('/')
 def homepage():
     userID = session.get('userID')
@@ -189,11 +220,7 @@ def reviews():
             cursor.close()
 
 
-@pages.route('/project')
-def project():
-    return render_template('project/project.html')
-
-@pages.route('/addproject')
-def addproject():
-    return render_template('project/addproject.html')
+# @pages.route('/addproject')
+# def addproject():
+#     return render_template('project/addproject.html')
 
