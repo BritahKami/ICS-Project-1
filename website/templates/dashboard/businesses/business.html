@@ -7,24 +7,170 @@ Dashboard | Business
 {% endblock %}
 
 <!--Independent CSS-->
-<!-- {% block css %}
-{% endblock %} -->
-
-<!--Body ID-->
-<!-- {% block bodyid %}
-{% endblock %} -->
-
-<!--Header-->
-<!-- {% block header%}
-{% endblock %} -->
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboards/business.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboards/student.css') }}">
+{% endblock %}
 
 <!--Page Body-->
-<!-- {% block body %}
-{% endblock %} -->
+{% block body %}
+<!--For Student with Access-->
+<section id="for-user">
+    <div class="dash-content">
+        <!--Sidebar-->
+        <div class="dash-sidebar">
+            <!--Analytics-->
+            <div class="dash-sidebar-content analytics reusable">
+                <h2>Analytics</h2>
+                <ul>
+                    <!--Profile Views-->
+                    <li>
+                        <p><i class='bx bx-bookmark'></i></p>
+                        <p>1420</p>
+                        <p>Profile have saved you</p>
+                    </li>
 
-<!--Footer-->
-<!-- {% block footer %}
-{% endblock %} -->
+                    <!--Gigs-->
+                    <li>
+                        <p><i class='bx bx-tv'></i></p>
+                        <p>13390</p>
+                        <p>Profile views this month</p>
+                    </li>
+
+                    <!--Scouting-->
+                    <li>
+                        <p><i class='bx bx-scan'></i></p>
+                        <p>90</p>
+                        <p>Pooled Students</p>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Documents-->
+            <div class="dash-sidebar-content documents reusable">
+                <h2>Documents</h2>
+                <ul>
+                    <!--Resume-->
+                    <li onclick="printDocument(documentID)">
+                        <p><i class='bx bx-file'></i><span> Business License</span></p>
+                        <p><i class='bx bx-trash'></i></p>
+                    </li>
+
+                    <!--Adding Documents-->
+                    <li onclick="addDocument()">
+                        <p><i class='bx bx-plus'></i><span> Add Document</span></p>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Description-->
+            <div class="dash-sidebar-content description reusable">
+                <h2>About</h2>
+                <p title="edit"><i class="bx bx-edit"></i></p>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorum laborum perferendis quasi ipsum sed porro? Praesentium at quaerat ad harum, magni aliquid optio eligendi nemo, quia id, neque ea aspernatur.</p>
+            </div>
+        </div>
+
+        <!--Body-->
+        <div class="dash-body">
+            <div class="dash-body-items">
+                <div class="dash-body-content business">
+                    <!--Jobs-->
+                    <h2>My Jobs</h2>
+
+                    <!--Cards-->
+                    <div class="dash-content-body-cards">
+                        <!--Add Gig Card-->
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>Add a Job / Internship</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos sint, rerum animi ab assumenda est doloremque quisquam in, autem perferendis nostrum? Atque maiores, officiis eum eos illum provident eius quas!</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span></span>
+                                    <button class="option" id="openModalBtn">Add job</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Pool-->
+                    <!-- <h2>Manage your Student Pool</h2> -->
+
+                    <!--Banner-->
+                    <div class="dash-body-content-banner">
+                        <div class="banner-stats">
+                            <h4>
+                                <i class="bx bx-group"></i>
+                                <span>92<br>Number of<br>Students Pooled</span>
+                            </h4>
+                        </div>
+                        <div class="banner-info">
+                            <div class="banner-info-text">
+                                <h4>Introduction to Student Pools</h4>
+                                <p>Student pools is a business scouting resource aimed towards making recruitment easier by shortlisting quality student resources that missed out on a listed vacancy</p>
+                            </div>
+                            <div class="banner-info-button">
+                                <button class="btn-2">
+                                    <i class="bx bx-edit"></i>
+                                    <span> Manage</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Adding Items-->
+        <div class="addItems" id="addItems" >
+            <form class="addItemsForm"  method="POST"  enctype="multipart/form-data">
+
+                <!--Business Name-->
+                <input type="hidden" name="bname" value="businessname">
+
+                <!--Title-->
+                <label for="title">Title</label>
+                <input type="text" name="title" maxlength="20" minlength="1" placeholder="Title">
+
+                <!--Option-->
+                <label>Service Options</label>
+                <select name="option">
+                    <option value="">~ Select an option</option>
+                    <option value="job">Job</option>
+                    <option value="internship">Internship</option>
+                    <option value="course">Course</option>
+                </select>
+
+                <!--Description-->
+                <label for="description">Describe the Service</label><br>
+                <textarea id="description" name="description" placeholder="Briefly highlight the important features of the selected service" required></textarea><br>
+
+                <!--Icon-->
+                <label for="image">Choose an Icon</label><br>
+                <input type="file" id="image" name="image" required><br>
+
+                <button class="btn-2" id="submitBtn">Submit</button>
+                <button class="btn-2" id="closeBtn" >Close </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
 
 <!--Independent JS-->
 <!-- {% block js %}
