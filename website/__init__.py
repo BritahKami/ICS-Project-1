@@ -25,6 +25,11 @@ def create_app():
     app.register_blueprint(dash, url_prefix='/')
     app.register_blueprint(process, url_prefix='/')
 
+    # Image configuration
+    UPLOAD_FOLDER = 'website/static/uploads'
+    app.config['UPLOAD_FOLDER']= UPLOAD_FOLDER
+
+
     """
     Flask Mail
     """
