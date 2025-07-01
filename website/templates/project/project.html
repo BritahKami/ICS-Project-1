@@ -150,6 +150,29 @@ CareerConnect | Project
         </div>
          </div>
          </div>
+
+          {% for project in projects %}
+          <div class="project1">
+            <div class="project_image">
+              <img src="{{ url_for('static', filename='uploads/' ~ project.image) }}" alt="{{ project.title }} image">
+            </div>
+
+            <div class="project_details">
+              <div class="project_title">
+                <h3>{{ project.title }}</h3>
+              </div>
+
+              <div class="project_description">
+                <p>{{ project.description }}</p>
+              </div>
+
+              <div class="project_button">
+                <button>Apply</button>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
     </div>
 <!-- JS Link -->
 <script src="{{ url_for('static', filename='js/search/search.js') }}"></script>
