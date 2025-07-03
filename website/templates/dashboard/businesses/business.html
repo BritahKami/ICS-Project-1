@@ -9,7 +9,6 @@ Dashboard | Business
 <!--Independent CSS-->
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboards/business.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboards/student.css') }}">
 {% endblock %}
 
 <!--Page Body-->
@@ -113,7 +112,7 @@ Dashboard | Business
                         <div class="card-item">
                             <!--Card Image-->
                             <div class="card-image">
-                                <img src="{{ url_for('static', filename='uploads/items/' ~ job.icon) }}" alt="Gig Image">
+                                <img src="{{ url_for('static', filename='uploads/items/' ~ job.icon) }}" alt="Job Image">
                                 <span id="jobSpan">Job</span>
                             </div>
 
@@ -143,13 +142,21 @@ Dashboard | Business
                     <!--Internship Cards-->
                     {% if internships %}
                     <div class="dash-content-body-cards">
-                        <!--Internship Cards-->
+                        <!--Styling-->
+                        <style>
+                            .dash-content {
+                                position: relative;
+                                width: 100%;
+                                min-height: 1500px;
+                            }
+                        </style>
 
+                        <!--Internship Cards-->
                         {% for internship in internships %}
                         <div class="card-item">
                             <!--Card Image-->
                             <div class="card-image">
-                                <img src="{{ url_for('static', filename='uploads/items/' ~ internship.icon) }}" alt="Gig Image">
+                                <img src="{{ url_for('static', filename='uploads/items/' ~ internship.icon) }}" alt="Internship Image">
                                 <span id="internshipSpan">Internship</span>
                             </div>
 
