@@ -14,3 +14,6 @@ website/database/icsdb.sql
 
 # Store Assets
 website/store/**
+
+# Image Uploads
+website/static/uploads/**
