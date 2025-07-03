@@ -80,6 +80,27 @@ def admin():
         # Redirecting
         return redirect(url_for('auth.signin'))
 
+    # Capturing User Details From Session
+    user = {}
+    for key in ['userID', 'fname', 'lname', 'uname', 'email']:
+        if key in session:
+            user[key] = session[key]
+
+    try:
+        render_template(
+            'dashboard/admins/admin.html',
+            user=user
+        )
+    except Exception as e:
+        # Logging Error
+        errhandler(e, 'dashboards/admin')
+
+        # Error Message
+        flash('An error has occurred retrieving your account details. Try again later', category='error')
+
+        # Redirecting
+        return redirect(url_for('dash.admin'))
+
     return render_template('dashboard/admins/admin.html')
 
 # Business Dashboard Route
@@ -229,7 +250,13 @@ def student():
 
         # Redirecting
         return redirect(url_for('auth.signin'))
-    
+
+    # Capturing User Details From Session
+    user = {}
+    for key in ['userID', 'fname', 'lname', 'uname', 'email']:
+        if key in session:
+            user[key] = session[key]
+
     if request.method == 'POST':
         image = request.files.get('image')
         title = request.form.get('title')
@@ -240,9 +267,9 @@ def student():
             flash('Kindly fill in all fields', category='error')
 
             return redirect(request.url)
-        
+
         if image and allowed_file(image.filename):
-            
+
             try:
                 #secure and save the file
                 filename= secure_filename(image.filename)
@@ -267,10 +294,13 @@ def student():
             finally:
                 if 'cursor' in locals() and cursor is not None:
                     cursor.close()
-        
+
         else:
             flash("Invalid image format. Allowed types: png, jpg, jpeg, gif.", category='error')
             return redirect(request.url)
 
 
-    return render_template('dashboard/students/student.html')
+    return render_template(
+        'dashboard/students/student.html',
+        user=user
+    )

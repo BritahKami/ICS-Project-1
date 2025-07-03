@@ -111,8 +111,6 @@ def addItem():
             operation='add'
         )
 
-        print(icon)
-
         # Operations
         try:
             # Initializing Cursor
