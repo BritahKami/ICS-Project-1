@@ -78,7 +78,7 @@ def admin():
         session.clear()
 
         # Redirecting
-        return redirect(url_for('pages.homepage'))
+        return redirect(url_for('auth.signin'))
 
     return render_template('dashboard/admins/admin.html')
 
@@ -106,6 +106,101 @@ def business():
 
         # Redirecting
         return redirect(url_for('auth.signin'))
+
+    # Capturing User Details From Session
+    user = {}
+    for key in ['userID', 'fname', 'lname', 'uname', 'email']:
+        if key in session:
+            user[key] = session[key]
+
+    # Retrieving Database Info
+    try:
+        # Initializing Cursor
+        cursor = conn.cursor(dictionary=True)
+
+        # Capturing Business Details
+        cursor.execute("SELECT * FROM businesses WHERE userID = %s", (session['userID'],))
+        business = cursor.fetchone()
+
+        # Capturing Jobs
+        cursor.execute("SELECT * FROM jobs WHERE userID = %s", (session['userID'],))
+        jobs = cursor.fetchall()
+
+        # Capturing Internships
+        cursor.execute("SELECT * FROM internships WHERE userID = %s", (session['userID'],))
+        internships = cursor.fetchall()
+
+        # Business Data Lists
+        businessDetails = []
+        jobsDetails = []
+        internshipsDetails = []
+
+        # Validating Query Results
+        if business and (business != None):
+            # Appending Business Details
+            businessDetails.append({
+                'businessID': business['businessID'],
+                'bname': business['bname'],
+                'email': business['email'],
+                'country': business['country'],
+                'city': business['city'],
+                'phone': business['phone'],
+                'industry': business['industry'],
+                'userID': business['userID'],
+                'icon': business['icon']
+            })
+
+        # Validating Jobs Query Result
+        if jobs and (jobs != None):
+            # Appending Jobs Details
+            for job in jobs:
+                jobsDetails.append({
+                    'jobID': job['jobID'],
+                    'title': job['title'],
+                    'description': job['description'],
+                    'icon': job['icon'].replace('website/static/uploads/items/', ''),
+                    'userID': job['userID'],
+                    'businessID': job['businessID']
+                })
+
+        # Validating Internships Query Result
+        if internships and (internships != None):
+            # Appending Internships Details
+            for internship in internships:
+                internshipsDetails.append({
+                    'internshipID': internship['internshipID'],
+                    'title': internship['title'],
+                    'description': internship['description'],
+                    'icon': internship['icon'].replace('website/static/uploads/items/', ''),
+                    'userID': internship['userID'],
+                    'businessID': internship['businessID']
+                })
+
+        # Rendering Template
+        return render_template(
+            'dashboard/businesses/business.html',
+            user=user,
+            business=businessDetails,
+            jobs=jobsDetails,
+            internships=internshipsDetails
+        )
+
+
+    # Handling Exceptions
+    except Exception as e:
+        # Logging Error
+        errhandler(e, 'dashboards/business')
+
+        # Error Message
+        flash('An error has retrieving your account details. Try again later', category='error')
+
+        # Redirecting
+        return redirect(url_for('dash.business'))
+
+    # Closing Cursor
+    finally:
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
 
     return render_template('dashboard/businesses/business.html')
 
