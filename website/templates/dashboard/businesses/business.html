@@ -138,10 +138,7 @@ Dashboard | Business
 
         <!--Adding Items-->
         <div class="addItems" id="addItems" >
-            <form class="addItemsForm"  method="POST"  enctype="multipart/form-data">
-
-                <!--Business Name-->
-                <input type="hidden" name="bname" value="businessname">
+            <form class="addItemsForm" method="POST" enctype="multipart/form-data" action="{{url_for('process.addItem')}}">
 
                 <!--Title-->
                 <label for="title">Title</label>
@@ -153,7 +150,6 @@ Dashboard | Business
                     <option value="">~ Select an option</option>
                     <option value="job">Job</option>
                     <option value="internship">Internship</option>
-                    <option value="course">Course</option>
                 </select>
 
                 <!--Description-->
