@@ -1,6 +1,8 @@
 # Modules
 import traceback
 from datetime import datetime
+import re
+import os
 
 
 """
@@ -132,3 +134,58 @@ def mailer(recipients, subject, body, sender = None):
         # Logging Error
         errhandler(e, 'server/mailer')
         return False
+
+
+"""
+********** File Name Sanitizer Handler **********
+"""
+def cleanFilename(filename):
+    filename = os.path.basename(filename)  # Remove directory part
+    filename = re.sub(r'[^\w\-.]', '_', filename)  # Replace unwanted chars
+    return filename
+
+"""
+********** Image Handler **********
+"""
+def imghandler(img, path, subPath, **kwargs):
+    # Checking Operation Type
+    operation = kwargs.get('operation', None)
+
+    # Defaults
+    UPLOAD_FOLDER = os.path.join('website', 'static', path, subPath)
+
+    DEFAULT_PICTURE_PATH = os.path.join('website', 'static', 'uploads', 'placeholder.png')
+
+    # If Operation is to Add an Image or is Unspecified
+    if operation is None or operation == 'add':
+        try:
+            if img and hasattr(img, 'filename') and img.filename != '':
+                # Generating Safe Filename
+                filename = cleanFilename(img.filename)
+
+                # Timestamping to Avoid Conflicts
+                timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+                filename = f"{timestamp}_{filename}"
+
+                # Saving Full Path
+                save_path = os.path.join(UPLOAD_FOLDER, filename)
+
+                # Verifying Target Folder Exists
+                os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+                # Saving the File
+                img.save(save_path)
+
+                # returning Saved File Path
+                return save_path.replace('\\', '/')
+
+            # For Missing & Invalid Files, Returning Default Picture Path
+            return DEFAULT_PICTURE_PATH.replace('\\', '/')
+
+        # Handling Exceptions
+        except Exception as e:
+            # Logging Error
+            errhandler(e, 'process/imghandler')
+
+            # Returning Default Picture Path
+            return DEFAULT_PICTURE_PATH.replace('\\', '/')
