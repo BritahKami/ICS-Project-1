@@ -45,6 +45,13 @@ CREATE TABLE projects
     --  studentID INT NOT NULL,
 --      FOREIGN KEY (studentID) REFERENCES students(studentID) ON DELETE CASCADE
 );
+ALTER TABLE projects
+ADD COLUMN studentID INT NOT NULL AFTER description;
+
+ALTER TABLE projects
+ADD FOREIGN KEY (studentID) REFERENCES students(studentID) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
 CREATE TABLE students (
     studentID INT AUTO_INCREMENT PRIMARY KEY,
     userID INT NOT NULL,
