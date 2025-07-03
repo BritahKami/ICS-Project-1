@@ -395,6 +395,29 @@ header {
     border-radius: 20px 20px 0px 0px;
     background-color: transparent;
     overflow: hidden;
+    position: relative;
+}
+
+.card-image span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 1;
+    text-transform: uppercase;
+}
+
+#jobSpan {
+    background-color: var(--text-pink);
+    color: var(--white);
+}
+
+#internshipSpan {
+    background-color: var(--tertiery-color);
+    color: black;
 }
 
 .card-image img {

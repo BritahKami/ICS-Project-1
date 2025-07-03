@@ -75,12 +75,12 @@ Dashboard | Business
         <div class="dash-body">
             <div class="dash-body-items">
                 <div class="dash-body-content business">
-                    <!--Jobs-->
+                    <!--Add Jobs & Internships-->
                     <h2>My Jobs</h2>
 
                     <!--Cards-->
                     <div class="dash-content-body-cards">
-                        <!--Add Gig Card-->
+                        <!--Add Job & Internship Card-->
                         <div class="card-item">
                             <!--Card Image-->
                             <div class="card-image">
@@ -96,17 +96,85 @@ Dashboard | Business
 
                                 <!--Card Description-->
                                 <div class="card-content-description">
-                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos sint, rerum animi ab assumenda est doloremque quisquam in, autem perferendis nostrum? Atque maiores, officiis eum eos illum provident eius quas!</p>
+                                    <p>Become the latest partner to list a vacancy with us. Our platform ensure great visibility for you, ensuring your hiring process is seamless and fast</p>
                                 </div>
 
                                 <!--Card Rates & Actions-->
                                 <div class="card-content-options">
                                     <span></span>
-                                    <button class="option" id="openModalBtn">Add job</button>
+                                    <button class="option" id="openModalBtn">Add new</button>
                                 </div>
                             </div>
                         </div>
+
+                        <!--Jobs Cards-->
+                        {% if jobs %}
+                        {% for job in jobs %}
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='uploads/items/' ~ job.icon) }}" alt="Gig Image">
+                                <span id="jobSpan">Job</span>
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>{{job.title}}</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>{{job.description}}</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span></span>
+                                    <button class="option" id="openEditModalBtn">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
                     </div>
+
+                    <!--Internship Cards-->
+                    {% if internships %}
+                    <div class="dash-content-body-cards">
+                        <!--Internship Cards-->
+
+                        {% for internship in internships %}
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='uploads/items/' ~ internship.icon) }}" alt="Gig Image">
+                                <span id="internshipSpan">Internship</span>
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>{{internship.title}}</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>{{internship.description}}</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span></span>
+                                    <button class="option" id="openEditModalBtn">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
                     <!--Pool-->
                     <!-- <h2>Manage your Student Pool</h2> -->
