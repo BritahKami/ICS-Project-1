@@ -14,13 +14,12 @@ CareerConnect | Review
     <div class="testimonials">
       <div class="title">
         <h1>What people have to say</h1>
-       <div class="button-container"> <button class="review-button"><a href="add_reviews">Add review</a></button> </div>
+       <div class="button-container"> <button class="review-button" id="review-button">Add review</button> </div>
 
-        <div class="board"></div>
         <div class="row">
             <div class="column">
                 <div class="testimonial">
-                    <img src="{{url_for('static', filename='images/reviews/profile.jpg')}}" alt="Image profile 1">
+                    <!-- <img src="{{url_for('static', filename='images/reviews/profile.jpg')}}" alt="Image profile 1"> -->
                     <div class="name">Samantha Wanjiru</div>
                     <p id="sentence">Am Samantha Wanjiru, in 1st year and I really enjoyed interacting with this website, it was easy to use and understand. I was able to use the website to learn a new skill. I definetely recommend this website to other students, it has good opportunities.</p>
                 </div>
@@ -28,7 +27,7 @@ CareerConnect | Review
             </div>
             <div class="column">
                 <div class="testimonial">
-                    <img src="{{url_for('static', filename='images/reviews/profile1.jpg')}}" alt="Image Profile 2">
+                    <!-- <img src="{{url_for('static', filename='images/reviews/profile1.jpg')}}" alt="Image Profile 2"> -->
                     <div class="name">Dennis Mutua</div>
                     <p id="sentence">Am Dennis Mutua, a 2nd year student. Using this website i have been able to post gigs and earn some cash and engage in collaborative projects. I recommend the website to students who want to earn from gigs and engage in collaborative projects.</p>
                 </div>
@@ -36,7 +35,7 @@ CareerConnect | Review
             </div>
             <div class="column">
                 <div class="testimonial">
-                    <img src="{{url_for('static', filename='images/reviews/student.jpg')}}" alt="Image profile 3">
+                    <!-- <img src="{{url_for('static', filename='images/reviews/student.jpg')}}" alt="Image profile 3"> -->
                     <div class="name">Ann Wambui </div>
                     <p id="sentence">Am Ann Wambui, a 4th year Culinary Arts student. I have interacted with the website and managed to acquire an internship slot from CJs. I recommend this website to other students who are searching for job/internship opportunities.</p>
                 </div>
@@ -45,7 +44,7 @@ CareerConnect | Review
 
             <div class="column">
                 <div class="testimonial">
-                    <img src="{{url_for('static', filename='images/reviews/student1.jpg')}}" alt="Image profile 3">
+                    <!-- <img src="{{url_for('static', filename='images/reviews/student1.jpg')}}" alt="Image profile 3"> -->
                     <div class="name">Sharlyn Wambui </div>
                     <p id="sentence">Am Sharlyn Wambui, a 3rd year law student. I have used the chat feature of this website to interact with law firms. I therefore recommend this website to other students who would like to interact with organizations and know how they operate.</p>
                 </div>
@@ -54,7 +53,7 @@ CareerConnect | Review
 
             <div class="column">
                 <div class="testimonial">
-                    <img src="{{url_for('static', filename='images/reviews/Organization.jpg')}}" alt="Image profile 3">
+                    <!-- <img src="{{url_for('static', filename='images/reviews/Organization.jpg')}}" alt="Image profile 3"> -->
                     <div class="name">Home Build Constructions </div>
                     <p id="sentence">This is Home Build Constructions, we deals with home constructions. We have used the website to post on job/internship opportunities and acquire skilled interns and employees. We highly recommend this website.</p>
                 </div>
@@ -63,7 +62,7 @@ CareerConnect | Review
 
             <div class="column">
                 <div class="testimonial">
-                    <img src="{{url_for('static', filename='images/reviews/Organization1.jpg')}}" alt="Image profile 3">
+                    <!-- <img src="{{url_for('static', filename='images/reviews/Organization1.jpg')}}" alt="Image profile 3"> -->
                     <div class="name">Hilton Hotel</div>
                     <p id="sentence">This is Hilton Hotel. We have used the website to post on job/internship opportunities and acquire skilled interns and employees. In addition, we have been able to apply and engage in collaborative projects. We highly recommend this website.</p>
                 </div>
@@ -73,16 +72,42 @@ CareerConnect | Review
             {% for review in reviews %}
             <div class="column">
                 <div class="testimonial">
-                    <img src="{{ url_for('static', filename='images/reviews/Organization1.jpg') }}" alt="Image profile">
+                    <!-- <img src="{{ url_for('static', filename='images/reviews/Organization1.jpg') }}" alt="Image profile"> -->
                     <div class="name">{{ review.fname }} {{ review.lname }}</div>
                     <p id="sentence">{{ review.comment }}</p>
+                     {% autoescape false %}
+                    <p>{{review.stars}}</p>
+                    {% endautoescape %}
                 </div>
             </div>
             {% endfor %}
         </div>
+
+        <div class="review_container" id="review_container">
+        <form class="review_form" method="POST">
+            <label for="fname">First Name</label> <br>
+            <input type="text" id="fname" name="fname" required><br>
+
+            <label for="lname">Last Name</label><br>
+            <input type="text" id="lname" name="lname" required><br>
+
+            <label for="rating">Rating (0-100)</label>
+            <input type="number" id="rating" name="rating" min="0" max="100" maxlength="3" placeholder="Enter your rating">
+
+            <label for="comment">Add Review</label><br>
+            <textarea id="comment" name="comment" rows="5" cols="40" placeholder="Write your comment here" required></textarea><br>
+
+
+            <button id="submitBtn" type="submit" >Submit</button>
+            <button  id="close_btn" type="button">Close</button>
+
+        </form>
+    </div>
       </div>
 
     </div>
+
+<script src="{{ url_for('static', filename='js/reviews/reviews.js') }}"></script>    
 </section>
 
 {% endblock %}
