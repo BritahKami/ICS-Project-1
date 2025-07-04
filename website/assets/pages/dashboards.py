@@ -256,7 +256,7 @@ def student():
     for key in ['userID', 'fname', 'lname', 'uname', 'email']:
         if key in session:
             user[key] = session[key]
-
+    
     if request.method == 'POST':
         image = request.files.get('image')
         title = request.form.get('title')
@@ -282,13 +282,15 @@ def student():
 
                 flash('Your project has been added successfully', category="success")
 
-                return redirect(url_for('pages.homepage'))
+                return redirect(url_for('dash.student'))
 
             # Handling Exceptions
             except Exception as e:
                 errhandler(e, 'pages/project')
 
                 flash('An error has occurred. Try again later', category='error')
+
+                return redirect(request.url)
 
             # Closing Cursor
             finally:
@@ -299,6 +301,53 @@ def student():
             flash("Invalid image format. Allowed types: png, jpg, jpeg, gif.", category='error')
             return redirect(request.url)
 
+    # Query for projects
+    try:
+        # Lists for Queried Items
+        projectsDetails = []
+        gigsDetails = []
+
+        cursor= conn.cursor(dictionary=True)
+
+        cursor.execute("SELECT * FROM projects WHERE userID = %s", (session['userID'],))
+        projects=cursor.fetchall()
+
+        cursor.execute("SELECT * FROM gigs WHERE userID = %s", (session['userID'],))
+        gigs=cursor.fetchall()
+
+        if projects and projects!=None:
+            for project in projects:
+                projectsDetails.append({
+                    'projectID' : project['projectID'],
+                    'title' : project['title'],
+                    'description' : project['description'],
+                    'image' : project['image']
+                })
+
+        if not gigs and gigs!=None:
+            for gig in gigs:
+                gigsDetails.append({
+                    'projectID' : gig['projectID'],
+                    'title' : gig['title'],
+                    'description' : gig['description'],
+                    'image' : gig['image']
+                })
+
+        return render_template(
+            'dashboard/students/student.html',
+            user=user,
+            projects=projectsDetails,
+            gigs=gigsDetails
+            )
+    
+    except Exception as e:
+        errhandler(e, 'pages/projects')
+        flash('An error has occurred.', category="error")
+        return redirect(url_for('pages.homepage'))
+    
+    finally:
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
 
     return render_template(
         'dashboard/students/student.html',

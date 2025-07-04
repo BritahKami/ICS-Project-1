@@ -191,6 +191,38 @@ Dashboard | Student
                                 </div>
                             </div>
                         </div>
+
+                        <!--Card-->
+                        {% if projects %}
+                        {% for project in projects %}
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                            </div>
+
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <h3>{{ project.title }}</h3>
+                                </div>
+
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>{{ project.description }}</p>
+                                </div>
+
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <!-- <span>KES <b>100</b>/hr</span> -->
+                                     <span></span>
+                                    <button class="btn-2" id="openModalBtn4" >Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
