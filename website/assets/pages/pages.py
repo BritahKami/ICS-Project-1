@@ -194,20 +194,97 @@ def add_reviews():
     return render_template('reviews/addreviews.html')
 
 
-@pages.route('/reviews', methods=['GET'])
+@pages.route('/reviews', methods=['GET', 'POST'])
 def reviews():
+
+    if request.method == 'POST':
+    
+        user = session.get('userID')
+        # profile validation
+        if not user or user==None:
+            flash('Please create an account first', category='error')
+
+            return redirect(url_for('auth.signup'))
+        try: 
+        #capturing entires
+            fname = request.form.get('fname')
+            lname = request.form.get('lname')
+            comment = request.form.get('comment')
+            rating = request.form.get('rating')
+
+
+            if not (fname and lname and comment and rating):
+                flash('Kindly fill in all fields', category='error')
+
+                return redirect(request.url)
+           
+        # inserting into database
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("INSERT INTO reviews(userID,fname, lname, comment,rating) VALUES (%s, %s, %s, %s, %s)", (user,fname, lname, comment,rating))
+            conn.commit()
+
+            flash("Thank you for your review", category='success')
+
+            return redirect(url_for('pages.reviews'))
+            
+        # Log the error
+        except Exception as e:
+            errhandler(e, 'pages/addreviews')
+            flash("An error has occured", category='error')
+            return redirect(url_for('pages.homepage'))
+        
+        # Close cursor
+        finally:
+            if 'cursor' in locals() and cursor is not None:
+                cursor.close()
+
+    def starsprocess(rating):
+            stars = ''
+
+            if rating < 15:
+                stars = '<i class="ri-star-half-line"></i>'
+            elif rating < 25:
+                stars = '<i class="ri-star-fill"></i>'
+            elif rating < 35:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-half-line"></i>'
+            elif rating < 45:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
+            elif rating < 55:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-line"></i>'
+            elif rating < 65:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
+            elif rating < 75:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-line"></i>'
+            elif rating < 85:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
+            elif rating < 95:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-line"></i>'
+            else:
+                stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
+            return stars
+
+
     try:
         # retrieving from database
         cursor= conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM reviews")
         reviews=cursor.fetchall()
 
+        reviewsData=[]
+        if reviews and reviews != None:
+            for review in reviews:
+                review['stars'] = starsprocess(review['rating'])
+                reviewsData.append(review)
+
+        return render_template('reviews/reviews.html', reviewsData=reviewsData)
+
+
         #check if there are reviews in the database
-        if not reviews or reviews==None:
-            flash("No reviews to show", category='error')
+        # if not reviews or reviews==None:
+        #     flash("No reviews to show", category='error')
             
-            return render_template('reviews/reviews.html')
-        return render_template('reviews/reviews.html', reviews=reviews)
+        #     return render_template('reviews/reviews.html')
+        # return render_template('reviews/reviews.html', reviews=reviews)
     
     except Exception as e:
         errhandler(e, 'pages/reviews')
@@ -218,6 +295,7 @@ def reviews():
     finally:
         if 'cursor' in locals() and cursor is not None:
             cursor.close()
+       
 
 
 # @pages.route('/addproject')
