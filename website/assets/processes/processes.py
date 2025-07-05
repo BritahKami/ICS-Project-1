@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for, session
+from website.assets.auth import auth
 from website.database.connector import dbconnector
 from utils import errhandler
 
