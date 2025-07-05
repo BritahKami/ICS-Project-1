@@ -154,6 +154,35 @@ Dashboard | Student
                             </div>
 
                         </div>
+
+                        <!--Card-->
+                        {% if gigs %}
+                        {% for gig in gigs %}
+                        <div id="first_gig">
+                        <div id="gig_image">  
+                        <img src="{{ url_for('static', filename='uploads/' ~ gig.image) }}" alt="Gig image">
+                        </div> 
+
+                        <div class="gig_details">
+                        <div id="gig_owner">
+                        <img src="{{url_for('static', filename='images/gigs/defaultpic.jpeg')}}" alt="Profile picture">
+
+                        <p>{{ gig.fname }} {{ gig.lname }}</p>
+                        </div>
+
+                        <div id="gig_message">
+                        <p>{{ gig.description }}</p>
+                        </div>
+
+                        <div id="gig_price">
+                        <p>From {{ gig.price }}</p>
+                        <button>Edit</button>
+                        </div>
+                        </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+
                     </div>
                 </div>
 
@@ -192,13 +221,14 @@ Dashboard | Student
                             </div>
                         </div>
 
+                        
                         <!--Card-->
                         {% if projects %}
                         {% for project in projects %}
                         <div class="card-item">
                             <!--Card Image-->
                             <div class="card-image">
-                                <img src="{{ url_for('static', filename='images/dashboards/card.png') }}" alt="Gig Image">
+                                <img src="{{ url_for('static', filename='uploads/' ~ project.image) }}" alt="Gig Image">
                             </div>
 
                             <!--Card Content-->
@@ -241,11 +271,18 @@ Dashboard | Student
 
                 <!--Option-->
                 <label>Service Options</label>
-                <select name="option">
+                <select name="option" id="optionSelect">
                     <option value="">~ Select an option</option>
                     <option value="gig">Gig</option>
                     <option value="project">Collaborated Project</option>
                 </select>
+
+                
+                <!-- Price (conditionally shown) -->
+                <div id="priceField" style="display: none;">
+                    <label for="price">Price (KES)</label>
+                    <input type="number" name="price" min="0" step="0.01" placeholder="Enter price">
+                </div>
 
                 <!--Description-->
                 <label for="description">Describe the Service</label><br>
