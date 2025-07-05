@@ -21,14 +21,15 @@ CREATE TABLE gigs(
     image VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     studentID INT NOT NULL,
-	FOREIGN KEY (studentID) REFERENCES students(studentID) ON DELETE CASCADE
+    FOREIGN KEY (studentID) REFERENCES students(studentID) ON DELETE CASCADE
     );
+    
 CREATE TABLE reviews
 (
      reviewID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
      fname VARCHAR(100) NOT NULL,
      lname VARCHAR(100) NOT NULL,
-     comment VARCHAR(100) NOT NULL,
+     comment TEXT NOT NULL,
 	 rating INT NOT NULL,
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
      userID INT NOT NULL,
@@ -41,22 +42,15 @@ CREATE TABLE projects
      title VARCHAR(100) NOT NULL,
 	 image VARCHAR(255) NOT NULL,
 	 description TEXT NOT NULL,
-     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    --  studentID INT NOT NULL,
---      FOREIGN KEY (studentID) REFERENCES students(studentID) ON DELETE CASCADE
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     studentID INT NOT NULL,
+    FOREIGN KEY (studentID) REFERENCES students(studentID) ON DELETE CASCADE
 );
-ALTER TABLE projects
-ADD COLUMN studentID INT NOT NULL AFTER description;
-
-ALTER TABLE projects
-ADD FOREIGN KEY (studentID) REFERENCES students(studentID) ON UPDATE CASCADE ON DELETE CASCADE;
-
 
 CREATE TABLE students (
     studentID INT AUTO_INCREMENT PRIMARY KEY,
     userID INT NOT NULL,
     course VARCHAR(100),
     DOB DATE NOT NULL,
-    profile_pic BLOB NOT NULL,
     FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
 );
