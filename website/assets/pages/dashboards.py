@@ -256,17 +256,31 @@ def student():
     for key in ['userID', 'fname', 'lname', 'uname', 'email']:
         if key in session:
             user[key] = session[key]
-    
+
+    #fetching studentID for the logged in user
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT studentID FROM students WHERE userID = %s", (session['userID'],))
+    student_record = cursor.fetchone()
+
+    if not student_record:
+        flash("Student profile not found", category="error")
+        return redirect(url_for('auth.signin'))
+
+    studentID = student_record['studentID']
+
     if request.method == 'POST':
         image = request.files.get('image')
+        option = request.form.get('option')
         title = request.form.get('title')
         description = request.form.get('description')
+        price = request.form.get('price') if option == 'gig' else None
 
         # Validating Entries
-        if not (image and title and description):
+        if not (image and title and description and option):
             flash('Kindly fill in all fields', category='error')
 
             return redirect(request.url)
+        
 
         if image and allowed_file(image.filename):
 
@@ -275,14 +289,32 @@ def student():
                 filename= secure_filename(image.filename)
                 image.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
 
+                userID = session['userID']
+
                 # inserting into database
                 cursor = conn.cursor(dictionary=True)
-                cursor.execute("INSERT INTO projects (image, title, description) VALUES (%s, %s, %s)", (filename, title, description))
+
+                if option.lower() == 'gig':
+                    cursor.execute(
+                    "INSERT INTO gigs (image, title, description, price, studentID) VALUES (%s, %s, %s, %s, %s)",
+                    (filename, title, description, price, studentID)
+                )
+                    flash("Your gig has been successfully added", category="success")
+
+                elif option.lower() == 'project':
+                    cursor.execute(
+                    "INSERT INTO projects (image, title, description, studentID) VALUES (%s, %s, %s, %s)",
+                    (filename, title, description, studentID)
+                )
+                    flash("Your project has been successfully added", category="success")
+
+                else:
+                    flash("Invalid submission type.", category='error')
+                    return redirect(request.url)
+
                 conn.commit()
-
-                flash('Your project has been added successfully', category="success")
-
                 return redirect(url_for('dash.student'))
+
 
             # Handling Exceptions
             except Exception as e:
@@ -309,10 +341,10 @@ def student():
 
         cursor= conn.cursor(dictionary=True)
 
-        cursor.execute("SELECT * FROM projects WHERE userID = %s", (session['userID'],))
+        cursor.execute("SELECT * FROM projects WHERE studentID = %s", (studentID,))
         projects=cursor.fetchall()
 
-        cursor.execute("SELECT * FROM gigs WHERE userID = %s", (session['userID'],))
+        cursor.execute("SELECT gigs.*, users.fname, users.lname FROM gigs JOIN students ON gigs.studentID = students.studentID JOIN users ON students.userID = users.userID WHERE gigs.studentID = %s", (studentID,))
         gigs=cursor.fetchall()
 
         if projects and projects!=None:
@@ -324,13 +356,16 @@ def student():
                     'image' : project['image']
                 })
 
-        if not gigs and gigs!=None:
+        if gigs and gigs!=None:
             for gig in gigs:
                 gigsDetails.append({
-                    'projectID' : gig['projectID'],
+                    'gigID' : gig['gigID'],
                     'title' : gig['title'],
                     'description' : gig['description'],
-                    'image' : gig['image']
+                    'image' : gig['image'],
+                    'price' : gig['price'],
+                    'fname': gig['fname'],
+                    'lname': gig['lname']
                 })
 
         return render_template(
@@ -349,7 +384,8 @@ def student():
         if 'cursor' in locals() and cursor is not None:
             cursor.close()
 
-    return render_template(
-        'dashboard/students/student.html',
-        user=user
-    )
+    #     return render_template(
+    #     'dashboard/students/student.html',
+    #     user=user,  projects=projectsDetails, gigs=gigsDetails
+
+    # )
