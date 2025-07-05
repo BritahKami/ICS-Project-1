@@ -57,7 +57,7 @@ def about():
 def gigs():
     try:
         cursor= conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM gigs")
+        cursor.execute("SELECT gigs.*, users.fname, users.lname FROM gigs JOIN students ON gigs.studentID = students.studentID JOIN users ON students.userID = users.userID")
         gigs=cursor.fetchall()
 
         if not gigs or gigs==None:
@@ -75,10 +75,6 @@ def gigs():
         if 'cursor' in locals() and cursor is not None:
             cursor.close()
 
-
-@pages.route('/addgigs')
-def addgigs():
-    return render_template('gigs/addgigs.html')
 
 @pages.route('/jobs')
 def jobs():
@@ -150,48 +146,48 @@ def developers():
 def faqs():
     return render_template('other/comingsoon.html')
 
-@pages.route('/add_reviews', methods=['GET', 'POST'])
-def add_reviews():
-    if request.method == 'POST':
+# @pages.route('/add_reviews', methods=['GET', 'POST'])
+# def add_reviews():
+#     if request.method == 'POST':
     
-        user = session.get('userID')
-        # profile validation
-        if not user or user==None:
-            flash('Please create an account first', category='error')
+#         user = session.get('userID')
+#         # profile validation
+#         if not user or user==None:
+#             flash('Please create an account first', category='error')
 
-            return redirect(url_for('auth.signup'))
-        try: 
-        #capturing entires
-            fname = request.form.get('fname')
-            lname = request.form.get('lname')
-            comment = request.form.get('comment')
+#             return redirect(url_for('auth.signup'))
+#         try: 
+#         #capturing entires
+#             fname = request.form.get('fname')
+#             lname = request.form.get('lname')
+#             comment = request.form.get('comment')
 
-            if not (fname and lname and comment):
-                flash('Kindly fill in all fields', category='error')
+#             if not (fname and lname and comment):
+#                 flash('Kindly fill in all fields', category='error')
 
-                return redirect(request.url)
+#                 return redirect(request.url)
            
-        # inserting into database
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute("INSERT INTO reviews(userID,fname, lname, comment) VALUES (%s, %s, %s, %s)", (user,fname, lname, comment))
-            conn.commit()
+#         # inserting into database
+#             cursor = conn.cursor(dictionary=True)
+#             cursor.execute("INSERT INTO reviews(userID,fname, lname, comment) VALUES (%s, %s, %s, %s)", (user,fname, lname, comment))
+#             conn.commit()
 
-            flash("Thank you for your review", category='success')
+#             flash("Thank you for your review", category='success')
 
-            return redirect(url_for('pages.reviews'))
+#             return redirect(url_for('pages.reviews'))
             
-        # Log the error
-        except Exception as e:
-            errhandler(e, 'pages/addreviews')
-            flash("An error has occured", category='error')
-            return redirect(url_for('pages.homepage'))
+#         # Log the error
+#         except Exception as e:
+#             errhandler(e, 'pages/addreviews')
+#             flash("An error has occured", category='error')
+#             return redirect(url_for('pages.homepage'))
         
-        # Close cursor
-        finally:
-            if 'cursor' in locals() and cursor is not None:
-                cursor.close()
+#         # Close cursor
+#         finally:
+#             if 'cursor' in locals() and cursor is not None:
+#                 cursor.close()
 
-    return render_template('reviews/addreviews.html')
+#     return render_template('reviews/addreviews.html')
 
 
 @pages.route('/reviews', methods=['GET', 'POST'])
