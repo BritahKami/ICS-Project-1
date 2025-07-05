@@ -240,6 +240,8 @@ def signup():
         email = request.form.get('email')
         # phone = request.form.get('phone')
         gender = request.form.get('gender')
+        course = request.form.get('course')
+        DOB = request.form.get('DOB')
         password = request.form.get('password')
         confpass = request.form.get('confpass')
         role = request.form.get('role')
@@ -248,7 +250,7 @@ def signup():
         # profilepic = picHandler()
 
         # Validating Entries
-        if not (fname and lname and uname and email and gender and password and confpass and role):
+        if not (fname and lname and uname and email and gender and course and DOB and password and confpass and role):
             flash("Please fill in all fields")
             return redirect(request.url)
 
@@ -277,7 +279,15 @@ def signup():
 
             # Inserting User Into Database
             cursor.execute("INSERT INTO users (fname, lname, uname, email, gender, password, role) VALUES (%s, %s, %s, %s, %s, %s, %s)", (fname, lname, uname, email, gender, hash, role))
+
+            # Getting Last Inserted userID
+            user = cursor.lastrowid
+
+            # Inserting Business into Database
+            cursor.execute("INSERT INTO students (course, DOB, userID) VALUES (%s, %s, %s)", (course, DOB, user))
+
             conn.commit()
+
 
             #Success Message
             flash("Account created successfully", category='success')
