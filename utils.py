@@ -147,8 +147,11 @@ def cleanFilename(filename):
 """
 ********** Image Handler **********
 """
-def imghandler(img, path, subPath, **kwargs):
-    # Checking Operation Type
+def imghandler(**kwargs):
+    # Keyword Arguments
+    img = kwargs.get('img', None)
+    path = kwargs.get('path', 'uploads')
+    subPath = kwargs.get('subPath', 'undefined')
     operation = kwargs.get('operation', None)
 
     # Defaults
