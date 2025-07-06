@@ -259,113 +259,147 @@ def student():
 
     #fetching studentID for the logged in user
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT studentID FROM students WHERE userID = %s", (session['userID'],))
+    cursor.execute("SELECT * FROM students WHERE userID = %s", (session['userID'],))
     student_record = cursor.fetchone()
 
     if not student_record:
-        flash("Student profile not found", category="error")
+        # Error Message
+        flash("You are not authorized to access this page", category="error")
+
+        # Clearing Sessions
+        session.clear()
+
+        # Redirecting
         return redirect(url_for('auth.signin'))
 
+    # Capturing Student Details
     studentID = student_record['studentID']
+    studentUserID = student_record['userID']
+
+    # Validating userID in Students and userID in Session Match
+    if studentUserID != session['userID']:
+        # Error Message
+        flash('Your authentication details are corrupted', category='error')
+
+        # Clearing Sessions
+        session.clear()
+
+        # Redirecting
+        return redirect(url_for('auth.signin'))
 
     if request.method == 'POST':
-        image = request.files.get('image')
-        option = request.form.get('option')
         title = request.form.get('title')
-        description = request.form.get('description')
+        option = request.form.get('option')
         price = request.form.get('price') if option == 'gig' else None
+        description = request.form.get('description')
+        image = request.files.get('image')
 
         # Validating Entries
-        if not (image and title and description and option):
+        if not (title and option and description and image):
+            # Error Message
             flash('Kindly fill in all fields', category='error')
 
+            # Redirecting
             return redirect(request.url)
-        
 
-        if image and allowed_file(image.filename):
+        # Image Processing
+        from utils import imghandler
+        image = imghandler(img = image, subPath = 'items')
 
-            try:
-                #secure and save the file
-                filename= secure_filename(image.filename)
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'],filename))
+        # Database Operations
+        try:
+            # Initializing Cursor
+            cursor = conn.cursor(dictionary=True)
 
-                userID = session['userID']
+            # For Gigs Option
+            if option.lower() == 'gig':
+                cursor.execute(
+                "INSERT INTO gigs (title, price, description, image, userID, studentID) VALUES (%s, %s, %s, %s, %s, %s)",
+                (title, price, description, image, studentUserID, studentID)
+            )
 
-                # inserting into database
-                cursor = conn.cursor(dictionary=True)
+            # For Projects Option
+            elif option.lower() == 'project':
+                cursor.execute(
+                "INSERT INTO projects (title, description, image, userID, studentID) VALUES (%s, %s, %s, %s, %s)",
+                (title, description, image, studentUserID, studentID)
+            )
 
-                if option.lower() == 'gig':
-                    cursor.execute(
-                    "INSERT INTO gigs (image, title, description, price, studentID) VALUES (%s, %s, %s, %s, %s)",
-                    (filename, title, description, price, studentID)
-                )
-                    flash("Your gig has been successfully added", category="success")
+            else:
+                # Error Message
+                flash("Invalid operation type.", category='error')
 
-                elif option.lower() == 'project':
-                    cursor.execute(
-                    "INSERT INTO projects (image, title, description, studentID) VALUES (%s, %s, %s, %s)",
-                    (filename, title, description, studentID)
-                )
-                    flash("Your project has been successfully added", category="success")
-
-                else:
-                    flash("Invalid submission type.", category='error')
-                    return redirect(request.url)
-
-                conn.commit()
-                return redirect(url_for('dash.student'))
-
-
-            # Handling Exceptions
-            except Exception as e:
-                errhandler(e, 'pages/project')
-
-                flash('An error has occurred. Try again later', category='error')
-
+                # Redirecting
                 return redirect(request.url)
 
-            # Closing Cursor
-            finally:
-                if 'cursor' in locals() and cursor is not None:
-                    cursor.close()
+            # Committing Transaction
+            conn.commit()
 
-        else:
-            flash("Invalid image format. Allowed types: png, jpg, jpeg, gif.", category='error')
+            # Success Message
+            flash(f"Your {option.lower()} has been added successfully", category='success')
+
+            # Redirecting
+            return redirect(url_for('dash.dashboard'))
+
+        # Handling Exceptions
+        except Exception as e:
+            # Transaction Rollback
+            conn.rollback()
+
+            # Logging Error
+            errhandler(e, 'pages/project')
+
+            # Error Message
+            flash('An error has occurred. Try again later', category='error')
+
+            # Redirecting
             return redirect(request.url)
 
-    # Query for projects
+        # Closing Cursor
+        finally:
+            if 'cursor' in locals() and cursor is not None:
+                cursor.close()
+
+    # Querying for Gigs & Projects
     try:
         # Lists for Queried Items
         projectsDetails = []
         gigsDetails = []
 
+        # Initializing Cursor
         cursor= conn.cursor(dictionary=True)
 
+        # Fetching Projects
         cursor.execute("SELECT * FROM projects WHERE studentID = %s", (studentID,))
         projects=cursor.fetchall()
 
-        cursor.execute("SELECT gigs.*, users.fname, users.lname FROM gigs JOIN students ON gigs.studentID = students.studentID JOIN users ON students.userID = users.userID WHERE gigs.studentID = %s", (studentID,))
+        # Fetching Gigs
+        cursor.execute("SELECT * FROM gigs WHERE studentID = %s", (studentID,))
         gigs=cursor.fetchall()
 
+        # Validating Projects Query Results
         if projects and projects!=None:
             for project in projects:
                 projectsDetails.append({
                     'projectID' : project['projectID'],
                     'title' : project['title'],
                     'description' : project['description'],
-                    'image' : project['image']
+                    'image' : project['image'],
+                    'userID' : project['userID'],
+                    'studentID' : project['studentID']
                 })
 
+        # Validating Gigs Query Results
         if gigs and gigs!=None:
             for gig in gigs:
                 gigsDetails.append({
                     'gigID' : gig['gigID'],
                     'title' : gig['title'],
                     'description' : gig['description'],
-                    'image' : gig['image'],
                     'price' : gig['price'],
-                    'fname': gig['fname'],
-                    'lname': gig['lname']
+                    'image' : gig['image'],
+                    'userID' : gig['userID'],
+                    'studentID' : gig['studentID']
                 })
 
         return render_template(
@@ -373,19 +407,15 @@ def student():
             user=user,
             projects=projectsDetails,
             gigs=gigsDetails
-            )
-    
+        )
+
+    # Handling Exceptions
     except Exception as e:
         errhandler(e, 'pages/projects')
         flash('An error has occurred.', category="error")
         return redirect(url_for('pages.homepage'))
-    
+
+    # Closing Cursor
     finally:
         if 'cursor' in locals() and cursor is not None:
             cursor.close()
-
-    #     return render_template(
-    #     'dashboard/students/student.html',
-    #     user=user,  projects=projectsDetails, gigs=gigsDetails
-
-    # )
