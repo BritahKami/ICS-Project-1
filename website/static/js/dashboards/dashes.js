@@ -26,13 +26,15 @@ function closeModal(e) {
     }
 }
 //Display or Hide price
-optionSelect.addEventListener('change', function () {
+if (optionSelect && priceField) {
+    optionSelect.addEventListener('change', function () {
         if (this.value === 'gig') {
             priceField.style.display = 'block';
         } else {
             priceField.style.display = 'none';
         }
     });
+}
 
 // Event listeners
 if (addJob) addJob.addEventListener('click', showModal);
