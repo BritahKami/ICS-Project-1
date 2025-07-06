@@ -177,7 +177,7 @@ signup
             <option value="{{industry.id}}">{{industry.name}}</option>
             {% endfor%}
             {% else %}
-            <option>No industries to show</option>
+            <option value="">No industries to show</option>
             {% endif %}
         </select>
 
@@ -188,9 +188,9 @@ signup
             {% if countries %}
             {% for country in countries %}
             <option value="{{country.id}}">{{country.nicename}}</option>
-            {% endfor%}
+            {% endfor %}
             {% else %}
-            <option>No countries to show</option>
+            <option value="">No countries to show</option>
             {% endif %}
         </select>
 
