@@ -6,14 +6,14 @@ CareerConnect | Gigs
 
 {% block css %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/gigs/gigs.css')}}">
-{% endblock %} 
+{% endblock %}
 
 {% block body %}
 
    <div id="gigs_container">
         <div id="gigs_row">
             <div id="first_gig">
-             <div id="gig_image">  
+             <div id="gig_image">
             <img src="{{url_for('static', filename='images/gigs/logoMaker.jpeg')}}" alt="First gig">
               </div> 
               <div class="gig_details">
@@ -32,7 +32,7 @@ CareerConnect | Gigs
             </div>
 
             <div id="first_gig">
-             <div id="gig_image">  
+             <div id="gig_image">
             <img src="{{url_for('static', filename='images/gigs/gig2.jpeg')}}" alt="First gig">
               </div> 
               <div class="gig_details">
@@ -51,7 +51,7 @@ CareerConnect | Gigs
             </div>
 
             <div id="first_gig">
-             <div id="gig_image">  
+             <div id="gig_image">
             <img src="{{url_for('static', filename='images/gigs/gig3.jpeg')}}" alt="First gig">
               </div> 
               <div class="gig_details">
@@ -70,7 +70,7 @@ CareerConnect | Gigs
             </div>
 
             <div id="first_gig">
-             <div id="gig_image">  
+             <div id="gig_image">
             <img src="{{url_for('static', filename='images/gigs/gig4.jpeg')}}" alt="First gig">
               </div> 
               <div class="gig_details">
@@ -89,7 +89,7 @@ CareerConnect | Gigs
             </div>
 
             <div id="first_gig">
-             <div id="gig_image">  
+             <div id="gig_image">
             <img src="{{url_for('static', filename='images/gigs/gig5.jpeg')}}" alt="First gig">
               </div> 
               <div class="gig_details">
@@ -108,7 +108,7 @@ CareerConnect | Gigs
             </div>
 
             <div id="first_gig">
-             <div id="gig_image">  
+             <div id="gig_image">
             <img src="{{url_for('static', filename='images/gigs/gig6.jpeg')}}" alt="First gig">
               </div> 
               <div class="gig_details">
@@ -128,7 +128,7 @@ CareerConnect | Gigs
 
             {% for gig in gigs %}
             <div id="first_gig">
-            <div id="gig_image">  
+            <div id="gig_image">
             <img src="{{ url_for('static', filename='uploads/' ~ gig.image) }}" alt="Gig image">
             </div> 
 
@@ -152,6 +152,13 @@ CareerConnect | Gigs
            {% endfor %}
 
         </div>
-
     </div>
+{% endblock %}
+
+<!--Reviews-->
+{% block reviews %}
+{% endblock %}
+
+<!--FAQs-->
+{% block faqs %}
 {% endblock %}
