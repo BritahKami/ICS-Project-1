@@ -5,11 +5,11 @@
 }
 
 #studentForm {
-    min-height: 100vh;
+    min-height: 1500px;
 }
 
 #businessForm {
-    min-height: 1000px;
+    min-height: 1500px;
 }
 
 #signin {
@@ -33,6 +33,12 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.auth-form h4 {
+    text-align: center;
+    color: var(--text-dark);
+    margin-top: 30px;
 }
 
 .auth-form label {
@@ -81,14 +87,24 @@
     grid-template-columns: auto;
 }
 
-.form-content span:nth-child(1) a {
+.form-content span {
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+}
+
+.form-content span:nth-child(2) a {
     color: var(--secondary-color);
     text-decoration: none;
 }
 
-.form-content span:nth-child(2) {
+.form-content span:nth-child(2):hover a {
+    color: var(--tertiery-color);
+    font-weight: bold;
+}
+
+.form-content span:nth-child(3):hover {
     color: var(--text-pink);
-    cursor: pointer;
+    font-weight: bold;
 }
 
 .form-content button {

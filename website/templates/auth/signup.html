@@ -30,6 +30,9 @@ signup
 
     <!--Student Form-->
     <form class="auth-form" action="/signup" method="POST">
+        <!--Subtitle-->
+        <h4>Personal Details</h4>
+
         <!--First Name-->
         <label for="fname">First Name</label>
         <input type="text" placeholder="e.g John" name="fname" required>
@@ -42,9 +45,9 @@ signup
         <label for="uname">Username</label>
         <input type="text" placeholder="e.g johndoe" name="uname" required>
 
-        <!--Email-->
-        <label for="email">Email Address</label>
-        <input type="email" placeholder="e.g example@mail.com" name="email" required>
+        <!--Phone Number-->
+        <label for="phone">Phone Number</label>
+        <input type="number" placeholder="e.g 70700700" maxlength="9" name="phone" required>
 
         <!--Gender-->
         <label for="gender">Gender</label>
@@ -54,13 +57,54 @@ signup
             <option value="female">Female</option>
         </select>
 
-        <!-- Course -->
-        <label for="course">Course</label>
-        <input type="text" placeholder="e.g Computer Science" name="course" required>
-
-        <!-- Date of Birth -->
+        <!--Date of Birth-->
         <label for="DOB">Date of Birth</label>
         <input type="date" name="DOB" required>
+
+        <!--Subtitle-->
+        <h4>Academic Details</h4>
+
+        <!--Institution-->
+        <label for="institution">Institution</label>
+        <input type="text" value="Strathmore University" name="institution" readonly required>
+
+        <!-- Year of Start -->
+        <label for="yomStart">Year of Start</label>
+        <input type="number" placeholder="e.g 2022" name="yomStart" min="2020" max="2025" required step="1">
+
+        <!--Year of Finish-->
+        <label for="yomFinish">Year of Finish</label>
+        <input type="number" placeholder="e.g 2027" name="yomFinish" min="2020" max="2030" required step="1">
+
+        <!--Email-->
+        <label for="email">School Email Address</label>
+        <input type="email" placeholder="e.g example@institution.com" name="email" required>
+
+        <!-- Faculty -->
+        <label for="course">Faculty</label>
+        <select id="facultySelect" name="faculty" required>
+            <option value="">~ Select Faculty</option>
+            {% if faculties %}
+            {% for faculty in faculties %}
+            <option value="{{faculty.id}}">{{faculty.name}}</option>
+            {% endfor %}
+            {% else %}
+            <option value="" disabled>No faculties to show</option>
+            {% endif %}
+        </select>
+
+        <!-- Course -->
+        <label for="course">Course</label>
+        <select id="courseSelect" name="course" required>
+            <option value="">~ Select Course</option>
+            {% if courses %}
+            {% for course in courses %}
+            <option value="{{course.id}}">{{course.name}}</option>
+            {% endfor %}
+            {% else %}
+            <option value="" disabled>No courses to show</option>
+            {% endif %}
+        </select>
 
         <!--Password-->
         <label for="password">Create Password</label>
@@ -90,6 +134,9 @@ signup
 
     <!--Business Form-->
     <form class="auth-form" action="/signup/business" method="POST">
+        <!--Subtitle-->
+        <h4>Personal Details</h4>
+
         <!--First Name-->
         <label for="fname">First Name</label>
         <input type="text" placeholder="e.g John" name="fname" required>
@@ -109,6 +156,9 @@ signup
             <option value="male">Male</option>
             <option value="female">Female</option>
         </select>
+
+        <!--Subtitle-->
+        <h4>Business Details</h4>
 
         <!--Business Name-->
         <label for="bname">Business name</label>
@@ -187,5 +237,30 @@ signup
 
 <!--Independent JS-->
 {% block js %}
+<!--JS to Filter Courses Based on Selected Faculty-->
+<script>
+    const allCourses = {{ courses | tojson }};
+
+    const facultySelect = document.getElementById('facultySelect');
+    const courseSelect = document.getElementById('courseSelect');
+
+    facultySelect.addEventListener('change', function () {
+        const selectedFacultyId = parseInt(this.value);
+        // Clear current course options
+        courseSelect.innerHTML = '<option value="">~ Select Course</option>';
+
+        // Filter and populate
+        const filteredCourses = allCourses.filter(course => course.faculty_id === selectedFacultyId);
+
+        filteredCourses.forEach(course => {
+            const option = document.createElement('option');
+            option.value = course.id;
+            option.textContent = course.name;
+            courseSelect.appendChild(option);
+        });
+    });
+</script>
+
+<!--Signup JS-->
 <script src="{{url_for('static', filename='js/auth/signup.js')}}"></script>
 {% endblock %}

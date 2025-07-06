@@ -237,21 +237,31 @@ def signup():
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         uname = request.form.get('uname')
-        email = request.form.get('email')
-        # phone = request.form.get('phone')
+        phone = request.form.get('phone')
         gender = request.form.get('gender')
+        dob = request.form.get('DOB')
+
+        institution = request.form.get('institution')
+        yomStart = request.form.get('yomStart')
+        yomFinish = request.form.get('yomFinish')
+        email = request.form.get('email')
+        faculty = request.form.get('faculty')
         course = request.form.get('course')
-        DOB = request.form.get('DOB')
+
         password = request.form.get('password')
         confpass = request.form.get('confpass')
         role = request.form.get('role')
 
-        # Profile Picture
-        # profilepic = picHandler()
+        # Assigning Default Profile Picture
+        from utils import imghandler
+        profilepic = imghandler()
 
         # Validating Entries
-        if not (fname and lname and uname and email and gender and course and DOB and password and confpass and role):
+        if not (fname and lname and uname and phone and gender and dob and institution and yomStart and yomFinish and email and faculty and course and password and confpass and role and profilepic):
+            # Error Message
             flash("Please fill in all fields")
+
+            # Redirecting
             return redirect(request.url)
 
         try:
@@ -281,13 +291,13 @@ def signup():
             cursor.execute("INSERT INTO users (fname, lname, uname, email, gender, password, role) VALUES (%s, %s, %s, %s, %s, %s, %s)", (fname, lname, uname, email, gender, hash, role))
 
             # Getting Last Inserted userID
-            user = cursor.lastrowid
+            userID = cursor.lastrowid
 
-            # Inserting Business into Database
-            cursor.execute("INSERT INTO students (course, DOB, userID) VALUES (%s, %s, %s)", (course, DOB, user))
+            # Inserting Student into Database
+            cursor.execute("INSERT INTO students (DOB, phone, institution, yomStart, yomFinish, email, facultyID, courseID, profilePic, userID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (dob, phone, institution, yomStart, yomFinish, email, faculty, course, profilepic, userID))
 
+            # Committing Transactions
             conn.commit()
-
 
             #Success Message
             flash("Account created successfully", category='success')
@@ -296,6 +306,9 @@ def signup():
             return redirect(url_for('auth.signin'))
 
         except Exception as e:
+            # Transaction Rollback
+            conn.rollback()
+
             # Logging Error
             logger = 'auth/signup'
             errhandler(e, logger)
@@ -311,12 +324,18 @@ def signup():
             if 'cursor' in locals() and cursor is not None:
                 cursor.close()
 
-    # Capturing Country Codes
+    # Capturing Faculties, Courses, Country Codes & Industries
     try:
         # Initializing Cursor
         cursor = conn.cursor(dictionary=True)
 
         # Querying Database
+        cursor.execute("SELECT * FROM faculties")
+        faculties = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM courses")
+        courses = cursor.fetchall()
+
         cursor.execute("SELECT * FROM countries")
         countries = cursor.fetchall()
 
@@ -324,13 +343,26 @@ def signup():
         industries = cursor.fetchall()
 
         # List Objects for Retrieved Data
+        facultiesData = []
+        coursesData = []
         countriesData = []
         industriesData = []
 
         # Verifying Retrieved Data
-        if ((not (countries)) or (countries == None)) or ((not (industries)) or (industries == None)):
+        if ((not (faculties)) or (faculties == None)) or ((not courses) or (courses == None)) or ((not (countries)) or (countries == None)) or ((not (industries)) or (industries == None)):
             # Error Message
-            flash("An error occured retrieving the list of countries and industries")
+            flash("An error occured retrieving the list of some imported data. Please try again later", category='error')
+
+            # Redirecting
+            return redirect(request.url)
+
+        # Appending Faculties to List
+        for faculty in faculties:
+            facultiesData.append(faculty)
+
+        # Appending Courses to List
+        for course in courses:
+            coursesData.append(course)
 
         # Appending Countries to List
         for country in countries:
@@ -357,6 +389,8 @@ def signup():
     # Rendering Template
     return render_template(
         'auth/signup.html',
+        faculties = facultiesData,
+        courses = coursesData,
         countries = countriesData,
         industries = industriesData
     )
