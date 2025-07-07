@@ -92,6 +92,13 @@ def comingsoon():
 
 @pages.route('/about')
 def about():
+    # Session Validation
+    userID = session.get('userID')
+    if userID:
+        return render_template(
+            'about/about.html',
+            userID=userID
+        )
     return render_template('about/about.html')
 
 @pages.route('/gigs', methods=['GET'])
@@ -164,11 +171,103 @@ def gigs():
 
 @pages.route('/jobs')
 def jobs():
-    return render_template('jobs/jobs.html')
+    # Uninitializing User
+    user = None
+
+    # Session Validation
+    userID = session.get('userID')
+
+    # Database Operations
+    try:
+        # Initializing Cursor
+        cursor = conn.cursor(dictionary=True)
+
+        # Capturing Jobs
+        cursor.execute("SELECT * FROM jobs")
+        jobs = cursor.fetchall()
+
+        # Capturing Internships
+        cursor.execute("SELECT * FROM internships")
+        internships = cursor.fetchall()
+
+        # Business Data Lists
+        businessDetails = []
+        jobsDetails = []
+        internshipsDetails = []
+
+        # Validating Jobs Query Result
+        if jobs and (jobs != None):
+            # Capture bname from Businesses Table
+            cursor.execute("SELECT bname FROM businesses WHERE businessID = %s", (jobs[0]['businessID'],))
+            businessName = cursor.fetchone()
+
+            if businessName:
+                # Appending Business Details
+                businessDetails.append({
+                    'bname': businessName['bname']
+                })
+
+            # Appending Jobs Details
+            for job in jobs:
+                jobsDetails.append({
+                    'jobID': job['jobID'],
+                    'title': job['title'],
+                    'description': job['description'],
+                    'icon': job['icon'].replace('website/static/uploads/items/', ''),
+                    'businessID': job['businessID']
+                })
+
+        # Validating Internships Query Result
+        if internships and (internships != None):
+            # Appending Internships Details
+            for internship in internships:
+                internshipsDetails.append({
+                    'internshipID': internship['internshipID'],
+                    'title': internship['title'],
+                    'description': internship['description'],
+                    'icon': internship['icon'].replace('website/static/uploads/items/', ''),
+                    'userID': internship['userID'],
+                    'businessID': internship['businessID']
+                })
+
+
+        # Rendering Template
+        return render_template(
+            'jobs/jobs.html',
+            userID=userID,
+            jobs=jobsDetails,
+            internships=internshipsDetails
+        )
+
+    # Handling Exceptions
+    except Exception as e:
+        # Logging Error
+        errhandler(e, 'pages/jobs')
+
+        # Error Message
+        flash('An error has occurred retrieving jobs.', category="error")
+
+        # Redirecting
+        return redirect(url_for('pages.homepage'))
+
+    # Closing Cursor
+    finally:
+        if 'cursor' in locals() and cursor is not None:
+            cursor.close()
+
+    # Rendering Template
+    return render_template(
+        'jobs/jobs.html',
+        userID=userID
+    )
 
 # Contact Page
 @pages.route('/contact', methods=['GET', 'POST'])
 def contact():
+    # Session Validation
+    userID = session.get('userID')
+
+    # Checking Access Method
     if request.method == 'POST':
         fname = request.form.get('fname')
         lname = request.form.get('lname')
@@ -214,7 +313,10 @@ def contact():
                 cursor.close()
 
 
-    return render_template('contact/contact.html')
+    return render_template(
+        'contact/contact.html',
+        userID=userID
+    )
 
 @pages.route('/blog')
 def blog():
