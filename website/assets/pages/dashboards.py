@@ -129,7 +129,7 @@ def business():
         if key in session:
             user[key] = session[key]
 
-    # Retrieving Database Info
+    # Database Operations
     try:
         # Initializing Cursor
         cursor = conn.cursor(dictionary=True)
@@ -209,6 +209,10 @@ def business():
                 'icon': business['icon']
             })
 
+        # Storing Business Icon Separately
+        if business and (business != None) and ('icon' in business):
+            businessIcon = business['icon'].replace('website/static/uploads/accounts/', '')
+
         # Validating Jobs Query Result
         if jobs and (jobs != None):
             # Appending Jobs Details
@@ -239,6 +243,7 @@ def business():
         return render_template(
             'dashboard/businesses/business.html',
             user=user,
+            businessIcon=businessIcon if 'businessIcon' in locals() else None,
             business=businessDetails,
             jobs=jobsDetails,
             internships=internshipsDetails,
@@ -500,10 +505,15 @@ def student():
                     'studentID' : gig['studentID']
                 })
 
-        print (student_icon['profilePic'].replace('website/static/uploads/accounts/', ''))
+        # Storing Student Icon Separately
+        if student_icon and (student_icon != None) and ('profilePic' in student_icon):
+            student_icon = student_icon['profilePic'].replace('website/static/uploads/accounts/', '')
+
+        # Rendering Template
         return render_template(
             'dashboard/students/student.html',
             user=user,
+            studentIcon=student_icon if 'student_icon' in locals() else None,
             projects=projectsDetails,
             gigs=gigsDetails,
             faculties = facultiesData,
