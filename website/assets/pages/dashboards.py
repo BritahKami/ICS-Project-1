@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, current_app
 from website.database.connector import dbconnector
 from utils import errhandler
-import os 
+import os
 from werkzeug.utils import secure_filename
 
 
@@ -10,11 +10,6 @@ dash = Blueprint('dash', __name__)
 
 # Database Connection
 conn = dbconnector()
-
-#allowed image extensions
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Access Verification Route
 @dash.route('/dashboard', methods=['GET', 'POST'])
@@ -259,10 +254,10 @@ def student():
 
     #fetching studentID for the logged in user
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM students WHERE userID = %s", (session['userID'],))
+    cursor.execute("SELECT studentID FROM students WHERE userID = %s", (session['userID'],))
     student_record = cursor.fetchone()
 
-    if not student_record:
+    if (not student_record) or (student_record == None):
         # Error Message
         flash("You are not authorized to access this page", category="error")
 
@@ -274,18 +269,6 @@ def student():
 
     # Capturing Student Details
     studentID = student_record['studentID']
-    studentUserID = student_record['userID']
-
-    # Validating userID in Students and userID in Session Match
-    if studentUserID != session['userID']:
-        # Error Message
-        flash('Your authentication details are corrupted', category='error')
-
-        # Clearing Sessions
-        session.clear()
-
-        # Redirecting
-        return redirect(url_for('auth.signin'))
 
     if request.method == 'POST':
         title = request.form.get('title')
@@ -314,15 +297,15 @@ def student():
             # For Gigs Option
             if option.lower() == 'gig':
                 cursor.execute(
-                "INSERT INTO gigs (title, price, description, image, userID, studentID) VALUES (%s, %s, %s, %s, %s, %s)",
-                (title, price, description, image, studentUserID, studentID)
+                "INSERT INTO gigs (title, price, description, image, studentID) VALUES (%s, %s, %s, %s, %s)",
+                (title, price, description, image, studentID)
             )
 
             # For Projects Option
             elif option.lower() == 'project':
                 cursor.execute(
-                "INSERT INTO projects (title, description, image, userID, studentID) VALUES (%s, %s, %s, %s, %s)",
-                (title, description, image, studentUserID, studentID)
+                "INSERT INTO projects (title, description, image, studentID) VALUES (%s, %s, %s, %s)",
+                (title, description, image, studentID)
             )
 
             else:
@@ -377,6 +360,27 @@ def student():
         cursor.execute("SELECT * FROM gigs WHERE studentID = %s", (studentID,))
         gigs=cursor.fetchall()
 
+        try:
+            # Capture User's Names & Icon From Users & Students Tables
+            cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (session['userID'],))
+            user_details = cursor.fetchone()
+
+            cursor.execute("SELECT profilePic FROM students WHERE userID = %s", (session['userID'],))
+            student_icon = cursor.fetchone()
+
+        except Exception as e:
+            # Logging Error
+            errhandler(e, 'pages/student')
+
+            # Error Message
+            flash("An error occurred retrieving your data", category="error")
+
+            # Clearing Sessions
+            session.clear()
+
+            # Redirecting
+            return redirect(url_for('auth.signin'))
+
         # Validating Projects Query Results
         if projects and projects!=None:
             for project in projects:
@@ -385,7 +389,9 @@ def student():
                     'title' : project['title'],
                     'description' : project['description'],
                     'image' : project['image'],
-                    'userID' : project['userID'],
+                    'icon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
+                    'fname' : user_details['fname'],
+                    'lname' : user_details['lname'],
                     'studentID' : project['studentID']
                 })
 
@@ -398,7 +404,9 @@ def student():
                     'description' : gig['description'],
                     'price' : gig['price'],
                     'image' : gig['image'],
-                    'userID' : gig['userID'],
+                    'icon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
+                    'fname' : user_details['fname'],
+                    'lname' : user_details['lname'],
                     'studentID' : gig['studentID']
                 })
 

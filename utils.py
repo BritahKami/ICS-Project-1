@@ -154,15 +154,29 @@ def imghandler(**kwargs):
     subPath = kwargs.get('subPath', 'undefined')
     operation = kwargs.get('operation', None)
 
-    # Defaults
+    # Uploads Folder Path
     UPLOAD_FOLDER = os.path.join('website', 'static', path, subPath)
 
-    DEFAULT_PICTURE_PATH = os.path.join('website', 'static', 'uploads', 'placeholder.png')
+    # Default Picture Path
+    DEFAULT_PICTURE_PATH = os.path.join('website', 'static', path, subPath, 'placeholder.png')
+
+    #allowed Image Extensions
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
     # If Operation is to Add an Image or is Unspecified
     if operation is None or operation == 'add':
         try:
+            # Validating Image File
             if img and hasattr(img, 'filename') and img.filename != '':
+
+                # Validating File Extension
+                if '.' not in img.filename or img.filename.rsplit('.', 1)[1].lower() not in ALLOWED_EXTENSIONS:
+                    # Logging Information
+                    syshandler("Invalid file extension", 'process/imghandler')
+
+                    # Returning Default Picture Path
+                    return DEFAULT_PICTURE_PATH.replace('\\', '/')
+
                 # Generating Safe Filename
                 filename = cleanFilename(img.filename)
 

@@ -254,7 +254,7 @@ def signup():
 
         # Assigning Default Profile Picture
         from utils import imghandler
-        profilepic = imghandler()
+        profilepic = imghandler(subPath='accounts')
 
         # Validating Entries
         if not (fname and lname and uname and phone and gender and dob and institution and yomStart and yomFinish and email and faculty and course and password and confpass and role and profilepic):
@@ -422,11 +422,12 @@ def signupBusiness():
         confpass = request.form.get('confpass')
         role = request.form.get('role')
 
-        # Profile Picture
-        # profilepic = picHandler()
+        # Assigning Default Profile Picture
+        from utils import imghandler
+        profilePic = imghandler(subPath='accounts')
 
         # Validating Entries
-        if not (fname and lname and uname and gender and bname and email and origin and city and phone and password and confpass and role):
+        if not (fname and lname and uname and gender and bname and email and origin and city and phone and password and confpass and role and profilePic):
             # Error Message
             flash("Please fill in all fields")
 
@@ -434,7 +435,7 @@ def signupBusiness():
             return redirect(request.url)
 
         try:
-            # Query Cursor
+            # Initializing Cursor
             cursor = conn.cursor(dictionary=True)
 
             # Checking If The User Already Exists
@@ -474,7 +475,7 @@ def signupBusiness():
             user = cursor.lastrowid
 
             # Inserting Business into Database
-            cursor.execute("INSERT INTO businesses (bname, email, country, city, phone, industry, userID) VALUES (%s, %s, %s, %s, %s, %s, %s)", (bname, email, origin, city, phone, industry, user))
+            cursor.execute("INSERT INTO businesses (bname, email, country, city, phone, industry, userID, icon) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (bname, email, origin, city, phone, industry, user, profilePic))
 
             # Committing Transactions
             conn.commit()
