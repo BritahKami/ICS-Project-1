@@ -510,3 +510,226 @@ def signupBusiness():
 @auth.route('/controller')
 def portal():
     return redirect(url_for('pages.homepage'))
+
+# Editing Student Profile
+@auth.route('/edit-account/student', methods=['POST'])
+def editStudentAccount():
+    # Verifying Session
+    if 'userID' not in session:
+        # Error Message
+        flash("Unauthorized access. Please sign in first.", category='error')
+
+        # Redirecting
+        return redirect(url_for('auth.signin'))
+
+    userID = session['userID']
+
+    # Validating Request Method
+    if request.method == 'POST':
+        # Get form fields
+        firstName = request.form.get('fname')
+        lastName = request.form.get('lname')
+        userName = request.form.get('username')
+        gender = request.form.get('gender')
+        dateOfBirth = request.form.get('dob')
+        facultyID = request.form.get('faculty')
+        courseID = request.form.get('course')
+        email = request.form.get('email')
+        phoneNumber = request.form.get('phone')
+        role = request.form.get('role')
+        profilePic = request.files.get('profilePic')
+
+        # Capturing Form Entries
+        try:
+            # Initializing Cursor
+            cursor = conn.cursor(dictionary=True)
+
+            # Update users table
+            userFields = []
+            userValues = []
+
+            # Setting Fields to Update
+            if firstName: userFields.append("fname = %s"); userValues.append(firstName)
+            if lastName: userFields.append("lname = %s"); userValues.append(lastName)
+            if userName: userFields.append("uname = %s"); userValues.append(userName)
+            if gender: userFields.append("gender = %s"); userValues.append(gender)
+            if email: userFields.append("email = %s"); userValues.append(email)
+            if role: userFields.append("role = %s"); userValues.append(role)
+
+            if userFields:
+                userQuery = f"UPDATE users SET {', '.join(userFields)} WHERE userID = %s"
+                cursor.execute(userQuery, userValues + [userID])
+
+            # Update students table
+            studentFields = []
+            studentValues = []
+
+            if dateOfBirth: studentFields.append("DOB = %s"); studentValues.append(dateOfBirth)
+            if phoneNumber: studentFields.append("phone = %s"); studentValues.append(phoneNumber)
+            if facultyID: studentFields.append("facultyID = %s"); studentValues.append(facultyID)
+            if courseID: studentFields.append("courseID = %s"); studentValues.append(courseID)
+            if email: studentFields.append("email = %s"); studentValues.append(email)
+
+            # Handling Profile Pictures
+            if profilePic and profilePic.filename != '':
+
+                # Profile Picture Processing
+                from utils import imghandler
+                profilePicPath = imghandler(
+                    img=profilePic,
+                    subPath='accounts'
+                )
+
+                studentFields.append("profilePic = %s")
+                studentValues.append(profilePicPath)
+
+            if studentFields:
+                studentQuery = f"UPDATE students SET {', '.join(studentFields)} WHERE userID = %s"
+                cursor.execute(studentQuery, studentValues + [userID])
+
+            # Committing Transactions
+            conn.commit()
+
+            # Success Message
+            flash("Your profile has been updated successfully.", category='success')
+
+            # Updating Session Data
+            session.update({
+                'fname': firstName if firstName else session.get('fname'),
+                'lname': lastName if lastName else session.get('lname'),
+                'uname': userName if userName else session.get('uname'),
+                'email': email if email else session.get('email'),
+                'role': role if role else session.get('role')
+            })
+
+            # Redirecting
+            return redirect(url_for('dash.dashboard'))
+
+        # Handling Exceptions
+        except Exception as e:
+            # Transaction Rollback
+            conn.rollback()
+
+            # Logging Error
+            errhandler(e, 'auth/editStudentAccount')
+
+            # Error Message
+            flash("An error occurred while updating your profile. Please try again later.", category='error')
+
+            # Redirecting
+            return redirect(url_for('dash.dashboard'))
+
+        # Closing Cursor
+        finally:
+            if 'cursor' in locals() and cursor is not None:
+                cursor.close()
+
+# Editing Business Profile
+@auth.route('/edit-account/business', methods=['POST'])
+def editBusinessAccount():
+    # Session Validation
+    if 'userID' not in session:
+        flash("Unauthorized access. Please sign in first.", category='error')
+        return redirect(url_for('auth.signin'))
+
+    userID = session['userID']
+
+    # Validating Request Method
+    if request.method == 'POST':
+
+        # Get form values
+        firstName = request.form.get('fname')
+        lastName = request.form.get('lname')
+        userName = request.form.get('username')
+        gender = request.form.get('gender')
+        businessName = request.form.get('bname')
+        email = request.form.get('email')
+        industryID = request.form.get('industry')
+        countryID = request.form.get('country')
+        city = request.form.get('city')
+        phoneNumber = request.form.get('phone')
+        role = request.form.get('role')
+        profilePic = request.files.get('profilePic')
+
+        # Database Operations
+        try:
+            # Initializing Cursor
+            cursor = conn.cursor(dictionary=True)
+
+            # Users Update Lists
+            userFields = []
+            userValues = []
+
+            # Setting Fields to Update
+            if firstName: userFields.append("fname = %s"); userValues.append(firstName)
+            if lastName: userFields.append("lname = %s"); userValues.append(lastName)
+            if userName: userFields.append("uname = %s"); userValues.append(userName)
+            if gender: userFields.append("gender = %s"); userValues.append(gender)
+            if email: userFields.append("email = %s"); userValues.append(email)
+            if role: userFields.append("role = %s"); userValues.append(role)
+
+            if userFields:
+                userQuery = f"UPDATE users SET {', '.join(userFields)} WHERE userID = %s"
+                cursor.execute(userQuery, userValues + [userID])
+
+            # Update businesses table
+            businessFields = []
+            businessValues = []
+
+            if businessName: businessFields.append("bname = %s"); businessValues.append(businessName)
+            if email: businessFields.append("email = %s"); businessValues.append(email)
+            if industryID: businessFields.append("industry = %s"); businessValues.append(industryID)
+            if countryID: businessFields.append("country = %s"); businessValues.append(countryID)
+            if city: businessFields.append("city = %s"); businessValues.append(city)
+            if phoneNumber: businessFields.append("phone = %s"); businessValues.append(phoneNumber)
+
+            # Handling Profile Pictures
+            if profilePic and profilePic.filename != '':
+                # Profile Picture Processing
+                from utils import imghandler
+                profilePicPath = imghandler(
+                    img=profilePic,
+                    subPath='accounts'
+                )
+                businessFields.append("icon = %s")
+                businessValues.append(profilePicPath)
+
+            if businessFields:
+                businessQuery = f"UPDATE businesses SET {', '.join(businessFields)} WHERE userID = %s"
+                cursor.execute(businessQuery, businessValues + [userID])
+
+            # Committing Transactions
+            conn.commit()
+
+            # Updating Session Data
+            session.update({
+                'fname': firstName if firstName else session.get('fname'),
+                'lname': lastName if lastName else session.get('lname'),
+                'uname': userName if userName else session.get('uname'),
+                'email': email if email else session.get('email'),
+                'role': role if role else session.get('role')
+            })
+
+            # Success Message
+            flash("Your business profile has been updated successfully.", category='success')
+
+            # Redirecting
+            return redirect(url_for('dash.dashboard'))
+
+        except Exception as e:
+            # Transaction Rollback
+            conn.rollback()
+
+            # Logging Error
+            errhandler(e, 'auth/editBusinessAccount')
+
+            # Error Message
+            flash("An error occurred while updating your profile. Please try again later.", category='error')
+
+            # Redirecting
+            return redirect(url_for('dash.dashboard'))
+
+        # Closing Cursor
+        finally:
+            if 'cursor' in locals() and cursor is not None:
+                cursor.close()

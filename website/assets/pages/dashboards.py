@@ -125,7 +125,7 @@ def business():
 
     # Capturing User Details From Session
     user = {}
-    for key in ['userID', 'fname', 'lname', 'uname', 'email']:
+    for key in ['userID', 'fname', 'lname', 'uname', 'email', 'role']:
         if key in session:
             user[key] = session[key]
 
@@ -150,6 +150,49 @@ def business():
         businessDetails = []
         jobsDetails = []
         internshipsDetails = []
+
+        # Querying Database
+        cursor.execute("SELECT * FROM faculties")
+        faculties = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM courses")
+        courses = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM countries")
+        countries = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM industries")
+        industries = cursor.fetchall()
+
+        # List Objects for Retrieved Data
+        facultiesData = []
+        coursesData = []
+        countriesData = []
+        industriesData = []
+
+        # Verifying Retrieved Data
+        if ((not (faculties)) or (faculties == None)) or ((not courses) or (courses == None)) or ((not (countries)) or (countries == None)) or ((not (industries)) or (industries == None)):
+            # Error Message
+            flash("An error occured retrieving the list of some imported data. Please try again later", category='error')
+
+            # Redirecting
+            return redirect(request.url)
+
+        # Appending Faculties to List
+        for faculty in faculties:
+            facultiesData.append(faculty)
+
+        # Appending Courses to List
+        for course in courses:
+            coursesData.append(course)
+
+        # Appending Countries to List
+        for country in countries:
+            countriesData.append(country)
+
+        # Appending Industries to List
+        for industry in industries:
+            industriesData.append(industry)
 
         # Validating Query Results
         if business and (business != None):
@@ -198,7 +241,11 @@ def business():
             user=user,
             business=businessDetails,
             jobs=jobsDetails,
-            internships=internshipsDetails
+            internships=internshipsDetails,
+            faculties = facultiesData,
+            courses = coursesData,
+            countries = countriesData,
+            industries = industriesData
         )
 
 
@@ -248,7 +295,7 @@ def student():
 
     # Capturing User Details From Session
     user = {}
-    for key in ['userID', 'fname', 'lname', 'uname', 'email']:
+    for key in ['userID', 'fname', 'lname', 'uname', 'email', 'role']:
         if key in session:
             user[key] = session[key]
 
@@ -360,6 +407,49 @@ def student():
         cursor.execute("SELECT * FROM gigs WHERE studentID = %s", (studentID,))
         gigs=cursor.fetchall()
 
+        # Querying Database
+        cursor.execute("SELECT * FROM faculties")
+        faculties = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM courses")
+        courses = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM countries")
+        countries = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM industries")
+        industries = cursor.fetchall()
+
+        # List Objects for Retrieved Data
+        facultiesData = []
+        coursesData = []
+        countriesData = []
+        industriesData = []
+
+        # Verifying Retrieved Data
+        if ((not (faculties)) or (faculties == None)) or ((not courses) or (courses == None)) or ((not (countries)) or (countries == None)) or ((not (industries)) or (industries == None)):
+            # Error Message
+            flash("An error occured retrieving the list of some imported data. Please try again later", category='error')
+
+            # Redirecting
+            return redirect(request.url)
+
+        # Appending Faculties to List
+        for faculty in faculties:
+            facultiesData.append(faculty)
+
+        # Appending Courses to List
+        for course in courses:
+            coursesData.append(course)
+
+        # Appending Countries to List
+        for country in countries:
+            countriesData.append(country)
+
+        # Appending Industries to List
+        for industry in industries:
+            industriesData.append(industry)
+
         try:
             # Capture User's Names & Icon From Users & Students Tables
             cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (session['userID'],))
@@ -415,7 +505,11 @@ def student():
             'dashboard/students/student.html',
             user=user,
             projects=projectsDetails,
-            gigs=gigsDetails
+            gigs=gigsDetails,
+            faculties = facultiesData,
+            courses = coursesData,
+            countries = countriesData,
+            industries = industriesData
         )
 
     # Handling Exceptions
