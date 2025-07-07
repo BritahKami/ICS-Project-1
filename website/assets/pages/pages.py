@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, request, redirect, url_for, flash,current_app
 from website.database.connector import dbconnector
 from utils import errhandler
-import os 
+import os
 from werkzeug.utils import secure_filename
 
 # Pages Blueprint Instance
@@ -14,16 +14,16 @@ conn = dbconnector()
 @pages.route('/')
 def homepage():
     userID = session.get('userID')
-    if (userID) and (userID != "None"):
-            return render_template("home/home.html", userID=userID)
-    return render_template('home/home.html')
+    return render_template(
+        "home/home.html",
+        userID=userID
+    )
 
 # Projects Route
 @pages.route('/project', methods=['GET'])
 def project():
     # Session Validation
-    if 'userID' in session or session['userID'] != None:
-        userID = session['userID']
+    userID = session.get('userID')
 
     # Database Operations
     try:
@@ -38,23 +38,31 @@ def project():
         projects=cursor.fetchall()
 
         if projects and projects != None:
-            # Capture User Details from Users Table & Icon from Students Table
-            cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (userID,))
-            user_details = cursor.fetchone()
+            from utils import imghandler
+            fname, lname, student_icon_path = "Anonymous", "", imghandler()
 
-            cursor.execute("SELECT profilePic FROM students WHERE userID = %s", (userID,))
-            student_icon = cursor.fetchone()
+            if userID:
+                cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (userID,))
+                user_details = cursor.fetchone()
+                if user_details:
+                    fname = user_details['fname']
+                    lname = user_details['lname']
+
+                cursor.execute("SELECT profilePic FROM students WHERE userID = %s", (userID,))
+                student_icon = cursor.fetchone()
+                if student_icon:
+                    student_icon_path = student_icon['profilePic'].replace('website/static/uploads/accounts/', '')
 
             for project in projects:
                 projectsList.append({
-                    'projectID' : project['projectID'],
-                    'title' : project['title'],
-                    'description' : project['description'],
-                    'image' : project['image'].replace('website/static/uploads/items/', ''),
-                    'studentIcon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
-                    'fname' : user_details['fname'],
-                    'lname' : user_details['lname'],
-                    'studentID' : project['studentID']
+                    'projectID': project['projectID'],
+                    'title': project['title'],
+                    'description': project['description'],
+                    'image': project['image'].replace('website/static/uploads/items/', ''),
+                    'studentIcon': student_icon_path,
+                    'fname': fname,
+                    'lname': lname,
+                    'studentID': project['studentID']
                 })
         return render_template(
             'project/project.html',
@@ -89,8 +97,7 @@ def about():
 @pages.route('/gigs', methods=['GET'])
 def gigs():
     # Session Validation
-    if 'userID' in session or session['userID'] != None:
-        userID = session['userID']
+    userID = session.get('userID')
 
     # Database Operations
     try:
@@ -106,23 +113,31 @@ def gigs():
 
         if gigs and gigs!=None:
             # Capture User Details from Users Table & Icon from Students Table
-            cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (userID,))
-            user_details = cursor.fetchone()
+            fname, lname, student_icon_path = "Anonymous", "", "default.png"
 
-            cursor.execute("SELECT profilePic FROM students WHERE userID = %s", (userID,))
-            student_icon = cursor.fetchone()
+            if userID:
+                cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (userID,))
+                user_details = cursor.fetchone()
+                if user_details:
+                    fname = user_details['fname']
+                    lname = user_details['lname']
+
+                cursor.execute("SELECT profilePic FROM students WHERE userID = %s", (userID,))
+                student_icon = cursor.fetchone()
+                if student_icon:
+                    student_icon_path = student_icon['profilePic'].replace('website/static/uploads/accounts/', '')
 
             for gig in gigs:
                 gigsList.append({
-                    'gigID' : gig['gigID'],
-                    'title' : gig['title'],
-                    'description' : gig['description'],
-                    'price' : gig['price'],
-                    'image' : gig['image'].replace('website/static/uploads/items/', ''),
-                    'studentIcon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
-                    'fname' : user_details['fname'],
-                    'lname' : user_details['lname'],
-                    'studentID' : gig['studentID']
+                    'gigID': gig['gigID'],
+                    'title': gig['title'],
+                    'description': gig['description'],
+                    'price': gig['price'],
+                    'image': gig['image'].replace('website/static/uploads/items/', ''),
+                    'studentIcon': student_icon_path,
+                    'fname': fname,
+                    'lname': lname,
+                    'studentID': gig['studentID']
                 })
 
         return render_template(
@@ -217,94 +232,70 @@ def developers():
 def faqs():
     return render_template('other/comingsoon.html')
 
-# @pages.route('/add_reviews', methods=['GET', 'POST'])
-# def add_reviews():
-#     if request.method == 'POST':
-    
-#         user = session.get('userID')
-#         # profile validation
-#         if not user or user==None:
-#             flash('Please create an account first', category='error')
-
-#             return redirect(url_for('auth.signup'))
-#         try: 
-#         #capturing entires
-#             fname = request.form.get('fname')
-#             lname = request.form.get('lname')
-#             comment = request.form.get('comment')
-
-#             if not (fname and lname and comment):
-#                 flash('Kindly fill in all fields', category='error')
-
-#                 return redirect(request.url)
-           
-#         # inserting into database
-#             cursor = conn.cursor(dictionary=True)
-#             cursor.execute("INSERT INTO reviews(userID,fname, lname, comment) VALUES (%s, %s, %s, %s)", (user,fname, lname, comment))
-#             conn.commit()
-
-#             flash("Thank you for your review", category='success')
-
-#             return redirect(url_for('pages.reviews'))
-            
-#         # Log the error
-#         except Exception as e:
-#             errhandler(e, 'pages/addreviews')
-#             flash("An error has occured", category='error')
-#             return redirect(url_for('pages.homepage'))
-        
-#         # Close cursor
-#         finally:
-#             if 'cursor' in locals() and cursor is not None:
-#                 cursor.close()
-
-#     return render_template('reviews/addreviews.html')
-
-
 @pages.route('/reviews', methods=['GET', 'POST'])
 def reviews():
+    # Session Validation
+    userID = session.get('userID')
 
+    # Checking Access Method
     if request.method == 'POST':
-    
-        user = session.get('userID')
-        # profile validation
-        if not user or user==None:
-            flash('Please create an account first', category='error')
+        # Validating User Session
+        if not userID:
+            # Error Message
+            flash("You must be logged in to add a review", category='error')
 
-            return redirect(url_for('auth.signup'))
-        try: 
-        #capturing entires
-            fname = request.form.get('fname')
-            lname = request.form.get('lname')
-            comment = request.form.get('comment')
-            rating = request.form.get('rating')
+            # Redirecting
+            return redirect(url_for('auth.signin'))
 
+        # Capturing Form Entries
+        comment = request.form.get('comment')
+        rating = request.form.get('rating')
 
-            if not (fname and lname and comment and rating):
-                flash('Kindly fill in all fields', category='error')
+        # Validating Form Entries
+        if not (userID and comment and rating):
+            # Error Message
+            flash('Kindly fill in all fields', category='error')
 
-                return redirect(request.url)
-           
-        # inserting into database
+            # Redirecting
+            return redirect(request.url)
+
+        # Database Operations
+        try:
+            # Initializing Cursor
             cursor = conn.cursor(dictionary=True)
-            cursor.execute("INSERT INTO reviews(userID,fname, lname, comment,rating) VALUES (%s, %s, %s, %s, %s)", (user,fname, lname, comment,rating))
+
+            # Capturing User Details
+            cursor.execute("INSERT INTO reviews(comment, rating, userID) VALUES (%s, %s, %s)", (comment, rating, userID))
+
+            # Committing Transaction
             conn.commit()
 
+            # Success Message
             flash("Thank you for your review", category='success')
 
+            # Redirecting
             return redirect(url_for('pages.reviews'))
-            
-        # Log the error
+
+        # Handling Exceptions
         except Exception as e:
+            # Transaction Rollback
+            conn.rollback()
+
+            # Logging Error
             errhandler(e, 'pages/addreviews')
+
+            # Error Message
             flash("An error has occured", category='error')
+
+            # Redirecting
             return redirect(url_for('pages.homepage'))
-        
-        # Close cursor
+
+        # Closing cursor
         finally:
             if 'cursor' in locals() and cursor is not None:
                 cursor.close()
 
+    # Processing Star Ratings
     def starsprocess(rating):
             stars = ''
 
@@ -330,42 +321,65 @@ def reviews():
                 stars = '<i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>'
             return stars
 
-
+    # Retrieving Reviews
     try:
-        # retrieving from database
+        # Initializing Cursor
         cursor= conn.cursor(dictionary=True)
+
+        # List to Hold Reviews
+        reviewsData = []
+
+        # Retrieving Reviews from Database
         cursor.execute("SELECT * FROM reviews")
         reviews=cursor.fetchall()
 
-        reviewsData=[]
+        # Validating Reviews
         if reviews and reviews != None:
             for review in reviews:
+                # Processing Stars
                 review['stars'] = starsprocess(review['rating'])
-                reviewsData.append(review)
 
-        return render_template('reviews/reviews.html', reviewsData=reviewsData)
+                # Default to Anonymous unless we know the user
+                fname = "Anonymous"
+                lname = ""
+
+                if review.get('userID'):
+                    cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (review['userID'],))
+                    user_details = cursor.fetchone()
+
+                    if user_details:
+                        fname = user_details['fname']
+                        lname = user_details['lname']
+
+                reviewsData.append({
+                    'reviewID': review['reviewID'],
+                    'comment': review['comment'],
+                    'rating': review['rating'],
+                    'stars': review['stars'],
+                    'fname': fname,
+                    'lname': lname
+                })
 
 
-        #check if there are reviews in the database
-        # if not reviews or reviews==None:
-        #     flash("No reviews to show", category='error')
-            
-        #     return render_template('reviews/reviews.html')
-        # return render_template('reviews/reviews.html', reviews=reviews)
-    
+        return render_template(
+            'reviews/reviews.html',
+            reviewsData=reviewsData,
+            userID=userID
+        )
+
+    # Handling Exceptions
     except Exception as e:
+        # Logging Error
         errhandler(e, 'pages/reviews')
+
+        # Error Message
         flash("An error has occured", category='error')
 
+        # Redirecting
         return redirect(url_for('pages.homepage'))
-    
+
+    # Closing Cursor
     finally:
         if 'cursor' in locals() and cursor is not None:
             cursor.close()
-       
-
-
-# @pages.route('/addproject')
-# def addproject():
-#     return render_template('project/addproject.html')
 
