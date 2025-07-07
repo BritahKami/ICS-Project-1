@@ -12,145 +12,73 @@ CareerConnect | Gigs
 
    <div id="gigs_container">
         <div id="gigs_row">
-            <div id="first_gig">
-             <div id="gig_image">
-            <img src="{{url_for('static', filename='images/gigs/logoMaker.jpeg')}}" alt="First gig">
-              </div> 
-              <div class="gig_details">
-            <div id="gig_owner">
-                <img src="{{url_for('static', filename='images/gigs/pic1.jpeg')}}" alt="profile picture 1">
-                <p>Samantha Wanjiru</p>
-            </div>
-            <div id="gig_message">
-                <p>I will create a Logo for your website/company</p>
-            </div>
-            <div id="gig_price">
-                <p>From Kshs.1500</p>
-                <button>Apply</button>
-            </div>
-            </div>
-            </div>
-
-            <div id="first_gig">
-             <div id="gig_image">
-            <img src="{{url_for('static', filename='images/gigs/gig2.jpeg')}}" alt="First gig">
-              </div> 
-              <div class="gig_details">
-            <div id="gig_owner">
-                <img src="{{url_for('static', filename='images/gigs/pic2.jpeg')}}" alt="profile picture 1">
-                <p>Dennis Mutua</p>
-            </div>
-            <div id="gig_message">
-                <p>I will transcribe your audio and type out assignments</p>
-            </div>
-            <div id="gig_price">
-                <p>From Kshs.2000</p>
-                <button>Apply</button>
-            </div>
-            </div>
-            </div>
-
-            <div id="first_gig">
-             <div id="gig_image">
-            <img src="{{url_for('static', filename='images/gigs/gig3.jpeg')}}" alt="First gig">
-              </div> 
-              <div class="gig_details">
-            <div id="gig_owner">
-                <img src="{{url_for('static', filename='images/gigs/pic3.jpeg')}}" alt="profile picture 1">
-                <p>Ann Wambui</p>
-            </div>
-            <div id="gig_message">
-                <p>I will offer tutorials on baking/cooking.</p>
-            </div>
-            <div id="gig_price">
-                <p>From Kshs.1000</p>
-                <button>Apply</button>
-            </div>
-            </div>
-            </div>
-
-            <div id="first_gig">
-             <div id="gig_image">
-            <img src="{{url_for('static', filename='images/gigs/gig4.jpeg')}}" alt="First gig">
-              </div> 
-              <div class="gig_details">
-            <div id="gig_owner">
-                <img src="{{url_for('static', filename='images/gigs/pic4.jpeg')}}" alt="profile picture 1">
-                <p>Lynn Wangui</p>
-            </div>
-            <div id="gig_message">
-                <p>I will manage small businesses social media accounts</p>
-            </div>
-            <div id="gig_price">
-                <p>From Kshs.1500</p>
-                <button>Apply</button>
-            </div>
-            </div>
-            </div>
-
-            <div id="first_gig">
-             <div id="gig_image">
-            <img src="{{url_for('static', filename='images/gigs/gig5.jpeg')}}" alt="First gig">
-              </div> 
-              <div class="gig_details">
-            <div id="gig_owner">
-                <img src="{{url_for('static', filename='images/gigs/pic5.jpeg')}}" alt="profile picture 1">
-                <p>Kevin Kamau</p>
-            </div>
-            <div id="gig_message">
-                <p>I will design ad banners for marketing purposes</p>
-            </div>
-            <div id="gig_price">
-                <p>From Kshs.2000</p>
-                <button>Apply</button>
-            </div>
-            </div>
-            </div>
-
-            <div id="first_gig">
-             <div id="gig_image">
-            <img src="{{url_for('static', filename='images/gigs/gig6.jpeg')}}" alt="First gig">
-              </div> 
-              <div class="gig_details">
-            <div id="gig_owner">
-                <img src="{{url_for('static', filename='images/gigs/pic6.jpeg')}}" alt="profile picture 1">
-                <p>Joseph Wachira</p>
-            </div>
-            <div id="gig_message">
-                <p>I will offer online music lessons.</p>
-            </div>
-            <div id="gig_price">
-                <p>From Kshs.1000</p>
-                <button>Apply</button>
-            </div>
-            </div>
-            </div>
-
+            {% if gigs %}
             {% for gig in gigs %}
-            <div id="first_gig">
-            <div id="gig_image">
-            <img src="{{ url_for('static', filename='uploads/' ~ gig.image) }}" alt="Gig image">
-            </div> 
+            <div class="card-item">
+                <!--Card Image-->
+                <div class="card-image">
+                    <img src="{{ url_for('static', filename='uploads/items/' ~ gig.image) }}" alt="Gig Image">
+                    <span id="jobSpan">{{gig.title}}</span>
+                </div>
 
-            <div class="gig_details">
-            <div id="gig_owner">
-            <img src="{{url_for('static', filename='images/gigs/defaultpic.jpeg')}}" alt="Profile picture">
+                <!--Card Content-->
+                <div class="card-content">
+                    <!--Card Title-->
+                    <div class="card-content-title">
+                        <div class="card-content-title-img">
+                            <img src="{{ url_for('static', filename='uploads/accounts/' ~ gig.studentIcon) }}" alt="Student Image">
+                        </div>
+                        <p>{{gig.fname}} {{gig.lname}}</p>
+                    </div>
 
-            <p>{{ gig.fname }} {{ gig.lname }}</p>
-            </div>
+                    <!--Card Description-->
+                    <div class="card-content-description">
+                        <p>{{gig.description}}</p>
+                    </div>
 
-             <div id="gig_message">
-             <p>{{ gig.description }}</p>
-            </div>
+                    <!--Card Rates & Actions-->
+                    <div class="card-content-options">
+                        <span>From KES {{gig.price}}</span>
+                        <button class="btn-2" id="openModalBtn3">Request</button>
+                    </div>
+                </div>
 
-            <div id="gig_price">
-            <p>From {{ gig.price }}</p>
-            <button>Apply</button>
             </div>
-            </div>
-            </div>
-           {% endfor %}
+            {% endfor %}
+            {% else %}
+            <div class="card-item">
+                <!--Card Image-->
+                <div class="card-image">
+                    <img src="{{ url_for('static', filename='uploads/items/placeholder.png') }}" alt="Gig Image">
+                    <span id="jobSpan" hidden>Oops! No Gig to Show</span>
+                </div>
 
+                <!--Card Content-->
+                <div class="card-content">
+                    <!--Card Title-->
+                    <div class="card-content-title">
+                        <div class="card-content-title-img">
+                            <img src="{{ url_for('static', filename='uploads/accounts/placeholder.png')}}" alt="Student Image">
+                        </div>
+                        <p>Oops! No gigs to show</p>
+                    </div>
+
+                    <!--Card Description-->
+                    <div class="card-content-description">
+                        <p>
+                            It seems like there are no gigs available at the moment. Please check back later or consider creating your own gig to share with others.
+                        </p>
+                    </div>
+
+                    <!--Card Rates & Actions-->
+                    <div class="card-content-options">
+                        <span></span>
+                        <button class="btn-2" onclick="window.location.href='/signin'">Create your gig</button>
+                    </div>
+                </div>
+
+            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

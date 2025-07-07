@@ -388,8 +388,8 @@ def student():
                     'projectID' : project['projectID'],
                     'title' : project['title'],
                     'description' : project['description'],
-                    'image' : project['image'],
-                    'icon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
+                    'image' : project['image'].replace('website/static/uploads/items/', ''),
+                    'studentIcon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
                     'fname' : user_details['fname'],
                     'lname' : user_details['lname'],
                     'studentID' : project['studentID']
@@ -403,13 +403,14 @@ def student():
                     'title' : gig['title'],
                     'description' : gig['description'],
                     'price' : gig['price'],
-                    'image' : gig['image'],
-                    'icon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
+                    'image' : gig['image'].replace('website/static/uploads/items/', ''),
+                    'studentIcon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
                     'fname' : user_details['fname'],
                     'lname' : user_details['lname'],
                     'studentID' : gig['studentID']
                 })
 
+        print (student_icon['profilePic'].replace('website/static/uploads/accounts/', ''))
         return render_template(
             'dashboard/students/student.html',
             user=user,

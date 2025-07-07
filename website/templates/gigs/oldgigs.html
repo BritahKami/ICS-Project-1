@@ -1,0 +1,119 @@
+            <div id="first_gig">
+             <div id="gig_image">
+            <img src="{{url_for('static', filename='images/gigs/gig2.jpeg')}}" alt="First gig">
+              </div> 
+              <div class="gig_details">
+            <div id="gig_owner">
+                <img src="{{url_for('static', filename='images/gigs/pic2.jpeg')}}" alt="profile picture 1">
+                <p>Dennis Mutua</p>
+            </div>
+            <div id="gig_message">
+                <p>I will transcribe your audio and type out assignments</p>
+            </div>
+            <div id="gig_price">
+                <p>From Kshs.2000</p>
+                <button>Apply</button>
+            </div>
+            </div>
+            </div>
+
+            <div id="first_gig">
+             <div id="gig_image">
+            <img src="{{url_for('static', filename='images/gigs/gig3.jpeg')}}" alt="First gig">
+              </div> 
+              <div class="gig_details">
+            <div id="gig_owner">
+                <img src="{{url_for('static', filename='images/gigs/pic3.jpeg')}}" alt="profile picture 1">
+                <p>Ann Wambui</p>
+            </div>
+            <div id="gig_message">
+                <p>I will offer tutorials on baking/cooking.</p>
+            </div>
+            <div id="gig_price">
+                <p>From Kshs.1000</p>
+                <button>Apply</button>
+            </div>
+            </div>
+            </div>
+
+            <div id="first_gig">
+             <div id="gig_image">
+            <img src="{{url_for('static', filename='images/gigs/gig4.jpeg')}}" alt="First gig">
+              </div> 
+              <div class="gig_details">
+            <div id="gig_owner">
+                <img src="{{url_for('static', filename='images/gigs/pic4.jpeg')}}" alt="profile picture 1">
+                <p>Lynn Wangui</p>
+            </div>
+            <div id="gig_message">
+                <p>I will manage small businesses social media accounts</p>
+            </div>
+            <div id="gig_price">
+                <p>From Kshs.1500</p>
+                <button>Apply</button>
+            </div>
+            </div>
+            </div>
+
+            <div id="first_gig">
+             <div id="gig_image">
+            <img src="{{url_for('static', filename='images/gigs/gig5.jpeg')}}" alt="First gig">
+              </div> 
+              <div class="gig_details">
+            <div id="gig_owner">
+                <img src="{{url_for('static', filename='images/gigs/pic5.jpeg')}}" alt="profile picture 1">
+                <p>Kevin Kamau</p>
+            </div>
+            <div id="gig_message">
+                <p>I will design ad banners for marketing purposes</p>
+            </div>
+            <div id="gig_price">
+                <p>From Kshs.2000</p>
+                <button>Apply</button>
+            </div>
+            </div>
+            </div>
+
+            <div id="first_gig">
+             <div id="gig_image">
+            <img src="{{url_for('static', filename='images/gigs/gig6.jpeg')}}" alt="First gig">
+              </div> 
+              <div class="gig_details">
+            <div id="gig_owner">
+                <img src="{{url_for('static', filename='images/gigs/pic6.jpeg')}}" alt="profile picture 1">
+                <p>Joseph Wachira</p>
+            </div>
+            <div id="gig_message">
+                <p>I will offer online music lessons.</p>
+            </div>
+            <div id="gig_price">
+                <p>From Kshs.1000</p>
+                <button>Apply</button>
+            </div>
+            </div>
+            </div>
+
+            {% for gig in gigs %}
+            <div id="first_gig">
+            <div id="gig_image">
+            <img src="{{ url_for('static', filename='uploads/' ~ gig.image) }}" alt="Gig image">
+            </div> 
+
+            <div class="gig_details">
+            <div id="gig_owner">
+            <img src="{{url_for('static', filename='images/gigs/defaultpic.jpeg')}}" alt="Profile picture">
+
+            <p>{{ gig.fname }} {{ gig.lname }}</p>
+            </div>
+
+             <div id="gig_message">
+             <p>{{ gig.description }}</p>
+            </div>
+
+            <div id="gig_price">
+            <p>From {{ gig.price }}</p>
+            <button>Apply</button>
+            </div>
+            </div>
+            </div>
+           {% endfor %}
