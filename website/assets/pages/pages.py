@@ -21,22 +21,58 @@ def homepage():
 # Projects Route
 @pages.route('/project', methods=['GET'])
 def project():
+    # Session Validation
+    if 'userID' in session or session['userID'] != None:
+        userID = session['userID']
+
+    # Database Operations
     try:
+        # Cursors Initialization
         cursor= conn.cursor(dictionary=True)
+
+        # List to Hold Projects
+        projectsList = []
+
+        # Capturing All Projects
         cursor.execute("SELECT * FROM projects")
         projects=cursor.fetchall()
 
-        if not projects or projects==None:
-            flash("No projects to show", category="error")
+        if projects and projects != None:
+            # Capture User Details from Users Table & Icon from Students Table
+            cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (userID,))
+            user_details = cursor.fetchone()
 
-            return render_template('project/project.html')
-        return render_template('project/project.html', projects=projects)
+            cursor.execute("SELECT profilePic FROM students WHERE userID = %s", (userID,))
+            student_icon = cursor.fetchone()
+
+            for project in projects:
+                projectsList.append({
+                    'projectID' : project['projectID'],
+                    'title' : project['title'],
+                    'description' : project['description'],
+                    'image' : project['image'].replace('website/static/uploads/items/', ''),
+                    'studentIcon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
+                    'fname' : user_details['fname'],
+                    'lname' : user_details['lname'],
+                    'studentID' : project['studentID']
+                })
+        return render_template(
+            'project/project.html',
+            projects=projectsList,
+            userID=userID,
+        )
 
     except Exception as e:
+        # Logging Error
         errhandler(e, 'pages/projects')
-        flash('An error has occurred.', category="error")
+
+        # Error Message
+        flash('An error has occurred retrieving projects.', category="error")
+
+        # Redirecting
         return redirect(url_for('pages.homepage'))
 
+    # Closing Cursor
     finally:
         if 'cursor' in locals() and cursor is not None:
             cursor.close()

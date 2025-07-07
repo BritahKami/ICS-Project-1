@@ -1,0 +1,133 @@
+<div class="project1">
+  <div class="project_image">
+  <img src="{{url_for('static', filename='images/project/project2.jpg')}}" alt="Second project image">
+    </div>
+    <div class="project_details">
+    <div class="project_title">
+      <h3>Animation Creation</h3>
+        </div>
+
+    <div class="project_description">
+  <p>This project involves creation of a school-based animation. 
+                    Alice3 will be the application used for creation. The characters
+                  involved will be students, teachers, principal, nurse, 
+                  socialworkers. The aim of making the animation
+                  is to use it to educate children. </p>
+</div>
+
+    <div class="project_button">
+      <button>Apply</button>
+    </div>
+    </div>
+    </div>
+
+    <div class="project1">
+    <div class="project_image">
+  <img src="{{url_for('static', filename='images/project/project3.jpg')}}" alt="Project image 3">
+    </div>
+    <div class="project_details">
+    <div class="project_title">
+      <h3>Debate Contest</h3>
+        </div>
+
+    <div class="project_description">
+  <p>This project involves planning and coordinating a debate 
+                  contest. Daily meetings will be happening from 1800hr to 
+                  1700hr in Microsoft Auditorium. During the meetings, the  
+                  debate motion will be selected. A certificate of participation
+              will be presented at the end of the debate.</p>
+    </div>
+
+    <div class="project_button">
+      <button>Apply</button>
+    </div>
+    </div>
+    </div>
+
+  <div class="project1">
+  <div class="project_image">
+    <img src="{{url_for('static', filename='images/project/project4.jpg')}}" alt="Fourth project image">
+  </div>
+  <div class="project_details">
+      <div class="project_title">
+      <h3>Arduino Project</h3>
+  </div>
+
+    <div class="project_description">
+  <p>This project involves building an Automatic plant watering 
+                    system. Basically, a sensor will be used to detect when 
+                  the soil is dry and the Arduino will send signals that will 
+                  activate the water pump, irrigating the plants and when the
+                  soil is moisturised the pump is switched off.</p>
+    </div>
+
+    <div class="project_button">
+  <button>Apply</button>
+    </div>
+  </div>
+      </div>
+
+    <div class="project1">
+      <div class="project_image">
+        <img src="{{url_for('static', filename='images/project/project5.jpg')}}" alt="Fifth project image">
+      </div>
+        <div class="project_details">
+        <div class="project_title">
+          <h3>Writing Magazine</h3>
+            </div>
+
+        <div class="project_description">
+    <p>This project involves writing a school magazine. Basically, writing stories of some students
+      and their journey through campus. The aim is to inspire other students, using the stories of their 
+      collegues. The magazine will be published and sold to other students.  
+                  </p>
+        </div>
+
+      <div class="project_button">
+        <button>Apply</button>
+      </div>
+      </div>
+      </div>
+
+        <div class="project1">
+        <div class="project_image">
+        <img src="{{url_for('static', filename='images/project/project6.jpg')}}" alt="Sixth Project Image">
+          </div>
+        <div class="project_details">
+        <div class="project_title">
+        <h3>Running Workshop</h3>
+        </div>
+
+        <div class="project_description">
+      <p>This project involves planning and delievering a workshop session to people. The topic
+      of discussion for the workshop, will be discussed during regular meetings which will be held
+    virtually every twice a week. Work will be distributed evenly among the team members.  </p>
+      </div>
+
+        <div class="project_button">
+      <button>Apply</button>
+      </div>
+        </div>
+        </div>
+
+        {% for project in projects %}
+        <div class="project1">
+          <div class="project_image">
+            <img src="{{ url_for('static', filename='uploads/' ~ project.image) }}" alt="{{ project.title }} image">
+          </div>
+
+          <div class="project_details">
+            <div class="project_title">
+              <h3>{{ project.title }}</h3>
+            </div>
+
+            <div class="project_description">
+              <p>{{ project.description }}</p>
+            </div>
+
+            <div class="project_button">
+              <button>Apply</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
