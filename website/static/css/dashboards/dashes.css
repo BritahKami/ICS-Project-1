@@ -293,6 +293,31 @@ header {
     color: var(--white);
 }
 
+.account-details span {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.account-details span:nth-child(1) {
+    background-color: var(--text-pink);
+    color: var(--white);
+}
+
+.account-details span:nth-child(1):hover {
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+
+.account-details span:nth-child(2) {
+    background-color: var(--text-blue);
+    color: black;
+}
+
+.account-details span:nth-child(2):hover {
+    background-color: var(--tertiery-color);
+    color: var(--white);
+}
+
 /* Dashboard Content */
 .dash-content {
     position: relative;
@@ -740,10 +765,13 @@ header {
     color: var(--white);
 }
 
-/* Add Items Modal */
-.addItems {
+/* Add Items & Edit Modals */
+.addItems,
+.editModal {
     max-width: 400px;
     min-width: 300px;
+    max-height: 90vh;
+    overflow-y: auto;
     padding: 20px;
     background-color: var(--white);
     backdrop-filter: blur(20px);
@@ -758,19 +786,38 @@ header {
     color: black;
     display: none;
     z-index: 1000;
+    scroll-behavior: smooth;
 }
 
-.addItems form {
+.addItems::-webkit-scrollbar,
+.editModal::-webkit-scrollbar {
+    width: 0px;
+    height: 1px;
+    background-color: transparent;
+}
+
+.addItems form,
+.editModal form {
     height: 100%;
 }
 
-.addItems label {
+.addItems h4,
+.editModal h4 {
+    margin-top: 30px;
+}
+
+.addItems label,
+.editModal label {
     font-weight: bold;
+    display: block;
 }
 
 .addItems input,
 .addItems select,
-.addItems textarea {
+.addItems textarea,
+.editModal input,
+.editModal select,
+.editModal textarea {
     background-color: wheat;
     color: black;
     width: 100%;
@@ -784,13 +831,24 @@ header {
     outline: none;
 }
 
-.addItems textarea {
+.addItems textarea,
+.editModal textarea {
     height: 200px;
 }
 
-.addItems button {
+.addItems button,
+.editModal button {
     background-color: var(--secondary-color);
     color: white;
     border: none;
     font-weight: 600;
+}
+
+@media (max-height: 600px) {
+
+    .addItems,
+    .editModal {
+        max-height: 80vh;
+        font-size: 14px;
+    }
 }

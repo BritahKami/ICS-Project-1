@@ -239,10 +239,96 @@ Dashboard | Business
                 <button class="btn-2" id="closeBtn" >Close </button>
             </form>
         </div>
+
+        <!--Edit Businesses Modal-->
+        <div class="editModal" id="editBusinessModal">
+            <form method="POST" action="/edit-account/business" enctype="multipart/form-data">
+                <!--Subtitle-->
+                <h4>Personal Details</h4>
+
+                <!--First Name-->
+                <label for="fname">First Name</label>
+                <input type="text" name="fname" value="{{user.fname}}"/>
+
+                <!--Last Name-->
+                <label for="lname">Last Name</label>
+                <input type="text" name="lname" value="{{user.lname}}"/>
+
+                <!--Username-->
+                <label for="username">Username</label>
+                <input type="text" name="username" value="{{user.uname}}"/>
+
+                <!--Gender-->
+                <label for="gender">Gender</label>
+                <select name="gender">
+                <option value="">~ N/A</option>
+                <option>Male</option>
+                <option>Female</option>
+                </select>
+
+                <!--Subtitle-->
+                <h4>Business Details</h4>
+
+                <!--Business Name-->
+                <label for="bname">Business Name</label>
+                <input type="text" name="bname" value="{{user.business_name}}"/>
+
+                <!--Email-->
+                <label for="email">Business Email</label>
+                <input type="email" name="email" value="{{user.email}}"/>
+
+                <!--Industry-->
+                <label for="industry">Industry</label>
+                <select name="industry">
+                <option value="">~ Select Industry</option>
+                {% if industries %}
+                {% for industry in industries %}
+                <option value="{{industry.id}}">{{industry.name}}</option>
+                {% endfor %}
+                {% else %}
+                <option value="">No industries available</option>
+                {% endif %}
+                </select>
+
+                <!--Country of Origin-->
+                <label for="country">Country of Origin</label>
+                <select name="country">
+                <option value="">~ Select Country</option>
+                {% if countries %}
+                {% for country in countries %}
+                <option value="{{country.id}}">{{country.name}}</option>
+                {% endfor %}
+                {% else %}
+                <option value="">No countries available</option>
+                {% endif %}
+                </select>
+
+                <!--City-->
+                <label for="city">City</label>
+                <input type="text" name="city" value="{{user.city}}"/>
+
+                <!--Phone Number-->
+                <label for="phone">Business Phone Number</label>
+                <input type="text" name="phone" value="{{user.phone}}"/>
+
+                <!--Profile Picture-->
+                <label for="profile_pic">Profile Picture</label>
+                <input
+                type="file"
+                name="profilePic"
+                accept="image">
+
+                <!--Role-->
+                <label for="role">Role</label>
+                <input type="hidden" name="role" value="{{user.role}}"/>
+
+                <!--Submit Button-->
+                <button type="submit" class="btn-2">Update</button>
+
+                <!--Close Button-->
+                <button type="button" class="btn-2" id="closeBusinessBtn">Close</button>
+            </form>
+        </div>
     </div>
 </section>
 {% endblock %}
-
-<!--Independent JS-->
-<!-- {% block js %}
-{% endblock %} -->

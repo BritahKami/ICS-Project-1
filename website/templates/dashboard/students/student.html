@@ -306,20 +306,99 @@ Dashboard | Student
                 <button class="btn-2" id="closeBtn" >Close </button>
             </form>
         </div>
-    </div>
-</section>
 
-<script src="{{ url_for('static', filename='js/gigs/gigs.js') }}"></script>
-<!--For Other Viewers-->
-<!-- <section id="for-others">
-    <div class="dash-content">
+        <!--Edit Students Modal-->
+        <div class="editModal" id="editStudentModal">
+            <form method="POST" action="/edit-account/student" enctype="multipart/form-data">
+                <!--Subtitle-->
+                <h4>Personal Details</h4>
 
-        <div class="dash-sidebar" hidden></div>
+                <!--First Name-->
+                <label for="fname">First Name</label>
+                <input type="text" name="fname" value="{{user.fname}}"/>
 
+                <!--Last Name-->
+                <label for="lname">Last Name</label>
+                <input type="text" name="lname" value="{{user.lname}}"/>
 
-        <div class="dash-body" hidden>
+                <!--Username-->
+                <label for="username">Username</label>
+                <input type="text" name="username" value="{{user.uname}}"/>
 
+                <!--Gender-->
+                <label for="gender">Gender</label>
+                <select name="gender">
+                <option value="">~ N/A</option>
+                <option>Male</option>
+                <option>Female</option>
+                </select>
+
+                <!--Date of Birth-->
+                <label for="dob">Date of Birth</label>
+                <input
+                type="date"
+                name="dob"
+                value="{{user.dob}}">
+
+                <!--Subtitle-->
+                <h4>Academic Details</h4>
+
+                <!--Institution-->
+                <label for="institution">Institution</label>
+                <input type="text" name="institution" value="Strathmore University" readonly required/>
+
+                <!--Faculty-->
+                <label for="faculty">Faculty</label>
+                <select name="faculty">
+                <option value="">~ Select Faculty</option>
+                {% if faculties %}
+                {% for faculty in faculties %}
+                <option value="{{faculty.id}}">{{faculty.name}}</option>
+                {% endfor %}
+                {% else %}
+                <option value="">No faculties available</option>
+                {% endif %}
+                </select>
+
+                <!--Course-->
+                <label for="course">Course</label>
+                <select name="course">
+                <option value="">~ Select Course</option>
+                {% if courses %}
+                {% for course in courses %}
+                <option value="{{course.id}}">{{course.name}}</option>
+                {% endfor %}
+                {% else %}
+                <option value="">No courses available</option>
+                {% endif %}
+                </select>
+
+                <!--Email-->
+                <label for="email">Email</label>
+                <input type="email" name="email" value="{{user.email}}"/>
+
+                <!--Phone Number-->
+                <label for="phone">Phone Number</label>
+                <input type="text" name="phone" value="{{user.phone}}"/>
+
+                <!--Profile Picture-->
+                <label for="profile_pic">Profile Picture</label>
+                <input
+                type="file"
+                name="profilePic"
+                accept="image">
+
+                <!--Role-->
+                <label for="role">Role</label>
+                <input type="hidden" name="role" value="{{user.role}}"/>
+
+                <!--Submit Button-->
+                <button type="submit" class="btn-2">Update</button>
+
+                <!--Close Button-->
+                <button type="button" class="btn-2" id="closeEditBtn">Close</button>
+            </form>
         </div>
     </div>
-</section> -->
+</section>
 {% endblock %}

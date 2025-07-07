@@ -160,15 +160,12 @@
             <h2>{{user.fname}} {{user.lname}}</h2>
             <p>Good {{current_message}}, and welcome back to your dashboard!</p>
             <p>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <span> (1024 Reviews)</span>
-            </p>
-            <p>
-              <span>LinkedIn |</span>
+              {% if user.role == 'student' %}
+              <span class="btn-2" id="editStudentBtn">Edit <i class="bx bx-edit"></i></span>
+              {% elif user.role == 'business' %}
+              <span class="btn-2" id="editBusinessBtn">Edit <i class="bx bx-edit"></i></span>
+              {% endif %}
+              <span class="btn-2">Delete <i class="bx bx-trash"></i></span>
             </p>
             <p>
 
