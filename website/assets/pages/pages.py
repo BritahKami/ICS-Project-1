@@ -4,16 +4,21 @@ from utils import errhandler
 import os 
 from werkzeug.utils import secure_filename
 
-
+# Pages Blueprint Instance
 pages = Blueprint('pages', __name__)
+
+# Database Connection
 conn = dbconnector()
 
-# ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+# Homepage
+@pages.route('/')
+def homepage():
+    userID = session.get('userID')
+    if (userID) and (userID != "None"):
+            return render_template("home/home.html", userID=userID)
+    return render_template('home/home.html')
 
-# def allowed_file(filename):
-#     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
+# Projects Route
 @pages.route('/project', methods=['GET'])
 def project():
     try:
@@ -26,23 +31,15 @@ def project():
 
             return render_template('project/project.html')
         return render_template('project/project.html', projects=projects)
-    
+
     except Exception as e:
         errhandler(e, 'pages/projects')
         flash('An error has occurred.', category="error")
         return redirect(url_for('pages.homepage'))
-    
+
     finally:
         if 'cursor' in locals() and cursor is not None:
             cursor.close()
-
-# Homepaage 
-@pages.route('/')
-def homepage():
-    userID = session.get('userID')
-    if (userID) and (userID != "None"):
-            return render_template("home/home.html", userID=userID)
-    return render_template('home/home.html')
 
 # Under construction pages
 @pages.route('/404')
@@ -55,22 +52,60 @@ def about():
 
 @pages.route('/gigs', methods=['GET'])
 def gigs():
+    # Session Validation
+    if 'userID' in session or session['userID'] != None:
+        userID = session['userID']
+
+    # Database Operations
     try:
+        # Cursors Initialization
         cursor= conn.cursor(dictionary=True)
-        cursor.execute("SELECT gigs.*, users.fname, users.lname FROM gigs JOIN students ON gigs.studentID = students.studentID JOIN users ON students.userID = users.userID")
+
+        # List to Hold Gigs
+        gigsList = []
+
+        # Capturing All Gigs
+        cursor.execute("SELECT * FROM gigs")
         gigs=cursor.fetchall()
 
-        if not gigs or gigs==None:
-            flash("No gigs to show", category="error")
+        if gigs and gigs!=None:
+            # Capture User Details from Users Table & Icon from Students Table
+            cursor.execute("SELECT fname, lname FROM users WHERE userID = %s", (userID,))
+            user_details = cursor.fetchone()
 
-            return render_template('gigs/gigs.html')
-        return render_template('gigs/gigs.html', gigs=gigs)
-    
+            cursor.execute("SELECT profilePic FROM students WHERE userID = %s", (userID,))
+            student_icon = cursor.fetchone()
+
+            for gig in gigs:
+                gigsList.append({
+                    'gigID' : gig['gigID'],
+                    'title' : gig['title'],
+                    'description' : gig['description'],
+                    'price' : gig['price'],
+                    'image' : gig['image'].replace('website/static/uploads/items/', ''),
+                    'studentIcon' : student_icon['profilePic'].replace('website/static/uploads/accounts/', ''),
+                    'fname' : user_details['fname'],
+                    'lname' : user_details['lname'],
+                    'studentID' : gig['studentID']
+                })
+
+        return render_template(
+            'gigs/gigs.html',
+            userID=userID,
+            gigs=gigsList
+        )
+
     except Exception as e:
+        # Logging Error
         errhandler(e, 'pages/gigs')
+
+        # Error Message
         flash('An error has occurred.', category="error")
+
+        # Redirecting
         return redirect(url_for('pages.homepage'))
-    
+
+    # Closing Cursor
     finally:
         if 'cursor' in locals() and cursor is not None:
             cursor.close()

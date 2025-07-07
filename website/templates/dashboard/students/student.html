@@ -155,30 +155,37 @@ Dashboard | Student
 
                         </div>
 
-                        <!--Card-->
                         {% if gigs %}
                         {% for gig in gigs %}
-                        <div id="first_gig">
-                        <div id="gig_image">  
-                        <img src="{{ url_for('static', filename='uploads/' ~ gig.image) }}" alt="Gig image">
-                        </div> 
+                        <div class="card-item">
+                            <!--Card Image-->
+                            <div class="card-image">
+                                <img src="{{ url_for('static', filename='uploads/items/' ~ gig.image) }}" alt="Gig Image">
+                                <span id="jobSpan">{{gig.title}}</span>
+                            </div>
 
-                        <div class="gig_details">
-                        <div id="gig_owner">
-                        <img src="{{url_for('static', filename='images/gigs/defaultpic.jpeg')}}" alt="Profile picture">
+                            <!--Card Content-->
+                            <div class="card-content">
+                                <!--Card Title-->
+                                <div class="card-content-title">
+                                    <div class="card-content-title-img">
+                                        <img src="{{ url_for('static', filename='uploads/accounts/' ~ gig.studentIcon) }}" alt="Student Image">
+                                    </div>
+                                    <p>{{gig.fname}} {{gig.lname}}</p>
+                                </div>
 
-                        <p>{{ gig.fname }} {{ gig.lname }}</p>
-                        </div>
+                                <!--Card Description-->
+                                <div class="card-content-description">
+                                    <p>{{gig.description}}</p>
+                                </div>
 
-                        <div id="gig_message">
-                        <p>{{ gig.description }}</p>
-                        </div>
+                                <!--Card Rates & Actions-->
+                                <div class="card-content-options">
+                                    <span>From KES {{gig.price}}</span>
+                                    <button class="btn-2" id="openModalBtn3">Edit gig</button>
+                                </div>
+                            </div>
 
-                        <div id="gig_price">
-                        <p>From {{ gig.price }}</p>
-                        <button>Edit</button>
-                        </div>
-                        </div>
                         </div>
                         {% endfor %}
                         {% endif %}
@@ -221,35 +228,38 @@ Dashboard | Student
                             </div>
                         </div>
 
-                        
                         <!--Card-->
                         {% if projects %}
                         {% for project in projects %}
                         <div class="card-item">
                             <!--Card Image-->
                             <div class="card-image">
-                                <img src="{{ url_for('static', filename='uploads/' ~ project.image) }}" alt="Gig Image">
+                                <img src="{{ url_for('static', filename='uploads/items/' ~ project.image) }}" alt="Project Image">
+                                <span id="internshipSpan">{{project.title}}</span>
                             </div>
 
                             <!--Card Content-->
                             <div class="card-content">
                                 <!--Card Title-->
                                 <div class="card-content-title">
-                                    <h3>{{ project.title }}</h3>
+                                    <div class="card-content-title-img">
+                                        <img src="{{ url_for('static', filename='uploads/accounts/' ~ project.studentIcon) }}" alt="Student Image">
+                                    </div>
+                                    <p>{{project.fname}} {{project.lname}}</p>
                                 </div>
 
                                 <!--Card Description-->
                                 <div class="card-content-description">
-                                    <p>{{ project.description }}</p>
+                                    <p>{{project.description}}</p>
                                 </div>
 
                                 <!--Card Rates & Actions-->
                                 <div class="card-content-options">
-                                    <!-- <span>KES <b>100</b>/hr</span> -->
-                                     <span></span>
-                                    <button class="btn-2" id="openModalBtn4" >Edit</button>
+                                    <span></span>
+                                    <button class="btn-2" id="openModalBtn3">Edit project</button>
                                 </div>
                             </div>
+
                         </div>
                         {% endfor %}
                         {% endif %}
@@ -277,7 +287,7 @@ Dashboard | Student
                     <option value="project">Collaborated Project</option>
                 </select>
 
-                
+
                 <!-- Price (conditionally shown) -->
                 <div id="priceField" style="display: none;">
                     <label for="price">Price (KES)</label>

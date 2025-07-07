@@ -434,17 +434,47 @@ header {
 .card-content-title {
     height: 63px;
     overflow: hidden;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 5px;
+    align-items: left;
+    justify-content: left;
 }
 
-.card-content-title h3 {
+.card-content-title .card-content-title-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid black;
+    margin: 0px;
+    margin-block: auto;
+}
+
+.card-content-title .card-content-title-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content-title p {
     font-weight: bold;
+    margin: 0;
+    margin-block: auto;
 }
 
 .card-content-description {
     height: 100px;
-    overflow: hidden;
     margin-bottom: 30px;
     font-weight: bold;
+    overflow-x: auto;
+    scrollbar-gutter: stable;
+}
+
+.card-content-description::-webkit-scrollbar {
+    width: 0px;
+    height: 1px;
+    background-color: transparent;
 }
 
 .card-content-options {
