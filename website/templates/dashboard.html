@@ -149,10 +149,30 @@
         <div class="account">
           <!--Profile Picture-->
           <div class="account-profile">
+            {% if user.role == 'business'%}
+            {% if businessIcon %}
             <img
-              src="{{ url_for('static', filename='images/dashboards/profile.png') }}"
+              src="{{ url_for('static', filename='uploads/accounts/' ~ businessIcon) }}"
               alt="Profile Picture"
             />
+            {% else %}
+            <img
+              src="{{ url_for('static', filename='uploads/accounts/placeholder.png') }}"
+              alt="Profile Picture">
+            {% endif %}
+            {% elif user.role == 'student' %}
+            {% if studentIcon %}
+            <img
+              src="{{ url_for('static', filename='uploads/accounts/' ~ studentIcon) }}"
+              alt="Profile Picture"
+            />
+            {% else %}
+            <img
+              src="{{ url_for('static', filename='uploads/accounts/placeholder.png') }}"
+              alt="Profile Picture">
+            {% endif %}
+            {% endif %}
+
           </div>
 
           <!--Account Details-->

@@ -203,7 +203,7 @@ def jobs():
 
             if businessName:
                 # Appending Business Details
-                businessDetails.append({
+                jonDetails.append({
                     'bname': businessName['bname']
                 })
 
